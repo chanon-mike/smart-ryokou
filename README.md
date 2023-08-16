@@ -1,8 +1,10 @@
-# Next.js FastAPI Boilerplate
+# Smart Ryokou（Smart旅行）
 
-Minimal Next.js and FastAPI boilerplate
+Getting your trip advised by AI
 
 ## Getting Started
+
+Always checkout from and merge to develop branch
 
 ### Installation
 
@@ -27,7 +29,7 @@ Minimal Next.js and FastAPI boilerplate
     cp .env.example .env
    ```
 
-4. Run the project from root directorys
+4. Run the project from root directory
 
    ```sh
     npm run dev
