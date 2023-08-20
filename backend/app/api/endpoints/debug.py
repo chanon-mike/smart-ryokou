@@ -1,6 +1,7 @@
+from fastapi import APIRouter, Depends, Response, status
+
 from app.core.security import VerifyToken, token_auth_scheme, verify_token
 from app.schema.payload import Payload
-from fastapi import APIRouter, Depends, Response, status
 
 router = APIRouter(
     prefix="/debug",
