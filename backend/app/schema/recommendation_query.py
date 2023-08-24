@@ -20,7 +20,7 @@ class FreeFormatQuery(BaseModel):
 
 class StructuredQuery(BaseModel):
     place: str
-    how_long: int
+    how_long: int = 1
     budget: BudgetType
     trip_style: TripStyle
     interest: list[str]

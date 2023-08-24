@@ -6,7 +6,7 @@ from app.api.endpoints.generate_recommendation import (
 )
 
 routers = APIRouter()
-router_list = [debug_router, generate_recommendation_router]
+router_list = [generate_recommendation_router, debug_router]
 
 for router in router_list:
     routers.include_router(router)
