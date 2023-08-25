@@ -19,9 +19,12 @@ class FreeFormatQuery(BaseModel):
 
 
 class StructuredQuery(BaseModel):
+    '''
+    Only place and how_long are required. Other properties are optional
+    '''
     place: str
     how_long: int = 1
-    budget: BudgetType
-    trip_style: TripStyle
-    interest: list[str]
-    food: list[str]
+    budget: BudgetType | None
+    trip_style: TripStyle | None
+    interest: list[str] | None
+    food: list[str] | None
