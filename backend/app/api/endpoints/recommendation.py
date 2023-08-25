@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 
 import app.use_case.recommendation as recommendation
-from app.schema.recommendation_query import FreeFormatQuery, StructuredQuery
+from app.schema.recommendation import FreeFormatQuery, StructuredQuery
 
 router = APIRouter(
     prefix="/recommendation",

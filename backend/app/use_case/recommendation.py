@@ -1,7 +1,7 @@
 import openai
 
 from app.core.config import settings
-from app.schema.recommendation_query import StructuredQuery
+from app.schema.recommendation import StructuredQuery
 
 # Get openai api key
 opeanai_api_key = settings.OPENAI_API_KEY
@@ -36,20 +36,28 @@ def generate_recommendation_structured_format_query(query: StructuredQuery) -> s
 
     print("Prompt: ", prompt)
 
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "user", "content": prompt},
-        ],
-    )
-    return response["choices"][0]["message"]["content"]
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "user", "content": prompt},
+            ],
+        )
+        return response["choices"][0]["message"]["content"]
+    except Exception as e:
+        print("OpenAI error: ", e)
+        raise Exception("OpenAI error")
 
 
 def generate_recommendation_free_format_query(query: str) -> str:
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "user", "content": query},
-        ],
-    )
-    return response["choices"][0]["message"]["content"]
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "user", "content": query},
+            ],
+        )
+        return response["choices"][0]["message"]["content"]
+    except Exception as e:
+        print("OpenAI error: ", e)
+        raise Exception("OpenAI error")
