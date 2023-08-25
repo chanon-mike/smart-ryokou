@@ -19,9 +19,10 @@ class FreeFormatQuery(BaseModel):
 
 
 class StructuredQuery(BaseModel):
-    '''
+    """
     Only place and how_long are required. Other properties are optional
-    '''
+    """
+
     place: str
     how_long: int = 1
     budget: BudgetType | None
