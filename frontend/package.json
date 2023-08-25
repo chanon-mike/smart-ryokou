@@ -11,9 +11,10 @@
     "lint:prettier": "prettier --check \"./**/*.{ts,tsx,js}\" --ignore-path ../.gitignore",
     "lint:fix": "npm run lint:js -- --fix && prettier --write \"./**/*.{ts,tsx,js}\" --ignore-path ../.gitignore",
     "start": "next start",
-    "typecheck": "npm run hcm && tsc --noEmit"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@auth0/nextjs-auth0": "^3.1.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.14.3",
