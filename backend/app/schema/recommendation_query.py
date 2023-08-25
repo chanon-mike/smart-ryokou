@@ -24,8 +24,8 @@ class StructuredQuery(BaseModel):
     """
 
     place: str
-    how_long: int = 1
+    duration: int = 1
     budget: BudgetType | None
     trip_style: TripStyle | None
-    interest: list[str] | None
-    food: list[str] | None
+    interests: list[str] | None
+    foods: list[str] | None
