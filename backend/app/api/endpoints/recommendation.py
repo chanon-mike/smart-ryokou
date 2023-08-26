@@ -9,7 +9,7 @@ router = APIRouter(
 )
 
 
-@router.post("/structured_format")
+@router.post("/structured-format")
 async def generate_recommendation(request_body: StructuredQuery) -> str:
     try:
         return recommendation.generate_recommendation_structured_format_query(
@@ -20,7 +20,7 @@ async def generate_recommendation(request_body: StructuredQuery) -> str:
         raise HTTPException(status_code=500, detail="Service is currently unavailable")
 
 
-@router.post("/free_format")
+@router.post("/free-format")
 async def generate_recommendation_free_format_query(
     request_body: FreeFormatQuery,
 ) -> str:
