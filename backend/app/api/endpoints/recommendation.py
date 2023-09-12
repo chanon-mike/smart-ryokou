@@ -17,7 +17,14 @@ async def generate_recommendation(request_body: StructuredQuery) -> str:
         )
     except Exception as e:
         print("Error: ", e)
-        raise HTTPException(status_code=500, detail="Service is currently unavailable")
+        raise HTTPException(
+            status_code=500,
+            detail={
+                "status": "failed",
+                "message": "Service is currently unavailable",
+                "error": str(e),
+            },
+        )
 
 
 @router.post("/free-format")
@@ -29,4 +36,11 @@ async def generate_recommendation_free_format_query(
         return recommendation.generate_recommendation_free_format_query(query)
     except Exception as e:
         print("Error: ", e)
-        raise HTTPException(status_code=500, detail="Service is currently unavailable")
+        raise HTTPException(
+            status_code=500,
+            detail={
+                "status": "failed",
+                "message": "Service is currently unavailable",
+                "error": str(e),
+            },
+        )
