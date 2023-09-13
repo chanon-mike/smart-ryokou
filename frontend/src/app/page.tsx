@@ -1,7 +1,10 @@
 import { Box, Container, Typography } from '@mui/material';
 import { getSession } from '@auth0/nextjs-auth0';
+import Link from 'next/link';
+import createTranslation from 'next-translate/useTranslation';
 
 const Home = async () => {
+  const { t } = createTranslation('common');
   const session = await getSession();
 
   return (
@@ -14,9 +17,19 @@ const Home = async () => {
         height="100dvh"
         maxWidth="100%"
       >
-        <Typography variant="h1" component="h1" gutterBottom>
+        <Typography variant="h1" component="h1">
           Smart Ryokou
         </Typography>
+        <Typography variant="h6" gutterBottom>
+          {t('test')}
+        </Typography>
+        <Link href="/?lang=en" as="/en">
+          English
+        </Link>
+        <Link href="/?lang=ja" as="/ja">
+          日本語
+        </Link>
+        <hr />
         {!session ? (
           <a href="/api/auth/login">Login</a>
         ) : (
