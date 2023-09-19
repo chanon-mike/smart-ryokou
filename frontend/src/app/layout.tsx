@@ -1,6 +1,8 @@
-import ThemeRegistry from '@/components/theme/ThemeRegistry';
+import './globals.css';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import type { Metadata } from 'next';
+import Navbar from '@/components/common/Navbar';
+import ThemeRegistry from '@/components/theme/ThemeRegistry';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -12,7 +14,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <UserProvider>
         <body>
-          <ThemeRegistry options={{ key: 'mui' }}>{children}</ThemeRegistry>
+          <ThemeRegistry options={{ key: 'mui' }}>
+            <Navbar />
+            {children}
+          </ThemeRegistry>
         </body>
       </UserProvider>
     </html>
