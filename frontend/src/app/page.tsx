@@ -1,3 +1,4 @@
+import InputBar from '@/components/prompt/InputBar';
 import { Box, Container, Typography } from '@mui/material';
 import createTranslation from 'next-translate/useTranslation';
 
@@ -15,11 +16,9 @@ const Home = async () => {
         maxWidth="100%"
       >
         <Typography variant="h1" component="h1">
-          Smart Ryokou
+          {t('title')}
         </Typography>
-        <Typography variant="h6" gutterBottom>
-          {t('test')}
-        </Typography>
+        <InputBar />
       </Box>
     </Container>
   );
