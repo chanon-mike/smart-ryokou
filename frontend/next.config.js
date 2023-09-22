@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 /** @type {import('next').NextConfig} */
+const nextTranslate = require('next-translate-plugin');
 const nextConfig = {
   reactStrictMode: true,
   trailingSlash: true,
@@ -7,4 +9,4 @@ const nextConfig = {
   swcMinify: true,
 };
 
-module.exports = nextConfig;
+module.exports = nextTranslate(nextConfig);

@@ -10,6 +10,11 @@ class Settings(BaseSettings):
 
     CORS_ORIGIN: str
 
+    AUTH0_DOMAIN: str
+    AUTH0_AUDIENCE: str
+
+    OPENAI_API_KEY: str
+
     class Config:
         """
         Tell BaseSettings the env file path
