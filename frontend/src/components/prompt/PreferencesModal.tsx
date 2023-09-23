@@ -8,6 +8,12 @@ import {
   DialogActions,
   Button,
 } from '@mui/material';
+import { usePreferences } from '@/hooks/usePreferences';
+import TripTypeForm from '@/components/prompt/form/TripTypeForm';
+import DateRangeForm from '@/components/prompt/form/DateRangeForm';
+import PaceForm from '@/components/prompt/form/PaceForm';
+import BudgetForm from '@/components/prompt/form/BudgetForm';
+import InterestsForm from '@/components/prompt/form/InterestsForm';
 import createTranslation from 'next-translate/useTranslation';
 
 type Props = {
@@ -17,6 +23,17 @@ type Props = {
 };
 
 const PreferencesModal = ({ placeInput, openModal, handleCloseModal }: Props) => {
+  const {
+    selectedTripType,
+    handleSelectTripType,
+    selectedPace,
+    handleSelectPace,
+    selectedBudget,
+    handleSelectBudget,
+    selectedInterests,
+    handleSelectInterest,
+  } = usePreferences();
+
   const homeT = createTranslation('home');
   const commonT = createTranslation('common');
 
@@ -31,8 +48,19 @@ const PreferencesModal = ({ placeInput, openModal, handleCloseModal }: Props) =>
           ? `${placeInput}${ht('dialog-title')}`
           : `${ht('dialog-title')} ${placeInput}`}
       </DialogTitle>
-      <DialogContent>
+      <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <DialogContentText>{ht('dialog-content')}</DialogContentText>
+        <DateRangeForm />
+        <TripTypeForm
+          selectedTripTypes={selectedTripType}
+          handleSelectTripType={handleSelectTripType}
+        />
+        <PaceForm selectedPace={selectedPace} handleSelectPace={handleSelectPace} />
+        <BudgetForm selectedBudget={selectedBudget} handleSelectBudget={handleSelectBudget} />
+        <InterestsForm
+          selectedInterests={selectedInterests}
+          handleSelectInterest={handleSelectInterest}
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleCloseModal}>{ct('cancel')}</Button>

@@ -1,5 +1,52 @@
 {
   "input-message": "場所を検索する！",
   "dialog-title": "でのトリップ",
-  "dialog-content": "トリップの好みを選択してください"
+  "dialog-content": "トリップの好みを選択してください",
+  "date-label": "日程",
+  "date-from-label": "から",
+  "date-until-label": "まで",
+  "trip-type-label": "旅行種類",
+  "trip-type": {
+    "solo": "一人",
+    "couple": "カップル",
+    "family": "家族",
+    "friends": "友達",
+    "business": "ビジネス",
+    "backpacker": "バックパッカー"
+  },
+  "pace-label": "ペース",
+  "pace": {
+    "relaxed": "ゆっくり",
+    "normal": "普通",
+    "packed": "せっかち"
+  },
+  "budget-label": "予算",
+  "budget": {
+    "low": "安い",
+    "medium": "普通",
+    "high": "高級"
+  },
+  "interests-label": "興味",
+  "interests": {
+    "food": "グルメ",
+    "nature": "自然",
+    "shopping": "買い物",
+    "sports": "スポーツ",
+    "culture": "文化",
+    "art": "芸術",
+    "history": "歴史",
+    "museum": "博物館",
+    "adventure": "アドベンチャー",
+    "sightseeing": "観光",
+    "festival": "お祭り",
+    "party": "パーティー",
+    "photo": "写真",
+    "beach": "海",
+    "mountain": "山",
+    "temple": "お寺・神社",
+    "park": "公園",
+    "zoo": "動物園",
+    "aquarium": "水族館",
+    "amusement": "遊園地"
+  }
 }
