@@ -35,7 +35,7 @@ const InterestsForm = ({ selectedInterests, handleSelectInterest }: Props) => {
   return (
     <>
       <Typography variant="h6">{t('interests-label')}</Typography>
-      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
         {interests.map((interest) => (
           <Chip
             key={interest}

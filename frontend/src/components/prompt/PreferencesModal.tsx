@@ -71,9 +71,11 @@ const PreferencesModal = ({ placeInput, openModal, handleCloseModal }: Props) =>
           handleSelectInterest={handleSelectInterest}
         />
       </DialogContent>
-      <DialogActions>
+      <DialogActions sx={{ margin: 3 }}>
         <Button onClick={handleCloseModal}>{ct('cancel')}</Button>
-        <Button onClick={handleCloseModal}>{ct('finish')}</Button>
+        <Button onClick={handleCloseModal} variant="contained">
+          {ct('finish')}
+        </Button>
       </DialogActions>
     </Dialog>
   );
