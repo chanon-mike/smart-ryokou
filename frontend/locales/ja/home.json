@@ -1,3 +1,5 @@
 {
-  "input-message": "場所を検索する！"
+  "input-message": "場所を検索する！",
+  "dialog-title": "でのトリップ",
+  "dialog-content": "トリップの好みを選択してください"
 }

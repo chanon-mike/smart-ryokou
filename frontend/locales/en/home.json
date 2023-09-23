@@ -1,3 +1,5 @@
 {
-  "input-message": "Search for the place you want to go!"
+  "input-message": "Search for the place you want to go!",
+  "dialog-title": "Your trip in",
+  "dialog-content": "Select your travel preferences"
 }

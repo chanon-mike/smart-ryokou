@@ -1,4 +1,6 @@
 {
   "test": "test",
-  "title": "Smart Ryokou"
+  "title": "Smart Ryokou",
+  "cancel": "Cancel",
+  "finish": "Finish"
 }
