@@ -24,6 +24,10 @@ type Props = {
 
 const PreferencesModal = ({ placeInput, openModal, handleCloseModal }: Props) => {
   const {
+    fromDate,
+    handleFromDateChange,
+    toDate,
+    handleToDateChange,
     selectedTripType,
     handleSelectTripType,
     selectedPace,
@@ -50,7 +54,12 @@ const PreferencesModal = ({ placeInput, openModal, handleCloseModal }: Props) =>
       </DialogTitle>
       <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <DialogContentText>{ht('dialog-content')}</DialogContentText>
-        <DateRangeForm />
+        <DateRangeForm
+          fromDate={fromDate}
+          handleFromDateChange={handleFromDateChange}
+          toDate={toDate}
+          handleToDateChange={handleToDateChange}
+        />
         <TripTypeForm
           selectedTripTypes={selectedTripType}
           handleSelectTripType={handleSelectTripType}

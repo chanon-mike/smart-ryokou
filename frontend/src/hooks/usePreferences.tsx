@@ -2,10 +2,20 @@ import type { SelectChangeEvent } from '@mui/material';
 import { useState } from 'react';
 
 export const usePreferences = () => {
+  const [fromDate, setFromDate] = useState<Date | null>(null);
+  const [toDate, setToDate] = useState<Date | null>(null);
   const [selectedTripType, setSelectedTripType] = useState('');
   const [selectedPace, setSelectedPace] = useState('');
   const [selectedBudget, setSelectedBudget] = useState('');
   const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
+
+  const handleFromDateChange = (date: Date | null) => {
+    setFromDate(date);
+  };
+
+  const handleToDateChange = (date: Date | null) => {
+    setToDate(date);
+  };
 
   const handleSelectTripType = (e: SelectChangeEvent) => {
     setSelectedTripType(e.target.value);
@@ -28,6 +38,10 @@ export const usePreferences = () => {
   };
 
   return {
+    fromDate,
+    handleFromDateChange,
+    toDate,
+    handleToDateChange,
     selectedTripType,
     handleSelectTripType,
     selectedPace,
