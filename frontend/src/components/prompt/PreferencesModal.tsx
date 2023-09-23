@@ -20,19 +20,23 @@ const PreferencesModal = ({ placeInput, openModal, handleCloseModal }: Props) =>
   const homeT = createTranslation('home');
   const commonT = createTranslation('common');
 
+  const lang = homeT.lang;
+  const ht = homeT.t;
+  const ct = commonT.t;
+
   return (
     <Dialog open={openModal} onClose={handleCloseModal}>
       <DialogTitle>
-        {homeT.lang === 'ja'
-          ? `${placeInput}${homeT.t('dialog-title')}`
-          : `${homeT.t('dialog-title')} ${placeInput}`}
+        {lang === 'ja'
+          ? `${placeInput}${ht('dialog-title')}`
+          : `${ht('dialog-title')} ${placeInput}`}
       </DialogTitle>
       <DialogContent>
-        <DialogContentText>{homeT.t('dialog-content')}</DialogContentText>
+        <DialogContentText>{ht('dialog-content')}</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleCloseModal}>{commonT.t('cancel')}</Button>
-        <Button onClick={handleCloseModal}>{commonT.t('finish')}</Button>
+        <Button onClick={handleCloseModal}>{ct('cancel')}</Button>
+        <Button onClick={handleCloseModal}>{ct('finish')}</Button>
       </DialogActions>
     </Dialog>
   );
