@@ -26,6 +26,7 @@ const DateRangeForm = ({ fromDate, handleFromDateChange, toDate, handleToDateCha
         <DatePicker
           label={t('date-until-label')}
           value={toDate}
+          minDate={fromDate}
           onChange={(newDate) => handleToDateChange(newDate)}
         />
       </Box>

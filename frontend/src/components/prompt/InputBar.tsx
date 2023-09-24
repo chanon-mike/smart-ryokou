@@ -33,6 +33,7 @@ const InputBar = ({ placeInput, setPlaceInput, handleOpenModal }: Props) => {
     >
       <TextField
         fullWidth
+        required
         id="search"
         type="search"
         placeholder={t('input-message')}
