@@ -1,6 +1,6 @@
-import MapContainer from '../../components/Map/MapContainer';
+import MapContainer from './MapContainer';
 
-export default function Map() {
+const Map = () => {
   const componentStyle = {
     width: '1200px',
     height: '720px',
@@ -14,4 +14,6 @@ export default function Map() {
       <MapContainer center={center} zoom={defaultZoom} />
     </div>
   );
-}
+};
+
+export default Map;
