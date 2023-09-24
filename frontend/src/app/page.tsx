@@ -1,4 +1,5 @@
 import InputBar from '@/components/prompt/InputBar';
+import VerticalStepperWithCard from '@/components/result/ui/LocationListings';
 import { Box, Container, Typography } from '@mui/material';
 import createTranslation from 'next-translate/useTranslation';
 
@@ -20,6 +21,7 @@ const Home = async () => {
         </Typography>
         <InputBar />
       </Box>
+      <VerticalStepperWithCard />
     </Container>
   );
 };
