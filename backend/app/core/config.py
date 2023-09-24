@@ -1,6 +1,5 @@
 from functools import lru_cache
-
-from pydantic_settings import BaseSettings
+from pydantic import BaseSettings
 
 
 class Settings(BaseSettings):
@@ -14,6 +13,9 @@ class Settings(BaseSettings):
     AUTH0_AUDIENCE: str
 
     OPENAI_API_KEY: str
+
+    AWS_KEY: str
+    AWS_SECRET: str
 
     class Config:
         """
