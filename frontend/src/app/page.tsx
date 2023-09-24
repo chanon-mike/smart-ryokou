@@ -1,4 +1,4 @@
-import InputBar from '@/components/prompt/InputBar';
+import Prompt from '@/components/prompt/Prompt';
 import { Box, Container, Typography } from '@mui/material';
 import createTranslation from 'next-translate/useTranslation';
 import ResultScreen from '@/components/result/ui/ResultScreen';
@@ -18,7 +18,7 @@ const Home = async () => {
         <Typography variant="h1" component="h1">
           {t('title')}
         </Typography>
-        <InputBar />
+        <Prompt />
       </Box>
       <ResultScreen height="100vh" />
     </Container>
