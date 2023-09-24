@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
-import MapConfigs from './MapConfigs';
+import MapConfigs from '../../../libs/MapConfigs';
 
 const { API_KEY } = MapConfigs();
 
