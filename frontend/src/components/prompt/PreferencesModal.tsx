@@ -11,6 +11,7 @@ import {
 import { usePreferences } from '@/hooks/usePreferences';
 import TripTypeForm from '@/components/prompt/form/TripTypeForm';
 import DateRangeForm from '@/components/prompt/form/DateRangeForm';
+import PeopleNumberForm from '@/components/prompt/form/PeopleNumberForm';
 import PaceForm from '@/components/prompt/form/PaceForm';
 import BudgetForm from '@/components/prompt/form/BudgetForm';
 import InterestsForm from '@/components/prompt/form/InterestsForm';
@@ -28,6 +29,8 @@ const PreferencesModal = ({ placeInput, openModal, handleCloseModal }: Props) =>
     handleFromDateChange,
     toDate,
     handleToDateChange,
+    peopleNumber,
+    handlePeopleNumberChange,
     selectedTripType,
     handleSelectTripType,
     selectedPace,
@@ -59,6 +62,10 @@ const PreferencesModal = ({ placeInput, openModal, handleCloseModal }: Props) =>
           handleFromDateChange={handleFromDateChange}
           toDate={toDate}
           handleToDateChange={handleToDateChange}
+        />
+        <PeopleNumberForm
+          peopleNumber={peopleNumber}
+          handlePeopleNumberChange={handlePeopleNumberChange}
         />
         <TripTypeForm
           selectedTripTypes={selectedTripType}

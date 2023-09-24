@@ -5,6 +5,7 @@
   "date-label": "Desired date",
   "date-from-label": "Date from",
   "date-until-label": "Date until",
+  "people-number-label": "Number of people",
   "trip-type-label": "Trip type",
   "trip-type": {
     "solo": "Solo",

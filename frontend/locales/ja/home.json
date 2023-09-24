@@ -5,6 +5,7 @@
   "date-label": "日程",
   "date-from-label": "から",
   "date-until-label": "まで",
+  "people-number-label": "人数",
   "trip-type-label": "旅行種類",
   "trip-type": {
     "solo": "一人",
@@ -14,17 +15,17 @@
     "business": "ビジネス",
     "backpacker": "バックパッカー"
   },
-  "pace-label": "ペース",
+  "pace-label": "旅行ペース",
   "pace": {
     "relaxed": "ゆっくり",
     "normal": "普通",
-    "packed": "せっかち"
+    "packed": "早い"
   },
   "budget-label": "予算",
   "budget": {
-    "low": "安い",
+    "low": "少なめ",
     "medium": "普通",
-    "high": "高級"
+    "high": "多め"
   },
   "interests-label": "興味",
   "interests": {

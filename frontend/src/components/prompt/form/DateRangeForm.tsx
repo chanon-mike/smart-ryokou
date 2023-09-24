@@ -18,12 +18,14 @@ const DateRangeForm = ({ fromDate, handleFromDateChange, toDate, handleToDateCha
       <Typography variant="h6">{t('date-label')}</Typography>
       <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2 }}>
         <DatePicker
+          sx={{ width: '100%' }}
           label={t('date-from-label')}
           value={fromDate}
           onChange={(newDate) => handleFromDateChange(newDate)}
         />
         <Typography sx={{ marginY: 'auto' }}>~</Typography>
         <DatePicker
+          sx={{ width: '100%' }}
           label={t('date-until-label')}
           value={toDate}
           minDate={fromDate}
