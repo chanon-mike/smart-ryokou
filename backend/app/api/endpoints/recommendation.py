@@ -1,7 +1,11 @@
 from fastapi import APIRouter, HTTPException
 
 import app.use_case.recommendation as recommendation
-from app.schema.recommendation import FreeFormatQuery, StructuredQuery
+from app.schema.recommendation import (
+    FreeFormatQuery,
+    RecommendationResponse,
+    StructuredQuery,
+)
 
 router = APIRouter(
     prefix="/recommendation",
@@ -10,7 +14,9 @@ router = APIRouter(
 
 
 @router.post("/structured-format")
-async def generate_recommendation(request_body: StructuredQuery) -> str:
+async def generate_recommendation(
+    request_body: StructuredQuery,
+) -> RecommendationResponse:
     try:
         return recommendation.generate_recommendation_structured_format_query(
             request_body

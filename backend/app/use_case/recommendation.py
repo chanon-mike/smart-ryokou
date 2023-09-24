@@ -1,3 +1,5 @@
+import json
+
 import openai
 
 from app.core.config import settings
@@ -6,6 +8,7 @@ from app.schema.recommendation import (
     INTEREST_JA,
     TRIP_PACE_JA,
     TRIP_TYPE_JA,
+    RecommendationResponse,
     StructuredQuery,
 )
 
@@ -16,17 +19,19 @@ openai.api_key = opeanai_api_key
 openai.api_base = "https://api.openai.iniad.org/api/v1"
 
 
-def extract_json(openai_response: str) -> str:
+def extract_json(openai_response: str) -> RecommendationResponse:
     """
     Extract json from openai response
     """
     json_start_pos = openai_response.find("{")
     json_end_pos = openai_response.rfind("}")
-    json = openai_response[json_start_pos : json_end_pos + 1]
-    return json
+    data = openai_response[json_start_pos : json_end_pos + 1]
+    return json.loads(data)
 
 
-def generate_recommendation_structured_format_query(query: StructuredQuery) -> str:
+def generate_recommendation_structured_format_query(
+    query: StructuredQuery,
+) -> RecommendationResponse:
     place = query.place
     date_from = query.date_from
     date_to = query.date_to

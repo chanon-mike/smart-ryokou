@@ -113,3 +113,17 @@ class StructuredQuery(BaseModel):
     trip_pace: Optional[TripPace] = None
     interests: Optional[list[Interest]] = None
     trip_type: Optional[TripType] = None
+
+
+class Activity(BaseModel):
+    place: str
+    description: str
+
+
+class DayRecommendation(BaseModel):
+    date: str
+    activities: list[Activity]
+
+
+class RecommendationResponse(BaseModel):
+    recommendation: list[DayRecommendation]
