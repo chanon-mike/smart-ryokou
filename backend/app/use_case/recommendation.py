@@ -1,7 +1,13 @@
 import openai
 
 from app.core.config import settings
-from app.schema.recommendation import BUDGET_TYPE_JA, TRIP_STYLE_JA, StructuredQuery
+from app.schema.recommendation import (
+    BUDGET_TYPE_JA,
+    INTEREST_JA,
+    TRIP_PACE_JA,
+    TRIP_TYPE_JA,
+    StructuredQuery,
+)
 
 # Get openai api key
 opeanai_api_key = settings.OPENAI_API_KEY
@@ -22,13 +28,13 @@ def extract_json(openai_response: str) -> str:
 
 def generate_recommendation_structured_format_query(query: StructuredQuery) -> str:
     place = query.place
-    duration = query.duration
+    date_from = query.date_from
+    date_to = query.date_to
     people_num = query.people_num
     budget = query.budget
-    trip_style = query.trip_style
+    trip_pace = query.trip_pace
     interests = query.interests
     trip_type = query.trip_type
-    remarks = query.remarks
 
     prompt = f"""
 #目的
@@ -36,7 +42,7 @@ def generate_recommendation_structured_format_query(query: StructuredQuery) -> s
 #場所
 {place}
 #期間
-{duration}日間
+{date_from}から{date_to}まで
 #人数
 {people_num}人
 """
@@ -44,17 +50,16 @@ def generate_recommendation_structured_format_query(query: StructuredQuery) -> s
     if budget:
         prompt += f"#予算\n {BUDGET_TYPE_JA[budget]} \n"
 
-    if trip_style:
-        prompt += f"#旅行ペース\n {TRIP_STYLE_JA[trip_style]} \n"
+    if trip_pace:
+        prompt += f"#旅行ペース\n {TRIP_PACE_JA[trip_pace]} \n"
 
     if interests:
-        prompt += f"#興味\n {', '.join(interests)}\n"
+        prompt += (
+            f"#興味\n {', '.join([INTEREST_JA[interest] for interest in interests])}\n"
+        )
 
     if trip_type:
-        prompt += f"#旅行の種類\n{trip_type}\n"
-
-    if remarks:
-        prompt += f"#備考\n {', '.join(remarks)}"
+        prompt += f"#旅行の種類\n{TRIP_TYPE_JA[trip_type]}\n"
 
     prompt += """
 #出力形式
@@ -63,7 +68,7 @@ def generate_recommendation_structured_format_query(query: StructuredQuery) -> s
 {
   "recommendation": [
     {
-        "date": "日1",
+        "date": "9月1日",
         "activities": [
             {
             "place": "xxxx",
