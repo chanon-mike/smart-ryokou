@@ -6,95 +6,90 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import StepContent from '@mui/material/StepContent';
-import Button from '@mui/material/Button';
-import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import type { Location } from './types';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import { Description, Edit, Delete } from '@mui/icons-material';
+interface LocationListingsProps {
+  locations: Location[];
+  activeStep: number;
+  setActiveStep: React.Dispatch<React.SetStateAction<number>>;
+}
 
-const steps: Location[] = [
-  {
-    name: 'Tokyo',
-    description: 'The capital city of Japan',
-    lat: 35.682839,
-    lng: 139.759455,
-  },
-  {
-    name: 'Osaka',
-    description: 'Known for its vibrant nightlife and street food',
-    lat: 34.693737,
-    lng: 135.502165,
-  },
-  {
-    name: 'Kyoto',
-    description: 'Famous for its temples and traditional culture',
-    lat: 35.011564,
-    lng: 135.768149,
-  },
-  {
-    name: 'Hokkaido',
-    description: "Japan's northernmost island with beautiful landscapes",
-    lat: 43.220327,
-    lng: 142.863474,
-  },
-  {
-    name: 'Fukuoka',
-    description: 'Known for its rich history and delicious food',
-    lat: 33.590355,
-    lng: 130.401716,
-  },
-];
-
-export default function VerticalLinearStepper() {
-  const [activeStep, setActiveStep] = React.useState(0);
-
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
+const LocationListings: React.FC<LocationListingsProps> = ({
+  locations,
+  activeStep,
+  setActiveStep,
+}) => {
+  const handleSelect = (index: number) => {
+    setActiveStep(index);
   };
 
   return (
-    <Box sx={{ maxWidth: 400 }}>
+    <Box style={{ maxWidth: '400px', maxHeight: '70vh', overflowY: 'auto' }}>
       <Stepper activeStep={activeStep} orientation="vertical">
-        {steps.map((step, index) => (
+        {locations.map((step, index) => (
           <Step key={step.name} active={true}>
-            <StepLabel
-              optional={index === 2 ? <Typography variant="caption">Last step</Typography> : null}
-            >
-              {step.name}
-            </StepLabel>
-            <StepContent>
-              <div style={{ marginLeft: '50px' }}>
-                <Typography>{step.description}</Typography>
-                <Box sx={{ mb: 2 }}>
-                  <div>
-                    <Button variant="contained" onClick={handleNext} sx={{ mt: 1, mr: 1 }}>
-                      {index === steps.length - 1 ? 'Finish' : 'Continue'}
-                    </Button>
-                    <Button disabled={index === 0} onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
-                      Back
-                    </Button>
-                  </div>
-                </Box>
-              </div>
-            </StepContent>
+            <div onClick={() => handleSelect(index)}>
+              <StepLabel>{step.name}</StepLabel>
+              <StepContent>
+                <Card
+                  style={{
+                    padding: '10px 20px',
+                    borderRadius: '16px',
+                    border: `2px solid ${activeStep === index ? 'blue' : 'black'}`,
+                  }}
+                >
+                  <Grid container>
+                    <Grid
+                      item
+                      xs={4}
+                      style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+                    >
+                      <CardMedia
+                        component="img"
+                        height="100px"
+                        width="100px"
+                        image={
+                          'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk'
+                        }
+                        alt="Image"
+                      />
+                    </Grid>
+                    <Grid item xs={7}>
+                      <CardContent>
+                        <Typography variant="h6" component="div">
+                          {step.name}
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary">
+                          {step.description}
+                        </Typography>
+                      </CardContent>
+                    </Grid>
+                    <Grid item xs={1}>
+                      <IconButton aria-label="Edit">
+                        <Edit />
+                      </IconButton>
+                      <IconButton aria-label="Delete">
+                        <Delete />
+                      </IconButton>
+                      <IconButton aria-label="Description">
+                        <Description />
+                      </IconButton>
+                    </Grid>
+                  </Grid>
+                </Card>
+              </StepContent>
+            </div>
           </Step>
         ))}
       </Stepper>
-      {activeStep === steps.length && (
-        <Paper square elevation={0} sx={{ p: 3 }}>
-          <Typography>All steps completed - you&apos;re finished</Typography>
-          <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
-            Reset
-          </Button>
-        </Paper>
-      )}
     </Box>
   );
-}
+};
+
+export default LocationListings;

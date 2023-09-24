@@ -1,9 +1,8 @@
 'use client'; // This is a client component 👈🏽
 
-import React, { useState } from 'react';
+import React from 'react';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
-import MapConfigs from '../../../libs/MapConfigs';
-
+import MapConfigs from '@/libs/MapConfigs';
 const { API_KEY } = MapConfigs();
 
 interface MapProps {
@@ -15,19 +14,9 @@ interface MapProps {
 }
 
 const MapContainer: React.FC<MapProps> = ({ center, zoom }) => {
-  const [mapCenter, setMapCenter] = useState(center);
-
-  const navigateToLocation = (lat: number, lng: number) => {
-    setMapCenter({ lat, lng });
-  };
-
   return (
     <LoadScript googleMapsApiKey={API_KEY}>
-      <GoogleMap
-        mapContainerStyle={{ width: '100%', height: '100%' }}
-        center={mapCenter}
-        zoom={zoom}
-      >
+      <GoogleMap mapContainerStyle={{ width: '100%', height: '100%' }} center={center} zoom={zoom}>
         <Marker
           position={center}
           onClick={() => {
@@ -35,13 +24,6 @@ const MapContainer: React.FC<MapProps> = ({ center, zoom }) => {
           }}
         />
       </GoogleMap>
-      <button
-        onClick={() => {
-          navigateToLocation(40.7128, -74.006);
-        }}
-      >
-        Navigate to New York
-      </button>
     </LoadScript>
   );
 };

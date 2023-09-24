@@ -1,8 +1,7 @@
 import InputBar from '@/components/prompt/InputBar';
-import VerticalStepperWithCard from '@/components/result/ui/LocationListings';
 import { Box, Container, Typography } from '@mui/material';
 import createTranslation from 'next-translate/useTranslation';
-
+import ResultScreen from '@/components/result/ui/ResultScreen';
 const Home = async () => {
   const { t } = createTranslation('common');
 
@@ -21,7 +20,7 @@ const Home = async () => {
         </Typography>
         <InputBar />
       </Box>
-      <VerticalStepperWithCard />
+      <ResultScreen height="100vh" />
     </Container>
   );
 };
