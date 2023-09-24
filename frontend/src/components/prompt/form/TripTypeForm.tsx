@@ -10,16 +10,24 @@ type Props = {
 const TripTypeForm = ({ selectedTripTypes, handleSelectTripType }: Props) => {
   const { t } = createTranslation('home');
 
+  const tripTypes = [
+    { label: t('trip-type.solo'), value: 'solo' },
+    { label: t('trip-type.couple'), value: 'couple' },
+    { label: t('trip-type.family'), value: 'family' },
+    { label: t('trip-type.friends'), value: 'friends' },
+    { label: t('trip-type.business'), value: 'business' },
+    { label: t('trip-type.backpacker'), value: 'backpacker' },
+  ];
+
   return (
     <>
       <Typography variant="h6">{t('trip-type-label')}</Typography>
       <Select value={selectedTripTypes} onChange={handleSelectTripType}>
-        <MenuItem value="一人">{t('trip-type.solo')}</MenuItem>
-        <MenuItem value="カップル">{t('trip-type.couple')}</MenuItem>
-        <MenuItem value="家族">{t('trip-type.family')}</MenuItem>
-        <MenuItem value="友達">{t('trip-type.friends')}</MenuItem>
-        <MenuItem value="ビジネス">{t('trip-type.business')}</MenuItem>
-        <MenuItem value="バックパッカー">{t('trip-type.backpacker')}</MenuItem>
+        {tripTypes.map((tripType) => (
+          <MenuItem key={tripType.value} value={tripType.value}>
+            {tripType.label}
+          </MenuItem>
+        ))}
       </Select>
     </>
   );

@@ -10,13 +10,21 @@ type Props = {
 const PaceForm = ({ selectedBudget, handleSelectBudget }: Props) => {
   const { t } = createTranslation('home');
 
+  const budgets = [
+    { label: t('budget.low'), value: 'low' },
+    { label: t('budget.medium'), value: 'medium' },
+    { label: t('budget.high'), value: 'high' },
+  ];
+
   return (
     <>
       <Typography variant="h6">{t('budget-label')}</Typography>
       <Select value={selectedBudget} onChange={handleSelectBudget}>
-        <MenuItem value="安い">{t('budget.low')}</MenuItem>
-        <MenuItem value="普通">{t('budget.medium')}</MenuItem>
-        <MenuItem value="高級">{t('budget.high')}</MenuItem>
+        {budgets.map((budget) => (
+          <MenuItem key={budget.value} value={budget.value}>
+            {budget.label}
+          </MenuItem>
+        ))}
       </Select>
     </>
   );

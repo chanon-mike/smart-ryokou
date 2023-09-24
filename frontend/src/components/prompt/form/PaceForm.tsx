@@ -10,13 +10,21 @@ type Props = {
 const PaceForm = ({ selectedPace, handleSelectPace }: Props) => {
   const { t } = createTranslation('home');
 
+  const paces = [
+    { label: t('pace.relaxed'), value: 'relaxed' },
+    { label: t('pace.normal'), value: 'normal' },
+    { label: t('pace.packed'), value: 'packed' },
+  ];
+
   return (
     <>
       <Typography variant="h6">{t('pace-label')}</Typography>
       <Select value={selectedPace} onChange={handleSelectPace}>
-        <MenuItem value="ゆっくり">{t('pace.relaxed')}</MenuItem>
-        <MenuItem value="普通">{t('pace.normal')}</MenuItem>
-        <MenuItem value="せっかち">{t('pace.packed')}</MenuItem>
+        {paces.map((pace) => (
+          <MenuItem key={pace.value} value={pace.value}>
+            {pace.label}
+          </MenuItem>
+        ))}
       </Select>
     </>
   );

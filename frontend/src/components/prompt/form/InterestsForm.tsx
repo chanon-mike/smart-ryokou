@@ -10,26 +10,26 @@ const InterestsForm = ({ selectedInterests, handleSelectInterest }: Props) => {
   const { t } = createTranslation('home');
 
   const interests = [
-    t('interests.food'),
-    t('interests.nature'),
-    t('interests.shopping'),
-    t('interests.sports'),
-    t('interests.culture'),
-    t('interests.art'),
-    t('interests.history'),
-    t('interests.museum'),
-    t('interests.adventure'),
-    t('interests.sightseeing'),
-    t('interests.festival'),
-    t('interests.party'),
-    t('interests.photo'),
-    t('interests.beach'),
-    t('interests.mountain'),
-    t('interests.temple'),
-    t('interests.park'),
-    t('interests.zoo'),
-    t('interests.aquarium'),
-    t('interests.amusement'),
+    { label: t('interests.food'), value: 'food' },
+    { label: t('interests.nature'), value: 'nature' },
+    { label: t('interests.shopping'), value: 'shopping' },
+    { label: t('interests.sports'), value: 'sports' },
+    { label: t('interests.culture'), value: 'culture' },
+    { label: t('interests.art'), value: 'art' },
+    { label: t('interests.history'), value: 'history' },
+    { label: t('interests.museum'), value: 'museum' },
+    { label: t('interests.adventure'), value: 'adventure' },
+    { label: t('interests.sightseeing'), value: 'sightseeing' },
+    { label: t('interests.festival'), value: 'festival' },
+    { label: t('interests.party'), value: 'party' },
+    { label: t('interests.photo'), value: 'photo' },
+    { label: t('interests.beach'), value: 'beach' },
+    { label: t('interests.mountain'), value: 'mountain' },
+    { label: t('interests.temple'), value: 'temple' },
+    { label: t('interests.park'), value: 'park' },
+    { label: t('interests.zoo'), value: 'zoo' },
+    { label: t('interests.aquarium'), value: 'aquarium' },
+    { label: t('interests.amusement'), value: 'amusement' },
   ];
 
   return (
@@ -38,15 +38,19 @@ const InterestsForm = ({ selectedInterests, handleSelectInterest }: Props) => {
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
         {interests.map((interest) => (
           <Chip
-            key={interest}
-            label={interest}
+            key={interest.value}
+            label={interest.label}
             clickable
-            onClick={() => handleSelectInterest(interest)}
+            onClick={() => handleSelectInterest(interest.value)}
             sx={{
-              backgroundColor: selectedInterests.includes(interest) ? 'primary.main' : undefined,
-              color: selectedInterests.includes(interest) ? 'white' : undefined,
+              backgroundColor: selectedInterests.includes(interest.value)
+                ? 'primary.main'
+                : undefined,
+              color: selectedInterests.includes(interest.value) ? 'white' : undefined,
               '&:hover': {
-                backgroundColor: selectedInterests.includes(interest) ? 'primary.main' : undefined,
+                backgroundColor: selectedInterests.includes(interest.value)
+                  ? 'primary.main'
+                  : undefined,
               },
             }}
           />
