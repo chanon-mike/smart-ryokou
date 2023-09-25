@@ -14,8 +14,8 @@ class Settings(BaseSettings):
 
     OPENAI_API_KEY: str
 
-    AWS_KEY: str
-    AWS_SECRET: str
+    AWS_KEY: str = None
+    AWS_SECRET: str = None
 
     class Config:
         """
