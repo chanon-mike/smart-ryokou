@@ -14,7 +14,7 @@ const FetchLocationFromAPI = async (
   setLocationList: React.Dispatch<React.SetStateAction<Location[]>>,
 ) => {
   const response: GetResultResponse = await Client.getResult(
-    { requireAuth: false, useMock: true } as ApiContext,
+    { requireAuth: false, useMock: false } as ApiContext,
     {} as GetResultRequest,
   );
   setLocationList(response.locations);
