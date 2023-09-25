@@ -1,7 +1,7 @@
 import Prompt from '@/components/prompt/Prompt';
 import { Box, Container, Typography } from '@mui/material';
 import createTranslation from 'next-translate/useTranslation';
-
+import ResultScreen from '@/components/result/ui/ResultScreen';
 const Home = async () => {
   const { t } = createTranslation('common');
 
@@ -20,6 +20,7 @@ const Home = async () => {
         </Typography>
         <Prompt />
       </Box>
+      <ResultScreen height="100vh" />
     </Container>
   );
 };
