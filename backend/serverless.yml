@@ -1,0 +1,61 @@
+service: smart-ryokou-api
+
+plugins:
+  - serverless-python-requirements
+  - serverless-localstack
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: python3.9
+  stage: ${opt:stage, "dev"}
+  region: ap-northeast-1
+  deploymentBucket:
+    name: smart-ryokou-api
+  environment:
+    AUTH0_DOMAIN: ${env:AUTH0_DOMAIN}
+    AUTH0_AUDIENCE: ${env:AUTH0_AUDIENCE}
+    CORS_ORIGIN: ${env:CORS_ORIGIN}
+    OPENAI_API_KEY: ${env:OPENAI_API_KEY}
+    AWS_KEY: ${env:AWS_KEY}
+    AWS_SECRET: ${env:AWS_SECRET}
+
+package:
+  patterns:
+    - '!poetry.lock'
+    - '!README.md'
+    - '!tests/**'
+    - '!docs/**'
+    - '!node_modules/**'
+    - '!.venv/**'
+    - '!.serverless/**'
+    - '!package.json'
+    - '!package-lock.json'
+    - '!.pytest_cache'
+    - '!.hypothesis'
+
+custom:
+  pythonRequirements:
+    dockerizePip: true
+    layer:
+      name: smart-ryokou-deps
+      description: Dependencies of smart-ryokou
+      compatibleRuntimes:
+        - python3.9
+
+  localstack:
+    stages:
+      - local
+
+functions:
+  api:
+    handler: app.main.handler
+    environment:
+      STAGE: ${self:provider.stage}
+    layers:
+      - { Ref: PythonRequirementsLambdaLayer }
+    events:
+      - http:
+          method: any
+          path: /{proxy+}
+ 

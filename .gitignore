@@ -78,3 +78,6 @@ pip-wheel-metadata
 poetry/core/*
 
 .env
+.secrets
+
+.serverless
