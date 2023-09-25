@@ -1,5 +1,5 @@
 const MapConfigs = () => {
-  const API_KEY = process.env.GOOGLE_MAPS_API ?? '';
+  const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API ?? '';
 
   return {
     API_KEY,

@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 import LocationListings from './LocationListings';
-import Map from '@/components/Map/Map';
-import type { Location } from './types';
+import Map from '@/components/map/Map';
+import type { Location } from '@/types/Location';
 import { Typography } from '@mui/material';
 import createTranslation from 'next-translate/useTranslation';
 
