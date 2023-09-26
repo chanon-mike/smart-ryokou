@@ -2,7 +2,7 @@ import createApiMock from '@/client/helper/createApiMock';
 import type { GetResultRequest, GetResultResponse } from './interface';
 
 const defaultResponse: GetResultResponse = {
-  locations: [],
+  recommendations: [],
 };
 
 const getResultMockCases: ReadonlyArray<{
@@ -12,46 +12,66 @@ const getResultMockCases: ReadonlyArray<{
   {
     request: {} as GetResultRequest,
     response: {
-      locations: [
+      recommendations: [
         {
-          name: 'Tokyo',
-          description: 'The capital city of Japan',
-          imageUrl:
-            'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
-          lat: 35.682839,
-          lng: 139.759455,
+          date: 'this is a date 1',
+          locations: [
+            {
+              name: 'tokyo',
+              description: 'tokyo',
+              imageUrl:
+                'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
+              lat: 30,
+              lng: 30,
+            },
+            {
+              name: 'tokyo',
+              description: 'tokyo',
+              imageUrl:
+                'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
+              lat: 30,
+              lng: 30,
+            },
+          ],
         },
         {
-          name: 'Osaka',
-          description: 'Known for its vibrant nightlife and street food',
-          imageUrl:
-            'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
-          lat: 34.693737,
-          lng: 135.502165,
+          date: 'this is a date 2',
+          locations: [
+            {
+              name: 'tokyo',
+              description: 'tokyo',
+              imageUrl:
+                'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
+              lat: 30,
+              lng: 30,
+            },
+          ],
         },
         {
-          name: 'Kyoto',
-          description: 'Famous for its temples and traditional culture',
-          imageUrl:
-            'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
-          lat: 35.011564,
-          lng: 135.768149,
+          date: 'this is a date 3',
+          locations: [
+            {
+              name: 'tokyo',
+              description: 'tokyo',
+              imageUrl:
+                'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
+              lat: 30,
+              lng: 30,
+            },
+          ],
         },
         {
-          name: 'Hokkaido',
-          description: "Japan's northernmost island with beautiful landscapes",
-          imageUrl:
-            'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
-          lat: 43.220327,
-          lng: 142.863474,
-        },
-        {
-          name: 'Fukuoka',
-          description: 'Known for its rich history and delicious food',
-          imageUrl:
-            'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
-          lat: 33.590355,
-          lng: 130.401716,
+          date: 'this is a date 4',
+          locations: [
+            {
+              name: 'tokyo',
+              description: 'tokyo',
+              imageUrl:
+                'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
+              lat: 30,
+              lng: 30,
+            },
+          ],
         },
       ],
     } as GetResultResponse,

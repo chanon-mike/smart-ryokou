@@ -16,14 +16,24 @@ import PaceForm from '@/components/prompt/form/PaceForm';
 import BudgetForm from '@/components/prompt/form/BudgetForm';
 import InterestsForm from '@/components/prompt/form/InterestsForm';
 import createTranslation from 'next-translate/useTranslation';
+import type { Recommendation } from '@/types/recommendation';
+import Client from '@/client/Client';
+import type { ApiContext } from '@/client/ApiContext';
+import type { GetResultRequest, GetResultResponse } from '@/client/api/GetResult/interface';
 
 type Props = {
   placeInput: string;
   openModal: boolean;
   handleCloseModal: () => void;
+  transitionToResultCallback: (newRecommendations: Recommendation[]) => void;
 };
 
-const PreferencesModal = ({ placeInput, openModal, handleCloseModal }: Props) => {
+const PreferencesModal = ({
+  placeInput,
+  openModal,
+  handleCloseModal,
+  transitionToResultCallback,
+}: Props) => {
   const {
     fromDate,
     handleFromDateChange,
@@ -47,6 +57,30 @@ const PreferencesModal = ({ placeInput, openModal, handleCloseModal }: Props) =>
   const lang = homeT.lang;
   const ht = homeT.t;
   const ct = commonT.t;
+
+  const handleSubmit = async () => {
+    let serverResponse: GetResultResponse;
+    try {
+      serverResponse = await Client.getResult(
+        { useMock: false, requireAuth: false } as ApiContext,
+        {
+          place: placeInput,
+          date_from: fromDate ? fromDate.toISOString() : '',
+          date_to: toDate ? toDate.toISOString() : '',
+          people_num: peopleNumber,
+          budget: selectedBudget,
+          trip_pace: selectedPace,
+          interests: selectedInterests,
+          trip_type: selectedTripType,
+        } as GetResultRequest,
+      );
+    } catch (error) {
+      console.log(error);
+      return;
+    }
+    handleCloseModal();
+    transitionToResultCallback(serverResponse.recommendations);
+  };
 
   return (
     <Dialog open={openModal} onClose={handleCloseModal}>
@@ -80,7 +114,7 @@ const PreferencesModal = ({ placeInput, openModal, handleCloseModal }: Props) =>
       </DialogContent>
       <DialogActions sx={{ margin: 3 }}>
         <Button onClick={handleCloseModal}>{ct('cancel')}</Button>
-        <Button onClick={handleCloseModal} variant="contained">
+        <Button onClick={handleSubmit} variant="contained">
           {ct('finish')}
         </Button>
       </DialogActions>

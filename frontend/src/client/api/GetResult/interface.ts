@@ -1,5 +1,5 @@
+import type { Recommendation } from '@/types/recommendation';
 import type { ApiContext } from './../../ApiContext';
-import type { Location } from '@/types/Location';
 
 export type GetResultInterface = (
   context: ApiContext,
@@ -18,19 +18,15 @@ export interface GetResultRequest {
 }
 
 export interface GetResultResponse {
-  locations: Location[];
+  recommendations: Recommendation[];
 }
 
 export interface GetResultServerResponse {
-  recommendation: Recommendation[];
+  recommendation: {
+    date: string;
+    activities: {
+      place: string;
+      description: string;
+    }[];
+  }[];
 }
-
-type Recommendation = {
-  date: string;
-  activities: Activity[];
-};
-
-type Activity = {
-  place: string;
-  description: string;
-};
