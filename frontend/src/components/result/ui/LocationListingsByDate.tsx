@@ -13,6 +13,7 @@ import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import { Description, Edit, Delete } from '@mui/icons-material';
 import type { Recommendation } from '@/types/recommendation';
+import { StepIcon } from '@mui/material';
 
 interface LocationListingsProps {
   recommendation: Recommendation;
@@ -49,7 +50,19 @@ const LocationListingsByDate: React.FC<LocationListingsProps> = ({
         {recommendation.locations.map((step, index) => (
           <Step key={step.name} active={true}>
             <div onClick={() => handleSelect(index)}>
-              <StepLabel>{step.name}</StepLabel>
+              {/* Use StepIconComponent to make checkmark dissappear */}
+              <StepLabel
+                StepIconComponent={(props) => (
+                  <StepIcon
+                    {...props}
+                    icon={props.icon}
+                    active={props.active || props.completed}
+                    completed={false}
+                  />
+                )}
+              >
+                {step.name}
+              </StepLabel>
               <StepContent>
                 <Card
                   style={{
@@ -79,7 +92,7 @@ const LocationListingsByDate: React.FC<LocationListingsProps> = ({
                         <Typography variant="h6" component="div">
                           {step.name}
                         </Typography>
-                        <Typography variant="body2" color="textSecondary">
+                        <Typography variant="body2" color="textSecondary" noWrap>
                           {step.description}
                         </Typography>
                       </CardContent>

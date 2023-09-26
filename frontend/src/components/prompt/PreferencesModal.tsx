@@ -20,12 +20,14 @@ import type { Recommendation } from '@/types/recommendation';
 import Client from '@/client/Client';
 import type { ApiContext } from '@/client/ApiContext';
 import type { GetResultRequest, GetResultResponse } from '@/client/api/GetResult/interface';
+import type { Dispatch, SetStateAction } from 'react';
 
 type Props = {
   placeInput: string;
   openModal: boolean;
   handleCloseModal: () => void;
   transitionToResultCallback: (newRecommendations: Recommendation[]) => void;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 };
 
 const PreferencesModal = ({
@@ -33,6 +35,7 @@ const PreferencesModal = ({
   openModal,
   handleCloseModal,
   transitionToResultCallback,
+  setIsLoading,
 }: Props) => {
   const {
     fromDate,
@@ -54,12 +57,13 @@ const PreferencesModal = ({
   const homeT = createTranslation('home');
   const commonT = createTranslation('common');
 
-  const lang = homeT.lang;
   const ht = homeT.t;
   const ct = commonT.t;
 
   // eslint-disable-next-line complexity
   const handleSubmit = async () => {
+    setIsLoading(true);
+    handleCloseModal();
     let serverResponse: GetResultResponse;
     try {
       serverResponse = await Client.getResult(
@@ -76,49 +80,55 @@ const PreferencesModal = ({
         } as GetResultRequest,
       );
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        alert(error.message);
+      }
       return;
+    } finally {
+      setIsLoading(false);
     }
-    handleCloseModal();
     transitionToResultCallback(serverResponse.recommendations);
   };
 
   return (
     <Dialog open={openModal} onClose={handleCloseModal}>
-      <DialogTitle>
-        {lang === 'ja'
-          ? `${placeInput}${ht('dialog-title')}`
-          : `${ht('dialog-title')} ${placeInput}`}
-      </DialogTitle>
-      <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-        <DialogContentText>{ht('dialog-content')}</DialogContentText>
-        <DateRangeForm
-          fromDate={fromDate}
-          handleFromDateChange={handleFromDateChange}
-          toDate={toDate}
-          handleToDateChange={handleToDateChange}
-        />
-        <PeopleNumberForm
-          peopleNumber={peopleNumber}
-          handlePeopleNumberChange={handlePeopleNumberChange}
-        />
-        <TripTypeForm
-          selectedTripTypes={selectedTripType}
-          handleSelectTripType={handleSelectTripType}
-        />
-        <PaceForm selectedPace={selectedPace} handleSelectPace={handleSelectPace} />
-        <BudgetForm selectedBudget={selectedBudget} handleSelectBudget={handleSelectBudget} />
-        <InterestsForm
-          selectedInterests={selectedInterests}
-          handleSelectInterest={handleSelectInterest}
-        />
-      </DialogContent>
-      <DialogActions sx={{ margin: 3 }}>
-        <Button onClick={handleCloseModal}>{ct('cancel')}</Button>
-        <Button onClick={handleSubmit} variant="contained" disabled={!fromDate || !toDate}>
-          {ct('finish')}
-        </Button>
-      </DialogActions>
+      <DialogTitle>{ht('dialog-title', { name: placeInput })}</DialogTitle>
+      <form onSubmit={handleSubmit}>
+        <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <DialogContentText>{ht('dialog-content')}</DialogContentText>
+          <DateRangeForm
+            fromDate={fromDate}
+            handleFromDateChange={handleFromDateChange}
+            toDate={toDate}
+            handleToDateChange={handleToDateChange}
+          />
+          <PeopleNumberForm
+            peopleNumber={peopleNumber}
+            handlePeopleNumberChange={handlePeopleNumberChange}
+          />
+          <TripTypeForm
+            selectedTripTypes={selectedTripType}
+            handleSelectTripType={handleSelectTripType}
+          />
+          <PaceForm selectedPace={selectedPace} handleSelectPace={handleSelectPace} />
+          <BudgetForm selectedBudget={selectedBudget} handleSelectBudget={handleSelectBudget} />
+          <InterestsForm
+            selectedInterests={selectedInterests}
+            handleSelectInterest={handleSelectInterest}
+          />
+        </DialogContent>
+        <DialogActions sx={{ margin: 3 }}>
+          <Button onClick={handleCloseModal}>{ct('cancel')}</Button>
+          <Button
+            onClick={handleSubmit}
+            variant="contained"
+            type="submit"
+            disabled={!fromDate || !toDate}
+          >
+            {ct('finish')}
+          </Button>
+        </DialogActions>
+      </form>
     </Dialog>
   );
 };
