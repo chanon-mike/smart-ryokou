@@ -1,6 +1,6 @@
 {
   "input-message": "場所を検索する！",
-  "dialog-title": "での旅行計画",
+  "dialog-title": "{{name}}での旅行計画",
   "dialog-content": "旅行の好みを選択してください",
   "date-label": "日程",
   "date-from-label": "から",

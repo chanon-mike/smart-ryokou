@@ -57,7 +57,6 @@ const PreferencesModal = ({
   const homeT = createTranslation('home');
   const commonT = createTranslation('common');
 
-  const lang = homeT.lang;
   const ht = homeT.t;
   const ct = commonT.t;
 
@@ -92,11 +91,7 @@ const PreferencesModal = ({
 
   return (
     <Dialog open={openModal} onClose={handleCloseModal}>
-      <DialogTitle>
-        {lang === 'ja'
-          ? `${placeInput}${ht('dialog-title')}`
-          : `${ht('dialog-title')} ${placeInput}`}
-      </DialogTitle>
+      <DialogTitle>{ht('dialog-title', { name: placeInput })}</DialogTitle>
       <form onSubmit={handleSubmit}>
         <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <DialogContentText>{ht('dialog-content')}</DialogContentText>
