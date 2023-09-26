@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import LocationListings from './LocationListings';
 import Map from '@/components/map/Map';
-import { CircularProgress, Typography } from '@mui/material';
+import { Box, CircularProgress, Typography } from '@mui/material';
 import createTranslation from 'next-translate/useTranslation';
 import type { Recommendation } from '@/types/recommendation';
 
@@ -21,7 +21,7 @@ const ResultScreen: React.FC<ResultScreenProps> = ({ recommendations }) => {
   return recommendations?.length === 0 ? (
     <CircularProgress />
   ) : (
-    <>
+    <Box sx={{ marginTop: 10 }}>
       <Typography variant="h3" component="h3">
         {t('title', { name: 'Tokyo' })}
       </Typography>
@@ -45,7 +45,7 @@ const ResultScreen: React.FC<ResultScreenProps> = ({ recommendations }) => {
           </div>
         </div>
       </div>
-    </>
+    </Box>
   );
 };
 

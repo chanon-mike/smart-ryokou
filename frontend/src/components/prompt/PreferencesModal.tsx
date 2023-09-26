@@ -20,12 +20,14 @@ import type { Recommendation } from '@/types/recommendation';
 import Client from '@/client/Client';
 import type { ApiContext } from '@/client/ApiContext';
 import type { GetResultRequest, GetResultResponse } from '@/client/api/GetResult/interface';
+import type { Dispatch, SetStateAction } from 'react';
 
 type Props = {
   placeInput: string;
   openModal: boolean;
   handleCloseModal: () => void;
   transitionToResultCallback: (newRecommendations: Recommendation[]) => void;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 };
 
 const PreferencesModal = ({
@@ -33,6 +35,7 @@ const PreferencesModal = ({
   openModal,
   handleCloseModal,
   transitionToResultCallback,
+  setIsLoading,
 }: Props) => {
   const {
     fromDate,
@@ -59,6 +62,8 @@ const PreferencesModal = ({
   const ct = commonT.t;
 
   const handleSubmit = async () => {
+    setIsLoading(true);
+    handleCloseModal();
     let serverResponse: GetResultResponse;
     try {
       serverResponse = await Client.getResult(
@@ -78,7 +83,7 @@ const PreferencesModal = ({
       console.log(error);
       return;
     }
-    handleCloseModal();
+    setIsLoading(false);
     transitionToResultCallback(serverResponse.recommendations);
   };
 
