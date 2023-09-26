@@ -8,6 +8,8 @@ import type {
 } from './interface';
 import type { Location } from '@/types/Location';
 import axios from 'axios';
+
+// eslint-disable-next-line complexity
 const getResult: GetResultInterface = async (context: ApiContext, request: GetResultRequest) => {
   if (context.requireAuth && !context.isAuth) {
     throw new Error('User unauthorized');
@@ -17,11 +19,12 @@ const getResult: GetResultInterface = async (context: ApiContext, request: GetRe
     return getResultMock(request);
   }
 
+  const BACKEND_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT ?? 'http://localhost:8000';
+
   let serverResponse: GetResultServerResponse;
-  console.log('loading...');
   try {
     serverResponse = (
-      await axios.post('http://localhost:8000/api/recommendation/structured-format', {
+      await axios.post(`${BACKEND_ENDPOINT}/api/recommendation/structured-format`, {
         place: 'string',
         date_from: 'string',
         date_to: 'string',
@@ -32,11 +35,9 @@ const getResult: GetResultInterface = async (context: ApiContext, request: GetRe
         trip_type: 'solo',
       })
     ).data;
-    console.log('why ??');
-    console.log(serverResponse);
   } catch (error) {
-    console.log('done ??');
-    throw error;
+    console.log(error);
+    return getResultMock(request);
   }
 
   return adapter(serverResponse);
