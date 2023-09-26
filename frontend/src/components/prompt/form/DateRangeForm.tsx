@@ -21,7 +21,13 @@ const DateRangeForm = ({ fromDate, handleFromDateChange, toDate, handleToDateCha
           sx={{ width: '100%' }}
           label={t('date-from-label')}
           value={fromDate}
+          maxDate={toDate}
           onChange={(newDate) => handleFromDateChange(newDate)}
+          slotProps={{
+            textField: {
+              required: true,
+            },
+          }}
         />
         <Typography sx={{ marginY: 'auto' }}>~</Typography>
         <DatePicker
@@ -30,6 +36,11 @@ const DateRangeForm = ({ fromDate, handleFromDateChange, toDate, handleToDateCha
           value={toDate}
           minDate={fromDate}
           onChange={(newDate) => handleToDateChange(newDate)}
+          slotProps={{
+            textField: {
+              required: true,
+            },
+          }}
         />
       </Box>
     </LocalizationProvider>

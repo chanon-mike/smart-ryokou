@@ -80,10 +80,13 @@ const PreferencesModal = ({
         } as GetResultRequest,
       );
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        alert(error.message);
+      }
       return;
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
     transitionToResultCallback(serverResponse.recommendations);
   };
 
@@ -94,35 +97,37 @@ const PreferencesModal = ({
           ? `${placeInput}${ht('dialog-title')}`
           : `${ht('dialog-title')} ${placeInput}`}
       </DialogTitle>
-      <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-        <DialogContentText>{ht('dialog-content')}</DialogContentText>
-        <DateRangeForm
-          fromDate={fromDate}
-          handleFromDateChange={handleFromDateChange}
-          toDate={toDate}
-          handleToDateChange={handleToDateChange}
-        />
-        <PeopleNumberForm
-          peopleNumber={peopleNumber}
-          handlePeopleNumberChange={handlePeopleNumberChange}
-        />
-        <TripTypeForm
-          selectedTripTypes={selectedTripType}
-          handleSelectTripType={handleSelectTripType}
-        />
-        <PaceForm selectedPace={selectedPace} handleSelectPace={handleSelectPace} />
-        <BudgetForm selectedBudget={selectedBudget} handleSelectBudget={handleSelectBudget} />
-        <InterestsForm
-          selectedInterests={selectedInterests}
-          handleSelectInterest={handleSelectInterest}
-        />
-      </DialogContent>
-      <DialogActions sx={{ margin: 3 }}>
-        <Button onClick={handleCloseModal}>{ct('cancel')}</Button>
-        <Button onClick={handleSubmit} variant="contained">
-          {ct('finish')}
-        </Button>
-      </DialogActions>
+      <form onSubmit={handleSubmit}>
+        <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <DialogContentText>{ht('dialog-content')}</DialogContentText>
+          <DateRangeForm
+            fromDate={fromDate}
+            handleFromDateChange={handleFromDateChange}
+            toDate={toDate}
+            handleToDateChange={handleToDateChange}
+          />
+          <PeopleNumberForm
+            peopleNumber={peopleNumber}
+            handlePeopleNumberChange={handlePeopleNumberChange}
+          />
+          <TripTypeForm
+            selectedTripTypes={selectedTripType}
+            handleSelectTripType={handleSelectTripType}
+          />
+          <PaceForm selectedPace={selectedPace} handleSelectPace={handleSelectPace} />
+          <BudgetForm selectedBudget={selectedBudget} handleSelectBudget={handleSelectBudget} />
+          <InterestsForm
+            selectedInterests={selectedInterests}
+            handleSelectInterest={handleSelectInterest}
+          />
+        </DialogContent>
+        <DialogActions sx={{ margin: 3 }}>
+          <Button onClick={handleCloseModal}>{ct('cancel')}</Button>
+          <Button variant="contained" type="submit">
+            {ct('finish')}
+          </Button>
+        </DialogActions>
+      </form>
     </Dialog>
   );
 };
