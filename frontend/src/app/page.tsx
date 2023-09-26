@@ -1,27 +1,7 @@
-import InputBar from '@/components/prompt/InputBar';
-import { Box, Container, Typography } from '@mui/material';
-import createTranslation from 'next-translate/useTranslation';
+import MainApp from './components/MainApp';
 
-const Home = async () => {
-  const { t } = createTranslation('common');
-
-  return (
-    <Container>
-      <Box
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="center"
-        height="100dvh"
-        maxWidth="100%"
-      >
-        <Typography variant="h1" component="h1">
-          {t('title')}
-        </Typography>
-        <InputBar />
-      </Box>
-    </Container>
-  );
+const Home = () => {
+  return <MainApp />;
 };
 
 export default Home;
