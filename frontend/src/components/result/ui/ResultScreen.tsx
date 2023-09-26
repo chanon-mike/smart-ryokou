@@ -1,47 +1,32 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import LocationListings from './LocationListings';
 import Map from '@/components/map/Map';
 import type { Location } from '@/types/Location';
 import { Typography } from '@mui/material';
 import createTranslation from 'next-translate/useTranslation';
+import Client from '@/client/Client';
+import type { ApiContext } from '@/client/ApiContext';
+import type { GetResultRequest, GetResultResponse } from '@/client/api/GetResult/interface';
 
-const defaultLocations: Location[] = [
-  {
-    name: 'Tokyo',
-    description: 'The capital city of Japan',
-    lat: 35.682839,
-    lng: 139.759455,
-  },
-  {
-    name: 'Osaka',
-    description: 'Known for its vibrant nightlife and street food',
-    lat: 34.693737,
-    lng: 135.502165,
-  },
-  {
-    name: 'Kyoto',
-    description: 'Famous for its temples and traditional culture',
-    lat: 35.011564,
-    lng: 135.768149,
-  },
-  {
-    name: 'Hokkaido',
-    description: "Japan's northernmost island with beautiful landscapes",
-    lat: 43.220327,
-    lng: 142.863474,
-  },
-  {
-    name: 'Fukuoka',
-    description: 'Known for its rich history and delicious food',
-    lat: 33.590355,
-    lng: 130.401716,
-  },
-];
+const FetchLocationFromAPI = async (
+  setLocationList: React.Dispatch<React.SetStateAction<Location[]>>,
+) => {
+  const response: GetResultResponse = await Client.getResult(
+    { requireAuth: false, useMock: false } as ApiContext,
+    {} as GetResultRequest,
+  );
+  setLocationList(response.locations);
+};
 
 const ResultScreen: React.FC = () => {
-  const [locationList] = useState<Location[]>(defaultLocations);
+  const [locationList, setLocationList] = useState<Location[]>([]);
+
+  useEffect(() => {
+    FetchLocationFromAPI(setLocationList);
+  }, []);
+
   const [activeStep, setActiveStep] = useState<number>(0);
   const { t } = createTranslation('result');
 

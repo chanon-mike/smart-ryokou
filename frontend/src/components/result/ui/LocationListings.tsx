@@ -54,9 +54,7 @@ const LocationListings: React.FC<LocationListingsProps> = ({
                         component="img"
                         height="100px"
                         width="100px"
-                        image={
-                          'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk'
-                        }
+                        image={step.imageUrl}
                         alt="Image"
                       />
                     </Grid>
