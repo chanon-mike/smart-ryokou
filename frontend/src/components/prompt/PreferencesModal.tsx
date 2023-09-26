@@ -58,6 +58,7 @@ const PreferencesModal = ({
   const ht = homeT.t;
   const ct = commonT.t;
 
+  // eslint-disable-next-line complexity
   const handleSubmit = async () => {
     let serverResponse: GetResultResponse;
     try {
@@ -68,10 +69,10 @@ const PreferencesModal = ({
           date_from: fromDate ? fromDate.toISOString() : '',
           date_to: toDate ? toDate.toISOString() : '',
           people_num: peopleNumber,
-          budget: selectedBudget,
-          trip_pace: selectedPace,
-          interests: selectedInterests,
-          trip_type: selectedTripType,
+          budget: selectedBudget.length ? selectedBudget : null,
+          trip_pace: selectedPace.length ? selectedPace : null,
+          interests: selectedInterests.length ? selectedInterests : null,
+          trip_type: selectedTripType.length ? selectedTripType : null,
         } as GetResultRequest,
       );
     } catch (error) {
@@ -114,7 +115,7 @@ const PreferencesModal = ({
       </DialogContent>
       <DialogActions sx={{ margin: 3 }}>
         <Button onClick={handleCloseModal}>{ct('cancel')}</Button>
-        <Button onClick={handleSubmit} variant="contained">
+        <Button onClick={handleSubmit} variant="contained" disabled={!fromDate || !toDate}>
           {ct('finish')}
         </Button>
       </DialogActions>
