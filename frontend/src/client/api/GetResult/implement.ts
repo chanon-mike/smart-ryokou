@@ -20,9 +20,8 @@ const getResult: GetResultInterface = async (context: ApiContext, request: GetRe
   let serverResponse: GetResultServerResponse;
   console.log('loading...');
   try {
-    serverResponse = await axios.post(
-      'http://localhost:8000/api/recommendation/structured-format',
-      {
+    serverResponse = (
+      await axios.post('http://localhost:8000/api/recommendation/structured-format', {
         place: 'string',
         date_from: 'string',
         date_to: 'string',
@@ -31,8 +30,8 @@ const getResult: GetResultInterface = async (context: ApiContext, request: GetRe
         trip_pace: 'relaxed',
         interests: ['food'],
         trip_type: 'solo',
-      },
-    );
+      })
+    ).data;
     console.log('why ??');
     console.log(serverResponse);
   } catch (error) {
