@@ -16,7 +16,6 @@ provider:
   environment:
     AUTH0_DOMAIN: ${env:AUTH0_DOMAIN}
     AUTH0_AUDIENCE: ${env:AUTH0_AUDIENCE}
-    CORS_ORIGIN: ${env:CORS_ORIGIN}
     OPENAI_API_KEY: ${env:OPENAI_API_KEY}
     AWS_KEY: ${env:AWS_KEY}
     AWS_SECRET: ${env:AWS_SECRET}
@@ -59,4 +58,5 @@ functions:
       - http:
           method: any
           path: /{proxy+}
+          cors: true
  

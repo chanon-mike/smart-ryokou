@@ -8,8 +8,6 @@ class Settings(BaseSettings):
     Settings for the application
     """
 
-    CORS_ORIGIN: str
-
     AUTH0_DOMAIN: str
     AUTH0_AUDIENCE: str
 
