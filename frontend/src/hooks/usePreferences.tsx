@@ -1,21 +1,22 @@
 import type { SelectChangeEvent } from '@mui/material';
+import type { Moment } from 'moment';
 import type { ChangeEvent } from 'react';
 import { useState } from 'react';
 
 export const usePreferences = () => {
-  const [fromDate, setFromDate] = useState<Date | null>(null);
-  const [toDate, setToDate] = useState<Date | null>(null);
+  const [fromDate, setFromDate] = useState<Moment | null>(null);
+  const [toDate, setToDate] = useState<Moment | null>(null);
   const [peopleNumber, setPeopleNumber] = useState(1);
   const [selectedTripType, setSelectedTripType] = useState('');
   const [selectedPace, setSelectedPace] = useState('');
   const [selectedBudget, setSelectedBudget] = useState('');
   const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
 
-  const handleFromDateChange = (date: Date | null) => {
+  const handleFromDateChange = (date: Moment | null) => {
     setFromDate(date);
   };
 
-  const handleToDateChange = (date: Date | null) => {
+  const handleToDateChange = (date: Moment | null) => {
     setToDate(date);
   };
 
