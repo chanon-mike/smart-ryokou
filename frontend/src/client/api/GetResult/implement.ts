@@ -8,6 +8,8 @@ import type {
 } from './interface';
 import axios from 'axios';
 import type { Recommendation, Location } from '@/types/recommendation';
+import getLocationData from '@/client/helper/getLocationData';
+import MapConfigs from '@/libs/MapConfigs';
 
 // eslint-disable-next-line complexity
 const getResult: GetResultInterface = async (context: ApiContext, request: GetResultRequest) => {
@@ -34,30 +36,37 @@ const getResult: GetResultInterface = async (context: ApiContext, request: GetRe
   return adapter(serverResponse);
 };
 
-const adapter = (serverResponse: GetResultServerResponse) => {
+// TODO: Refactor
+const adapter = async (serverResponse: GetResultServerResponse) => {
   return {
-    recommendations: serverResponse.recommendation.map(
-      (r: {
-        date: string;
-        activities: {
-          place: string;
-          description: string;
-        }[];
-      }) => {
-        return {
-          date: r.date,
-          locations: r.activities.map((a: { place: string; description: string }) => {
-            return {
-              name: a.place,
-              description: a.description,
-              imageUrl:
-                'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
-              lat: 35.682839,
-              lng: 139.759455,
-            } as Location;
-          }),
-        } as Recommendation;
-      },
+    recommendations: await Promise.all(
+      serverResponse.recommendation.map(
+        async (r: {
+          date: string;
+          activities: {
+            place: string;
+            description: string;
+          }[];
+        }) => {
+          return {
+            date: r.date,
+            locations: await Promise.all(
+              r.activities.map(async (a: { place: string; description: string }) => {
+                const { API_KEY } = MapConfigs();
+                const data = await getLocationData(a.place, API_KEY);
+                return {
+                  name: a.place,
+                  description: a.description,
+                  imageUrl:
+                    'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
+                  lat: data?.lat,
+                  lng: data?.lng,
+                } as Location;
+              }),
+            ),
+          } as Recommendation;
+        },
+      ),
     ),
   } as GetResultResponse;
 };
