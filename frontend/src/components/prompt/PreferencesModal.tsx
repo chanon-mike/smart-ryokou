@@ -65,13 +65,17 @@ const PreferencesModal = ({
     setIsLoading(true);
     handleCloseModal();
     let serverResponse: GetResultResponse;
+    const fromDateMonth = fromDate?.month(); // NOTE: Moment's month starts from 0
+    const fromDateDay = fromDate?.date();
+    const toDateMonth = toDate?.month(); // NOTE: Moment's month starts from 0
+    const toDateDay = toDate?.date();
     try {
       serverResponse = await Client.getResult(
         { useMock: false, requireAuth: false } as ApiContext,
         {
           place: placeInput,
-          date_from: fromDate ? fromDate.toISOString() : '',
-          date_to: toDate ? toDate.toISOString() : '',
+          date_from: fromDateMonth ? `${fromDateMonth + 1}月${fromDateDay}日` : '',
+          date_to: toDateMonth ? `${toDateMonth + 1}月${toDateDay}日` : '',
           people_num: peopleNumber,
           budget: selectedBudget.length ? selectedBudget : null,
           trip_pace: selectedPace.length ? selectedPace : null,
