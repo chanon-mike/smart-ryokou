@@ -1,10 +1,6 @@
 import createApiMock from '@/client/helper/createApiMock';
 import type { GetResultRequest, GetResultResponse } from './interface';
 
-const defaultResponse: GetResultResponse = {
-  recommendations: [],
-};
-
 const getResultMockCases: ReadonlyArray<{
   request: GetResultRequest;
   response: GetResultResponse;
@@ -25,7 +21,7 @@ const getResultMockCases: ReadonlyArray<{
               lng: 30,
             },
             {
-              name: 'tokyo',
+              name: 'osaka',
               description: 'tokyo',
               imageUrl:
                 'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
@@ -38,7 +34,7 @@ const getResultMockCases: ReadonlyArray<{
           date: 'this is a date 2',
           locations: [
             {
-              name: 'tokyo',
+              name: 'kyoto',
               description: 'tokyo',
               imageUrl:
                 'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
@@ -80,7 +76,7 @@ const getResultMockCases: ReadonlyArray<{
 
 const getResultMock = createApiMock<GetResultRequest, GetResultResponse>(
   getResultMockCases,
-  defaultResponse,
+  getResultMockCases[0].response,
 );
 
 export default getResultMock;

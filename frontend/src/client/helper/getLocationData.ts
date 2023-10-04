@@ -9,7 +9,7 @@ const getLocationData = async (placeName: string, apiKey: string) => {
         `https://maps.googleapis.com/maps/api/geocode/json?address=${placeName}&key=${apiKey}`,
       )
     ).data;
-    return response.geometry.location as { lat: number; lng: number };
+    return response.results[0].geometry.location as { lat: number; lng: number };
   } catch (error) {
     console.log(error);
   }
