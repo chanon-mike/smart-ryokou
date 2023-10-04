@@ -59,7 +59,6 @@ jobs:
         env:
           AUTH0_DOMAIN: ${{ secrets.AUTH0_DOMAIN }}
           AUTH0_AUDIENCE: ${{ secrets.AUTH0_AUDIENCE }}
-          CORS_ORIGIN: ${{ secrets.CORS_ORIGIN }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           AWS_KEY: ${{ secrets.AWS_KEY }}
           AWS_SECRET: ${{ secrets.AWS_SECRET }}
