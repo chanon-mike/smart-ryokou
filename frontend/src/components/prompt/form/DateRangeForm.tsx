@@ -1,13 +1,14 @@
 import { Box, Typography } from '@mui/material';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import type { Moment } from 'moment';
 import createTranslation from 'next-translate/useTranslation';
 
 type Props = {
-  fromDate: Date | null;
-  handleFromDateChange: (date: Date | null) => void;
-  toDate: Date | null;
-  handleToDateChange: (date: Date | null) => void;
+  fromDate: Moment | null;
+  handleFromDateChange: (date: Moment | null) => void;
+  toDate: Moment | null;
+  handleToDateChange: (date: Moment | null) => void;
 };
 
 const DateRangeForm = ({ fromDate, handleFromDateChange, toDate, handleToDateChange }: Props) => {
