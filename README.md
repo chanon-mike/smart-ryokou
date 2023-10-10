@@ -36,3 +36,5 @@ Always checkout from and merge to develop branch
    ```
 
 5. Open [http://localhost:3000](http://localhost:3000) and [http://localhost:8000](http://localhost:8000) with your browser to see the result.
+
+6. Run `docker compose up -d` to boot redis instance
