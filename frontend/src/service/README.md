@@ -6,6 +6,16 @@ There should be another client serves mapping the fetch to those endpoints but u
 
 ## Cache Service
 
+- getKey
+- checkKey
+- setKey
+
 ## Database Service
+
+- find
+- insert
+- update
+- delete
+- list
 
 ## Map Service
