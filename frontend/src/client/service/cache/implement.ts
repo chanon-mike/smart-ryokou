@@ -4,7 +4,7 @@ import type CacheServiceInterface from '@/service/cache/interface';
 const cacheClient: CacheServiceInterface = {
   getKey: async (key: string) => {
     try {
-      const response = await fetch(encodeURI(`/api/cache?key=${key}`), {
+      const response = await fetch(encodeURI(`/api/service/cache?key=${key}`), {
         method: 'GET',
       });
 
@@ -21,7 +21,7 @@ const cacheClient: CacheServiceInterface = {
   },
   checkKey: async (key: string) => {
     try {
-      const response = await fetch(encodeURI(`/api/cache?key=${key}`), {
+      const response = await fetch(encodeURI(`/api/service/cache?key=${key}`), {
         method: 'GET',
       });
 
@@ -38,7 +38,7 @@ const cacheClient: CacheServiceInterface = {
   },
   setKey: async (key: string, value: string) => {
     try {
-      const response = await fetch('/api/cache', {
+      const response = await fetch('/api/service/cache', {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
