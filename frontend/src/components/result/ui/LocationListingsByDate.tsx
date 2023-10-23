@@ -6,17 +6,14 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import StepContent from '@mui/material/StepContent';
 import Typography from '@mui/material/Typography';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Grid from '@mui/material/Grid';
-import IconButton from '@mui/material/IconButton';
-import { Description, Edit, Delete } from '@mui/icons-material';
 import type { Recommendation } from '@/types/recommendation';
 import { StepIcon } from '@mui/material';
+import LocationCard from './LocationCard';
+import { useDroppable } from '@dnd-kit/core';
 
 interface LocationListingsProps {
   recommendation: Recommendation;
+  setRecommendations: React.Dispatch<React.SetStateAction<Recommendation[]>>;
   activeStep: number;
   setActiveStep: React.Dispatch<React.SetStateAction<number>>;
   activeDate: string;
@@ -26,12 +23,15 @@ interface LocationListingsProps {
 
 const LocationListingsByDate: React.FC<LocationListingsProps> = ({
   recommendation,
+  // setRecommendations,
   activeStep,
   setActiveStep,
-  activeDate,
+  // activeDate,
   setActiveDate,
   setMapCenter,
 }) => {
+  const { setNodeRef } = useDroppable({ id: recommendation.date });
+
   const handleSelect = (index: number) => {
     setActiveStep(index);
     setActiveDate(recommendation.date);
@@ -42,7 +42,7 @@ const LocationListingsByDate: React.FC<LocationListingsProps> = ({
   };
 
   return (
-    <div>
+    <div ref={setNodeRef}>
       <Typography variant="h6" component="div" style={{ paddingTop: '20px' }}>
         {recommendation.date}
       </Typography>
@@ -64,52 +64,7 @@ const LocationListingsByDate: React.FC<LocationListingsProps> = ({
                 {step.name}
               </StepLabel>
               <StepContent>
-                <Card
-                  style={{
-                    padding: '10px 20px',
-                    borderRadius: '16px',
-                    border: `2px solid ${
-                      activeStep === index && activeDate === recommendation.date ? 'blue' : 'black'
-                    }`,
-                  }}
-                >
-                  <Grid container>
-                    <Grid
-                      item
-                      xs={4}
-                      style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-                    >
-                      <CardMedia
-                        component="img"
-                        height="100px"
-                        width="100px"
-                        image={step.imageUrl}
-                        alt="Image"
-                      />
-                    </Grid>
-                    <Grid item xs={7}>
-                      <CardContent>
-                        <Typography variant="h6" component="div">
-                          {step.name}
-                        </Typography>
-                        <Typography variant="body2" color="textSecondary" noWrap>
-                          {step.description}
-                        </Typography>
-                      </CardContent>
-                    </Grid>
-                    <Grid item xs={1}>
-                      <IconButton aria-label="Edit">
-                        <Edit />
-                      </IconButton>
-                      <IconButton aria-label="Delete">
-                        <Delete />
-                      </IconButton>
-                      <IconButton aria-label="Description">
-                        <Description />
-                      </IconButton>
-                    </Grid>
-                  </Grid>
-                </Card>
+                <LocationCard step={step} />
               </StepContent>
             </div>
           </Step>

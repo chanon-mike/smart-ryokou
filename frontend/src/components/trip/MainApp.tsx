@@ -4,8 +4,11 @@ import Prompt from '@/components/prompt/Prompt';
 import { Box, Container, Typography } from '@mui/material';
 import createTranslation from 'next-translate/useTranslation';
 import ResultScreen from '@/components/result/ui/ResultScreen';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { Recommendation } from '@/types/recommendation';
+import type { ApiContext } from '@/client/ApiContext';
+import Client from '@/client/Client';
+import type { GetResultResponse, GetResultRequest } from '@/client/api/GetResult/interface';
 
 const TRANSITION_STATE = {
   PROMPTING: 0,
@@ -17,6 +20,27 @@ const MainApp = () => {
 
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
   const [step, setStep] = useState<number>(TRANSITION_STATE.PROMPTING);
+
+  useEffect(() => {
+    const fetchResult = async () => {
+      let serverResponse: GetResultResponse;
+
+      try {
+        serverResponse = await Client.getResult(
+          { useMock: true, requireAuth: false } as ApiContext,
+          {} as GetResultRequest,
+        );
+      } catch (error) {
+        if (error instanceof Error) {
+          alert(error.message);
+        }
+        return;
+      }
+      setRecommendations(serverResponse.recommendations);
+    };
+
+    fetchResult();
+  }, []);
 
   return (
     <Container>
@@ -42,8 +66,9 @@ const MainApp = () => {
           </>
         )}
         {step === TRANSITION_STATE.RESULT && (
-          <ResultScreen height="100vh" recommendations={recommendations} />
+          <ResultScreen recommendations={recommendations} setRecommendations={setRecommendations} />
         )}
+        {/* <ResultScreen recommendations={recommendations} setRecommendations={setRecommendations} /> */}
       </Box>
     </Container>
   );
