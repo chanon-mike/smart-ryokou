@@ -1,10 +1,9 @@
 'use client';
 
-import * as React from 'react';
 import Box from '@mui/material/Box';
 import type { Recommendation } from '@/types/recommendation';
 import LocationListingsByDate from './LocationListingsByDate';
-import type { DragEndEvent } from '@dnd-kit/core';
+import type { DragEndEvent, DragStartEvent, UniqueIdentifier } from '@dnd-kit/core';
 import {
   DndContext,
   KeyboardSensor,
@@ -12,24 +11,25 @@ import {
   useSensor,
   useSensors,
   closestCorners,
+  DragOverlay,
 } from '@dnd-kit/core';
-import {
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
+import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
+import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
+import LocationCard from './LocationCard';
+import type { Dispatch, SetStateAction, FC } from 'react';
+import { useState } from 'react';
 
 interface LocationListingsProps {
   recommendations: Recommendation[];
-  setRecommendations: React.Dispatch<React.SetStateAction<Recommendation[]>>;
+  setRecommendations: Dispatch<SetStateAction<Recommendation[]>>;
   activeStep: number;
-  setActiveStep: React.Dispatch<React.SetStateAction<number>>;
+  setActiveStep: Dispatch<SetStateAction<number>>;
   activeDate: string;
-  setActiveDate: React.Dispatch<React.SetStateAction<string>>;
-  setMapCenter: React.Dispatch<React.SetStateAction<{ lat: number; lng: number }>>;
+  setActiveDate: Dispatch<SetStateAction<string>>;
+  setMapCenter: Dispatch<SetStateAction<{ lat: number; lng: number }>>;
 }
 
-const LocationListings: React.FC<LocationListingsProps> = ({
+const LocationListings: FC<LocationListingsProps> = ({
   recommendations,
   setRecommendations,
   activeStep,
@@ -38,6 +38,9 @@ const LocationListings: React.FC<LocationListingsProps> = ({
   setActiveDate,
   setMapCenter,
 }) => {
+  const [activeColumnIndex, setActiveColumnIndex] = useState<number | null>(null);
+  const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
+
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -45,11 +48,32 @@ const LocationListings: React.FC<LocationListingsProps> = ({
     }),
   );
 
+  const handleDragStart = (event: DragStartEvent) => {
+    const { active } = event;
+    const activeDateColumnIndex = recommendations.findIndex((r) =>
+      r.locations.some((loc) => loc.name === active.id),
+    );
+
+    setActiveId(active.id);
+    setActiveColumnIndex(activeDateColumnIndex);
+    console.log('Drag started:', event);
+  };
+
+  const handleDragCancel = () => {
+    setActiveId(null);
+    setActiveColumnIndex(null);
+  };
+
   const handleDragEnd = (event: DragEndEvent) => {
-    // active is the item being dragged, over is the item being dragged over
     const { active, over } = event;
 
-    if (over && active.id !== over.id) {
+    if (!over) {
+      setActiveId(null);
+      setActiveColumnIndex(null);
+      return;
+    }
+
+    if (active.id !== over.id) {
       setRecommendations((prevRecommendations) => {
         // Find the source and target dates (groups)
         const newRecommendation = [...prevRecommendations];
@@ -73,37 +97,46 @@ const LocationListings: React.FC<LocationListingsProps> = ({
         return newRecommendation;
       });
     }
+    setActiveId(null);
+    setActiveColumnIndex(null);
     console.log('Drag ended:', event);
   };
+
+  console.log('active id:', activeId);
+  console.log('active column:', activeColumnIndex);
 
   return (
     <DndContext
       sensors={sensors}
-      onDragStart={(event) => console.log('Drag started:', event)}
-      onDragOver={(event) => console.log('Drag over:', event)}
-      onDragCancel={(event) => console.log('Drag canceled:', event)}
-      collisionDetection={closestCorners}
+      onDragStart={handleDragStart}
+      onDragCancel={handleDragCancel}
       onDragEnd={handleDragEnd}
+      collisionDetection={closestCorners}
+      modifiers={[restrictToVerticalAxis]}
     >
-      <SortableContext
-        items={recommendations.flatMap((r) => r.locations.map((loc) => loc.name))}
-        strategy={verticalListSortingStrategy}
-      >
-        <Box style={{ maxWidth: '400px', height: '70vh', overflowY: 'auto' }}>
-          {recommendations.map((r: Recommendation) => (
-            <LocationListingsByDate
-              key={r.date}
-              recommendation={r}
-              setRecommendations={setRecommendations}
-              activeStep={activeStep}
-              setActiveStep={setActiveStep}
-              activeDate={activeDate}
-              setActiveDate={setActiveDate}
-              setMapCenter={setMapCenter}
+      <Box style={{ maxWidth: '400px', height: '70vh', overflowY: 'auto' }}>
+        {recommendations.map((r: Recommendation) => (
+          <LocationListingsByDate
+            key={r.date}
+            recommendation={r}
+            setRecommendations={setRecommendations}
+            activeStep={activeStep}
+            setActiveStep={setActiveStep}
+            activeDate={activeDate}
+            setActiveDate={setActiveDate}
+            setMapCenter={setMapCenter}
+          />
+        ))}
+        <DragOverlay>
+          {activeId !== null && activeColumnIndex !== null ? (
+            <LocationCard
+              step={
+                recommendations[activeColumnIndex].locations.filter((r) => r.name === activeId)[0]
+              }
             />
-          ))}
-        </Box>
-      </SortableContext>
+          ) : null}
+        </DragOverlay>
+      </Box>
     </DndContext>
   );
 };

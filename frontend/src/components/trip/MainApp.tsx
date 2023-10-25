@@ -52,7 +52,7 @@ const MainApp = () => {
         height="100dvh"
         maxWidth="100%"
       >
-        {step === TRANSITION_STATE.PROMPTING && (
+        {/* {step === TRANSITION_STATE.PROMPTING && (
           <>
             <Typography variant="h1" component="h1">
               {t('title')}
@@ -67,8 +67,8 @@ const MainApp = () => {
         )}
         {step === TRANSITION_STATE.RESULT && (
           <ResultScreen recommendations={recommendations} setRecommendations={setRecommendations} />
-        )}
-        {/* <ResultScreen recommendations={recommendations} setRecommendations={setRecommendations} /> */}
+        )} */}
+        <ResultScreen recommendations={recommendations} setRecommendations={setRecommendations} />
       </Box>
     </Container>
   );

@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import type { Recommendation } from '@/types/recommendation';
 import { StepIcon } from '@mui/material';
 import LocationCard from './LocationCard';
-import { useDroppable } from '@dnd-kit/core';
+import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
 
 interface LocationListingsProps {
   recommendation: Recommendation;
@@ -30,8 +30,6 @@ const LocationListingsByDate: React.FC<LocationListingsProps> = ({
   setActiveDate,
   setMapCenter,
 }) => {
-  const { setNodeRef } = useDroppable({ id: recommendation.date });
-
   const handleSelect = (index: number) => {
     setActiveStep(index);
     setActiveDate(recommendation.date);
@@ -42,7 +40,10 @@ const LocationListingsByDate: React.FC<LocationListingsProps> = ({
   };
 
   return (
-    <div ref={setNodeRef}>
+    <SortableContext
+      items={recommendation.locations.map((loc) => loc.name)}
+      strategy={rectSortingStrategy}
+    >
       <Typography variant="h6" component="div" style={{ paddingTop: '20px' }}>
         {recommendation.date}
       </Typography>
@@ -70,7 +71,7 @@ const LocationListingsByDate: React.FC<LocationListingsProps> = ({
           </Step>
         ))}
       </Stepper>
-    </div>
+    </SortableContext>
   );
 };
 
