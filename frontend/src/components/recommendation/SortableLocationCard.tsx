@@ -6,11 +6,13 @@ import { CSS } from '@dnd-kit/utilities';
 
 type SortableLocationCardProps = {
   step: Location;
+  disabled?: boolean;
 };
 
-const SortableLocationCard = ({ step }: SortableLocationCardProps) => {
+const SortableLocationCard = ({ step, disabled = false }: SortableLocationCardProps) => {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
-    id: step?.name,
+    id: step.name,
+    disabled,
   });
 
   const style = {
@@ -27,7 +29,7 @@ const SortableLocationCard = ({ step }: SortableLocationCardProps) => {
             padding: '10px 20px',
             borderRadius: '16px',
             border: '2px solid',
-            cursor: 'grab',
+            cursor: `${disabled ? 'default' : 'grab'}`,
           }}
         >
           <Grid container>

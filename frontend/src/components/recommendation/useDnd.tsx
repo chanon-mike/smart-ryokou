@@ -44,24 +44,37 @@ export const useDnd = ({
 
   const handleDragOver = (event: DragOverEvent) => {
     const { active, over } = event;
+
+    if (over === null) {
+      return;
+    }
+
     const overContainerIndex = recommendations.findIndex((r) =>
-      r.locations.some((loc) => loc.name === over?.id),
+      r.locations.some((loc) => loc.name === over.id),
     );
 
-    if (!over || activeContainerIndex === null || activeContainerIndex === overContainerIndex) {
+    if (activeContainerIndex === null || activeContainerIndex === overContainerIndex) {
       return;
     }
 
     // If dragging to a different Container
     setRecommendations((prev) => {
       const next = [...prev];
-      const [activeItem] = next[activeContainerIndex].locations.splice(
-        next[activeContainerIndex].locations.findIndex((loc) => loc.name === active.id),
+      const activeContainer = next[activeContainerIndex];
+
+      if (!activeContainer) {
+        return prev;
+      }
+
+      const [activeItem] = activeContainer.locations.splice(
+        activeContainer.locations.findIndex((loc) => loc.name === active.id),
         1,
       );
-      next[overContainerIndex].locations.push(activeItem); // This places the item at the end of the target Container
+      next[overContainerIndex]?.locations.push(activeItem); // This places the item at the end of the target Container
+
       return next;
     });
+
     setActiveContainerIndex(overContainerIndex); // Update the active Container index for subsequent drag over events
   };
 

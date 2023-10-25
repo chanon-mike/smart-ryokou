@@ -47,7 +47,7 @@ const DroppableDateList: FC<DroppableDateListProps> = ({
       <Typography variant="h6" component="div" style={{ paddingTop: '20px' }}>
         {recommendation.date}
       </Typography>
-      <Stepper activeStep={activeStep} orientation="vertical">
+      <Stepper activeStep={activeStep} orientation="vertical" style={{ minHeight: '100px' }}>
         {recommendation.locations.map((step, index) => (
           <Step key={step.name} active={true}>
             <div onClick={() => handleSelect(index)}>
@@ -65,7 +65,11 @@ const DroppableDateList: FC<DroppableDateListProps> = ({
                 {step.name}
               </StepLabel>
               <StepContent>
-                <SortableLocationCard step={step} />
+                {recommendation.locations.length === 1 ? (
+                  <SortableLocationCard step={step} disabled={true} />
+                ) : (
+                  <SortableLocationCard step={step} />
+                )}
               </StepContent>
             </div>
           </Step>
