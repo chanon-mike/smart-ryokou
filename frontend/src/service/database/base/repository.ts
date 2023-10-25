@@ -2,6 +2,7 @@ import type { Collection } from 'mongodb';
 import { ObjectId } from 'mongodb';
 import type BaseModel from './model';
 import clientPromise from './client';
+import databaseConfigs from './config';
 
 class BaseRepository<T extends BaseModel> {
   private collection: Collection;
@@ -20,8 +21,8 @@ class BaseRepository<T extends BaseModel> {
     return result.insertedId.toString();
   }
 
-  async update(id: string, item: T): Promise<boolean> {
-    const result = await this.collection.updateOne({ _id: new ObjectId(id) }, { $set: item });
+  async update(item: T): Promise<boolean> {
+    const result = await this.collection.updateOne({ _id: new ObjectId(item._id) }, { $set: item });
     return result.modifiedCount > 0;
   }
 
@@ -41,9 +42,9 @@ class BaseRepository<T extends BaseModel> {
   }
 }
 
-async function createRepository<T extends BaseModel>(databaseName: string, collectionName: string) {
+async function createRepository<T extends BaseModel>(collectionName: string) {
   const client = await clientPromise;
-  const collection = client.db(databaseName).collection(collectionName);
+  const collection = client.db(databaseConfigs.databaseName).collection(collectionName);
   return new BaseRepository<T>(collection);
 }
 
