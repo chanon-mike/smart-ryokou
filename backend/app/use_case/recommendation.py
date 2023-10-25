@@ -113,14 +113,14 @@ def generate_recommendation_structured_format_query(
         prompt += f"#旅行の種類\n{TRIP_TYPE_JA[trip_type]}\n"
 
     logger.info("====User query====")
-    logger.info(f"{place}")
-    logger.info(f"{date_from}")
-    logger.info(f"{date_to}")
-    logger.info(f"{people_num}")
-    logger.info(f"{budget}")
-    logger.info(f"{trip_pace}")
-    logger.info(f"{interests}")
-    logger.info(f"{trip_type}")
+    logger.info(f"place: {place}")
+    logger.info(f"date_from: {date_from}")
+    logger.info(f"date_to: {date_to}")
+    logger.info(f"people_num: {people_num}")
+    logger.info(f"budget: {budget}")
+    logger.info(f"trip_pace: {trip_pace}")
+    logger.info(f"interests: {interests}")
+    logger.info(f"trip_type: {trip_type}")
 
     try:
         openai_response = openai.ChatCompletion.create(
@@ -154,7 +154,9 @@ def generate_recommendation_structured_format_query(
         response_json = openai_response["choices"][0]["message"]["function_call"][
             "arguments"
         ]
-        return extract_json(response_json)
+        response = extract_json(response_json)
+        logger.info(f"openai json response: {response}")
+        return response
     else:
         # when user enter invalid place
         raise Exception("User input error")
