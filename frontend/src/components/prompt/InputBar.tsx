@@ -24,7 +24,7 @@ const InputBar = ({ placeInput, setPlaceInput, handleOpenModal }: Props) => {
     handleOpenModal();
   };
 
-  const handleIconClick = () => {
+  const handleSearchIconClick = () => {
     if (placeInput.trim() !== '') {
       handleOpenModal();
     }
@@ -48,8 +48,11 @@ const InputBar = ({ placeInput, setPlaceInput, handleOpenModal }: Props) => {
         onChange={handleChange}
         InputProps={{
           endAdornment: (
-            <InputAdornment position="end" style={{ cursor: placeInput.trim() !== '' ? 'pointer' : 'default' }}>
-              <SearchIcon onClick={handleIconClick} />
+            <InputAdornment
+              position="end"
+              style={{ cursor: placeInput.trim() !== '' ? 'pointer' : 'default' }}
+            >
+              <SearchIcon onClick={handleSearchIconClick} />
             </InputAdornment>
           ),
         }}
