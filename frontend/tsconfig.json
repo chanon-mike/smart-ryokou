@@ -30,7 +30,8 @@
     ".next/types/**/*.tsm",
     ".next/types/**/*.ts",
     "*.js",
-    ".eslintrc.js"
+    ".eslintrc.js",
+    "src/libs/utils/array.js"
   ],
   "exclude": ["node_modules"]
 }

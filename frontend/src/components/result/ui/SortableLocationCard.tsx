@@ -4,19 +4,19 @@ import { Card, Grid, CardMedia, CardContent, Typography, IconButton } from '@mui
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
-type Props = {
+type SortableLocationCardProps = {
   step: Location;
 };
 
-const LocationCard = ({ step }: Props) => {
+const SortableLocationCard = ({ step }: SortableLocationCardProps) => {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
-    id: step.name,
+    id: step?.name,
   });
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    opacity: isDragging ? 0.5 : 1,
+    opacity: isDragging ? 0.3 : 1,
   };
 
   return (
@@ -76,4 +76,4 @@ const LocationCard = ({ step }: Props) => {
   );
 };
 
-export default LocationCard;
+export default SortableLocationCard;

@@ -1,6 +1,5 @@
 'use client';
 
-import * as React from 'react';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
@@ -8,20 +7,21 @@ import StepContent from '@mui/material/StepContent';
 import Typography from '@mui/material/Typography';
 import type { Recommendation } from '@/types/recommendation';
 import { StepIcon } from '@mui/material';
-import LocationCard from './LocationCard';
+import SortableLocationCard from './SortableLocationCard';
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
+import type { Dispatch, SetStateAction, FC } from 'react';
 
-interface LocationListingsProps {
+interface DroppableDateListProps {
   recommendation: Recommendation;
-  setRecommendations: React.Dispatch<React.SetStateAction<Recommendation[]>>;
+  setRecommendations: Dispatch<SetStateAction<Recommendation[]>>;
   activeStep: number;
-  setActiveStep: React.Dispatch<React.SetStateAction<number>>;
+  setActiveStep: Dispatch<SetStateAction<number>>;
   activeDate: string;
-  setActiveDate: React.Dispatch<React.SetStateAction<string>>;
-  setMapCenter: React.Dispatch<React.SetStateAction<{ lat: number; lng: number }>>;
+  setActiveDate: Dispatch<SetStateAction<string>>;
+  setMapCenter: Dispatch<SetStateAction<{ lat: number; lng: number }>>;
 }
 
-const LocationListingsByDate: React.FC<LocationListingsProps> = ({
+const DroppableDateList: FC<DroppableDateListProps> = ({
   recommendation,
   // setRecommendations,
   activeStep,
@@ -65,7 +65,7 @@ const LocationListingsByDate: React.FC<LocationListingsProps> = ({
                 {step.name}
               </StepLabel>
               <StepContent>
-                <LocationCard step={step} />
+                <SortableLocationCard step={step} />
               </StepContent>
             </div>
           </Step>
@@ -75,4 +75,4 @@ const LocationListingsByDate: React.FC<LocationListingsProps> = ({
   );
 };
 
-export default LocationListingsByDate;
+export default DroppableDateList;

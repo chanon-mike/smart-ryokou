@@ -2,8 +2,8 @@
 
 import Box from '@mui/material/Box';
 import type { Recommendation } from '@/types/recommendation';
-import LocationListingsByDate from './LocationListingsByDate';
-import type { DragEndEvent, DragStartEvent, UniqueIdentifier } from '@dnd-kit/core';
+import DroppableDateList from './DroppableDateList';
+import type { DragEndEvent, DragOverEvent, DragStartEvent, UniqueIdentifier } from '@dnd-kit/core';
 import {
   DndContext,
   KeyboardSensor,
@@ -15,7 +15,7 @@ import {
 } from '@dnd-kit/core';
 import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
-import LocationCard from './LocationCard';
+import SortableLocationCard from './SortableLocationCard';
 import type { Dispatch, SetStateAction, FC } from 'react';
 import { useState } from 'react';
 
@@ -64,51 +64,71 @@ const LocationListings: FC<LocationListingsProps> = ({
     setActiveColumnIndex(null);
   };
 
+  const handleDragOver = (event: DragOverEvent) => {
+    const { active, over } = event;
+    const overColumnIndex = recommendations.findIndex((r) =>
+      r.locations.some((loc) => loc.name === over?.id),
+    );
+
+    if (!over || activeColumnIndex === null || activeColumnIndex === overColumnIndex) {
+      return;
+    }
+
+    // If dragging to a different column
+    setRecommendations((prev) => {
+      const next = [...prev];
+      const [activeItem] = next[activeColumnIndex].locations.splice(
+        next[activeColumnIndex].locations.findIndex((loc) => loc.name === active.id),
+        1,
+      );
+      next[overColumnIndex].locations.push(activeItem); // This places the item at the end of the target column
+      return next;
+    });
+    setActiveColumnIndex(overColumnIndex); // Update the active column index for subsequent drag over events
+  };
+
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
 
-    if (!over) {
+    if (!over || active.id === over.id) {
       setActiveId(null);
       setActiveColumnIndex(null);
       return;
     }
 
-    if (active.id !== over.id) {
-      setRecommendations((prevRecommendations) => {
-        // Find the source and target dates (groups)
-        const newRecommendation = [...prevRecommendations];
-        const sourceDate = newRecommendation.find((r) =>
-          r.locations.some((loc) => loc.name === active.id),
-        );
-        const targetDate = newRecommendation.find((r) =>
-          r.locations.some((loc) => loc.name === over.id),
-        );
+    setRecommendations((prev) => {
+      // Find the source and target dates (groups)
+      const newRecommendation = [...prev];
+      const activeColumn = newRecommendation.find((r) =>
+        r.locations.some((loc) => loc.name === active.id),
+      );
+      const overColumn = newRecommendation.find((r) =>
+        r.locations.some((loc) => loc.name === over.id),
+      );
 
-        if (!sourceDate || !targetDate) return prevRecommendations;
+      if (!activeColumn || !overColumn) return prev;
 
-        // Find the source and target index within their respective groups
-        const sourceIndex = sourceDate.locations.findIndex((loc) => loc.name === active.id);
-        const targetIndex = targetDate.locations.findIndex((loc) => loc.name === over.id);
+      // Find the source and target index within their respective groups
+      const activeIndex = active.data.current?.sortable.index;
+      const overIndex = over.data.current?.sortable.index;
 
-        // Remove the item from the source and add it to the target
-        const [itemToMove] = sourceDate.locations.splice(sourceIndex, 1);
-        targetDate.locations.splice(targetIndex, 0, itemToMove);
+      // Remove the item from the source and add it to the target
+      const [itemToMove] = activeColumn.locations.splice(activeIndex, 1);
+      overColumn.locations.splice(overIndex, 0, itemToMove);
 
-        return newRecommendation;
-      });
-    }
+      return newRecommendation;
+    });
+
     setActiveId(null);
     setActiveColumnIndex(null);
     console.log('Drag ended:', event);
   };
 
-  console.log('active id:', activeId);
-  console.log('active column:', activeColumnIndex);
-
   return (
     <DndContext
       sensors={sensors}
       onDragStart={handleDragStart}
+      onDragOver={handleDragOver}
       onDragCancel={handleDragCancel}
       onDragEnd={handleDragEnd}
       collisionDetection={closestCorners}
@@ -116,7 +136,7 @@ const LocationListings: FC<LocationListingsProps> = ({
     >
       <Box style={{ maxWidth: '400px', height: '70vh', overflowY: 'auto' }}>
         {recommendations.map((r: Recommendation) => (
-          <LocationListingsByDate
+          <DroppableDateList
             key={r.date}
             recommendation={r}
             setRecommendations={setRecommendations}
@@ -129,7 +149,7 @@ const LocationListings: FC<LocationListingsProps> = ({
         ))}
         <DragOverlay>
           {activeId !== null && activeColumnIndex !== null ? (
-            <LocationCard
+            <SortableLocationCard
               step={
                 recommendations[activeColumnIndex].locations.filter((r) => r.name === activeId)[0]
               }
