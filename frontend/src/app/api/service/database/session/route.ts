@@ -2,15 +2,13 @@ import sessionRepositoryPromise from '@/service/database/session/repository';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-export async function GET(req: NextRequest) {
-  const id = req.nextUrl.searchParams.get('id');
-
-  if (!id) {
+export async function GET(req: NextRequest, { params }: { params: { _id: string } }) {
+  if (!params._id) {
     return NextResponse.error();
   }
 
   const sessionRepository = await sessionRepositoryPromise;
-  const session = await sessionRepository.find(id);
+  const session = await sessionRepository.find(params._id);
 
   if (session) {
     return NextResponse.json({ session });
@@ -44,11 +42,14 @@ export async function PUT(req: NextRequest) {
   }
 }
 
-export async function DELETE(req: NextRequest) {
-  const data = await req.json();
+export async function DELETE(req: NextRequest, { params }: { params: { _id: string } }) {
+  if (!params._id) {
+    return NextResponse.error();
+  }
+
   const sessionRepository = await sessionRepositoryPromise;
 
-  const success = await sessionRepository.delete(data._id);
+  const success = await sessionRepository.delete(params._id);
 
   if (success) {
     return NextResponse.json({ message: 'Session deleted' });

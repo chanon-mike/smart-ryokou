@@ -3,8 +3,9 @@ import { ObjectId } from 'mongodb';
 import type BaseModel from './model';
 import clientPromise from './client';
 import databaseConfigs from './config';
+import type DataAccessor from './interface';
 
-class BaseRepository<T extends BaseModel> {
+class BaseRepository<T extends BaseModel> implements DataAccessor<T> {
   private collection: Collection;
 
   constructor(collection: Collection) {
@@ -16,9 +17,9 @@ class BaseRepository<T extends BaseModel> {
     return result ? (result as T) : null;
   }
 
-  async insert(item: T): Promise<string> {
+  async insert(item: T): Promise<string | null> {
     const result = await this.collection.insertOne(item);
-    return result.insertedId.toString();
+    return result.insertedId?.toString();
   }
 
   async update(item: T): Promise<boolean> {
