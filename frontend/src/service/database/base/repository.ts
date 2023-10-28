@@ -4,7 +4,7 @@ import type BaseModel from './model';
 import clientPromise from './client';
 import databaseConfigs from './config';
 import type DataAccessor from './interface';
-
+import { convertToModel, convertToOID } from './helper';
 class BaseRepository<T extends BaseModel> implements DataAccessor<T> {
   private collection: Collection;
 
@@ -14,33 +14,31 @@ class BaseRepository<T extends BaseModel> implements DataAccessor<T> {
 
   async find(id: string): Promise<T | null> {
     const result = await this.collection.findOne({ _id: new ObjectId(id) });
-    return result ? (result as T) : null;
+    return result && !result.isDeleted ? (convertToModel(result) as T) : null;
   }
 
   async insert(item: T): Promise<string | null> {
-    const result = await this.collection.insertOne(item);
+    const result = await this.collection.insertOne(convertToOID(item));
     return result.insertedId?.toString();
   }
 
   async update(item: T): Promise<boolean> {
-    const result = await this.collection.updateOne({ _id: new ObjectId(item._id) }, { $set: item });
+    const result = await this.collection.updateOne(
+      { _id: new ObjectId(item._id) },
+      { $set: convertToOID(item) },
+    );
     return result.modifiedCount > 0;
   }
 
-  async delete(id: string): Promise<boolean> {
-    const result = await this.collection.deleteOne({ _id: new ObjectId(id) });
-    return result.deletedCount > 0;
-  }
+  // async list(page: number, pageSize: number): Promise<T[]> {
+  //   const result = await this.collection
+  //     .find()
+  //     .skip(page * pageSize)
+  //     .limit(pageSize)
+  //     .toArray();
 
-  async list(page: number, pageSize: number): Promise<T[]> {
-    const result = await this.collection
-      .find()
-      .skip(page * pageSize)
-      .limit(pageSize)
-      .toArray();
-
-    return result as T[];
-  }
+  //   return result as T[];
+  // }
 }
 
 async function createRepository<T extends BaseModel>(collectionName: string) {

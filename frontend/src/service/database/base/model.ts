@@ -1,5 +1,6 @@
-import type { Document, WithId } from 'mongodb';
-
-interface BaseModel extends WithId<Document> {}
+interface BaseModel {
+  _id: string;
+  isDeleted: boolean;
+}
 
 export default BaseModel;

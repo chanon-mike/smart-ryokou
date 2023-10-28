@@ -1,10 +1,12 @@
+'use client';
+
 import type DataAccessor from '@/service/database/base/interface';
 import type Session from '@/service/database/session/model';
 
 class SessionClient implements DataAccessor<Session> {
   async find(id: string): Promise<Session | null> {
     try {
-      const response = await fetch(`/api/session/${id}`);
+      const response = await fetch(`/api/service/database/session?id=${id}`);
       if (response.ok) {
         const data = await response.json();
         return data.session;
@@ -19,7 +21,7 @@ class SessionClient implements DataAccessor<Session> {
 
   async insert(item: Session): Promise<string | null> {
     try {
-      const response = await fetch(`/api/session`, {
+      const response = await fetch(`/api/service/database/session`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -41,7 +43,7 @@ class SessionClient implements DataAccessor<Session> {
 
   async update(item: Session): Promise<boolean> {
     try {
-      const response = await fetch(`/api/session`, {
+      const response = await fetch(`/api/service/database/session`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -52,19 +54,6 @@ class SessionClient implements DataAccessor<Session> {
       return response.ok;
     } catch (error) {
       console.error('Error updating session:', error);
-      return false;
-    }
-  }
-
-  async delete(id: string): Promise<boolean> {
-    try {
-      const response = await fetch(`/api/session/${id}`, {
-        method: 'DELETE',
-      });
-
-      return response.ok;
-    } catch (error) {
-      console.error('Error deleting session:', error);
       return false;
     }
   }
