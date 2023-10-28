@@ -15,8 +15,10 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       <UserProvider>
         <body>
           <ThemeRegistry options={{ key: 'mui' }}>
-            <Navbar />
-            {children}
+            <div>
+              <Navbar />
+              {children}
+            </div>
           </ThemeRegistry>
         </body>
       </UserProvider>
