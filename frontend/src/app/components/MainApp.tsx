@@ -17,6 +17,7 @@ const MainApp = () => {
 
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
   const [step, setStep] = useState<number>(TRANSITION_STATE.PROMPTING);
+  const [tripTitle, setTripTitle] = useState<string>('');
 
   return (
     <Container>
@@ -34,15 +35,19 @@ const MainApp = () => {
               {t('title')}
             </Typography>
             <Prompt
-              transitionToResultCallback={(newRecommendations: Recommendation[]) => {
+              transitionToResultCallback={(
+                newRecommendations: Recommendation[],
+                tripTitle: string,
+              ) => {
                 setRecommendations(newRecommendations);
+                setTripTitle(tripTitle);
                 setStep(TRANSITION_STATE.RESULT);
               }}
             />
           </>
         )}
         {step === TRANSITION_STATE.RESULT && (
-          <ResultScreen height="100vh" recommendations={recommendations} />
+          <ResultScreen height="100vh" recommendations={recommendations} tripTitle={tripTitle} />
         )}
       </Box>
     </Container>

@@ -33,12 +33,15 @@ const getResult: GetResultInterface = async (context: ApiContext, request: GetRe
     throw error;
   }
 
+  console.log(`serverResponse in implement.ts`, serverResponse);
+
   return adapter(serverResponse);
 };
 
 // TODO: Refactor
 const adapter = async (serverResponse: GetResultServerResponse) => {
   return {
+    title: serverResponse.title,
     recommendations: await Promise.all(
       serverResponse.recommendation.map(
         async (r: {

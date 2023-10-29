@@ -18,10 +18,12 @@ export interface GetResultRequest {
 }
 
 export interface GetResultResponse {
+  title: string;
   recommendations: Recommendation[];
 }
 
 export interface GetResultServerResponse {
+  title: string;
   recommendation: {
     date: string;
     activities: {

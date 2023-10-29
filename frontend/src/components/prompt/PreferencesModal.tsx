@@ -26,7 +26,7 @@ type Props = {
   placeInput: string;
   openModal: boolean;
   handleCloseModal: () => void;
-  transitionToResultCallback: (newRecommendations: Recommendation[]) => void;
+  transitionToResultCallback: (newRecommendations: Recommendation[], tripTitle: string) => void;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
 };
 
@@ -91,7 +91,7 @@ const PreferencesModal = ({
     } finally {
       setIsLoading(false);
     }
-    transitionToResultCallback(serverResponse.recommendations);
+    transitionToResultCallback(serverResponse.recommendations, serverResponse.title);
   };
 
   return (

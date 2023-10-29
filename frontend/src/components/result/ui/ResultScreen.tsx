@@ -4,26 +4,24 @@ import React, { useState } from 'react';
 import LocationListings from './LocationListings';
 import Map from '@/components/map/Map';
 import { Box, CircularProgress, Typography } from '@mui/material';
-import createTranslation from 'next-translate/useTranslation';
 import type { Recommendation } from '@/types/recommendation';
 
 interface ResultScreenProps {
+  tripTitle: string;
   recommendations: Recommendation[];
 }
 
-const ResultScreen: React.FC<ResultScreenProps> = ({ recommendations }) => {
+const ResultScreen: React.FC<ResultScreenProps> = ({ tripTitle, recommendations }) => {
   const [activeStep, setActiveStep] = useState<number>(0);
   const [activeDate, setActiveDate] = useState<string>('');
   const [mapCenter, setMapCenter] = useState<{ lat: number; lng: number }>({ lat: 0, lng: 0 });
-
-  const { t } = createTranslation('result');
 
   return recommendations?.length === 0 ? (
     <CircularProgress />
   ) : (
     <Box sx={{ marginTop: 10 }}>
       <Typography variant="h3" component="h3">
-        {t('title', { name: 'Tokyo' })}
+        {tripTitle}
       </Typography>
       <div style={{ height: '80vh', width: '80vw' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '4fr 8fr' }}>

@@ -7,7 +7,7 @@ import type { Recommendation } from '@/types/recommendation';
 import { Box, LinearProgress } from '@mui/material';
 
 interface PromptProps {
-  transitionToResultCallback: (newRecommendations: Recommendation[]) => void;
+  transitionToResultCallback: (newRecommendations: Recommendation[], tripTitle: string) => void;
 }
 
 const Prompt: React.FC<PromptProps> = ({ transitionToResultCallback }) => {
