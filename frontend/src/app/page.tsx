@@ -1,7 +1,7 @@
-import MainApp from './components/MainApp';
+import RecommendationApp from '@/components/recommendation/RecommendationApp';
 
 const Home = () => {
-  return <MainApp />;
+  return <RecommendationApp />;
 };
 
 export default Home;

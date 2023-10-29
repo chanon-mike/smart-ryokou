@@ -2,6 +2,7 @@
 /** @type {import('next').NextConfig} */
 const nextTranslate = require('next-translate-plugin');
 const nextConfig = {
+  // Drag and Drop will not work if reactStrictMode is true
   reactStrictMode: true,
   trailingSlash: true,
   eslint: { ignoreDuringBuilds: true },

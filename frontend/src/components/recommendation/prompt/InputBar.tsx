@@ -10,7 +10,6 @@ type Props = {
   setPlaceInput: Dispatch<SetStateAction<string>>;
   handleOpenModal: () => void;
 };
-// ... (other imports)
 
 const InputBar = ({ placeInput, setPlaceInput, handleOpenModal }: Props) => {
   const { t } = useTranslation('home');
@@ -22,12 +21,6 @@ const InputBar = ({ placeInput, setPlaceInput, handleOpenModal }: Props) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     handleOpenModal();
-  };
-
-  const handleSearchIconClick = () => {
-    if (placeInput.trim() !== '') {
-      handleOpenModal();
-    }
   };
 
   return (
@@ -48,11 +41,8 @@ const InputBar = ({ placeInput, setPlaceInput, handleOpenModal }: Props) => {
         onChange={handleChange}
         InputProps={{
           endAdornment: (
-            <InputAdornment
-              position="end"
-              style={{ cursor: placeInput.trim() !== '' ? 'pointer' : 'default' }}
-            >
-              <SearchIcon onClick={handleSearchIconClick} />
+            <InputAdornment position="end">
+              <SearchIcon />
             </InputAdornment>
           ),
         }}
