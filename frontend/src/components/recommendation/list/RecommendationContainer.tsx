@@ -7,29 +7,12 @@ import type { UniqueIdentifier } from '@dnd-kit/core';
 import { DndContext, closestCorners, DragOverlay } from '@dnd-kit/core';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import SortableLocationCard from './SortableLocationCard';
-import type { Dispatch, SetStateAction, FC } from 'react';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useDnd } from './useDnd';
+import { RecommendationContext } from '@/components/recommendation/RecommendationContext';
 
-interface RecommendationContainerProps {
-  recommendations: Recommendation[];
-  setRecommendations: Dispatch<SetStateAction<Recommendation[]>>;
-  activeStep: number;
-  setActiveStep: Dispatch<SetStateAction<number>>;
-  activeDate: string;
-  setActiveDate: Dispatch<SetStateAction<string>>;
-  setMapCenter: Dispatch<SetStateAction<{ lat: number; lng: number }>>;
-}
-
-const RecommendationContainer: FC<RecommendationContainerProps> = ({
-  recommendations,
-  setRecommendations,
-  activeStep,
-  setActiveStep,
-  activeDate,
-  setActiveDate,
-  setMapCenter,
-}) => {
+const RecommendationContainer = () => {
+  const { recommendations, setRecommendations } = useContext(RecommendationContext);
   const [activeContainerIndex, setActiveContainerIndex] = useState<number | null>(null);
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
 
@@ -53,16 +36,7 @@ const RecommendationContainer: FC<RecommendationContainerProps> = ({
     >
       <Box style={{ maxWidth: '400px', height: '70vh', overflowY: 'auto' }}>
         {recommendations.map((r: Recommendation) => (
-          <DroppableDateList
-            key={r.date}
-            recommendation={r}
-            setRecommendations={setRecommendations}
-            activeStep={activeStep}
-            setActiveStep={setActiveStep}
-            activeDate={activeDate}
-            setActiveDate={setActiveDate}
-            setMapCenter={setMapCenter}
-          />
+          <DroppableDateList key={r.date} recommendation={r} />
         ))}
         <DragOverlay>
           {activeId !== null && activeContainerIndex !== null ? (

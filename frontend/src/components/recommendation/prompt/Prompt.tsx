@@ -1,13 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import InputBar from '@/components/prompt/InputBar';
-import PreferencesModal from '@/components/prompt/PreferencesModal';
-import type { Recommendation } from '@/types/recommendation';
+import InputBar from '@/components/recommendation/prompt/InputBar';
+import PreferencesModal from '@/components/recommendation/prompt/PreferencesModal';
 import { Box, LinearProgress } from '@mui/material';
 
 interface PromptProps {
-  transitionToResultCallback: (newRecommendations: Recommendation[]) => void;
+  transitionToResultCallback: () => void;
 }
 
 const Prompt: React.FC<PromptProps> = ({ transitionToResultCallback }) => {

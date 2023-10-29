@@ -9,27 +9,20 @@ import type { Recommendation } from '@/types/recommendation';
 import { StepIcon } from '@mui/material';
 import SortableLocationCard from './SortableLocationCard';
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
-import type { Dispatch, SetStateAction, FC } from 'react';
+import type { FC } from 'react';
+import { useContext } from 'react';
+import { ActiveLocationContext } from '../ActiveLocationContext';
 
 interface DroppableDateListProps {
   recommendation: Recommendation;
-  setRecommendations: Dispatch<SetStateAction<Recommendation[]>>;
-  activeStep: number;
-  setActiveStep: Dispatch<SetStateAction<number>>;
-  activeDate: string;
-  setActiveDate: Dispatch<SetStateAction<string>>;
-  setMapCenter: Dispatch<SetStateAction<{ lat: number; lng: number }>>;
 }
 
-const DroppableDateList: FC<DroppableDateListProps> = ({
-  recommendation,
-  // setRecommendations,
-  activeStep,
-  setActiveStep,
-  // activeDate,
-  setActiveDate,
-  setMapCenter,
-}) => {
+const DroppableDateList: FC<DroppableDateListProps> = ({ recommendation }) => {
+  const activeLocationContext = useContext(ActiveLocationContext);
+  const [activeStep, setActiveStep] = activeLocationContext.activeStep;
+  const [, setActiveDate] = activeLocationContext.activeDate;
+  const [, setMapCenter] = activeLocationContext.mapCenter;
+
   const handleSelect = (index: number) => {
     setActiveStep(index);
     setActiveDate(recommendation.date);

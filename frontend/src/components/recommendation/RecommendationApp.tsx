@@ -1,11 +1,11 @@
 'use client';
 
-import Prompt from '@/components/prompt/Prompt';
+import Prompt from '@/components/recommendation/prompt/Prompt';
 import { Box, Container, Typography } from '@mui/material';
 import createTranslation from 'next-translate/useTranslation';
 import RecommendationResult from '@/components/recommendation/RecommendationResult';
 import { useState } from 'react';
-import type { Recommendation } from '@/types/recommendation';
+import { RecommendationProvider } from './RecommendationContext';
 
 const TRANSITION_STATE = {
   PROMPTING: 0,
@@ -15,7 +15,6 @@ const TRANSITION_STATE = {
 const RecommendationApp = () => {
   const { t } = createTranslation('common');
 
-  const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
   const [step, setStep] = useState<number>(TRANSITION_STATE.PROMPTING);
 
   // For mocking purposes
@@ -50,30 +49,23 @@ const RecommendationApp = () => {
         height="100dvh"
         maxWidth="100%"
       >
-        {step === TRANSITION_STATE.PROMPTING && (
-          <>
-            <Typography variant="h1" component="h1">
-              {t('title')}
-            </Typography>
-            <Prompt
-              transitionToResultCallback={(newRecommendations: Recommendation[]) => {
-                setRecommendations(newRecommendations);
-                setStep(TRANSITION_STATE.RESULT);
-              }}
-            />
-          </>
-        )}
-        {step === TRANSITION_STATE.RESULT && (
-          <RecommendationResult
-            recommendations={recommendations}
-            setRecommendations={setRecommendations}
-          />
-        )}
-        {/* For mocking */}
-        {/* <RecommendationResult
-          recommendations={recommendations}
-          setRecommendations={setRecommendations}
-        /> */}
+        <RecommendationProvider>
+          {step === TRANSITION_STATE.PROMPTING && (
+            <>
+              <Typography variant="h1" component="h1">
+                {t('title')}
+              </Typography>
+              <Prompt
+                transitionToResultCallback={() => {
+                  setStep(TRANSITION_STATE.RESULT);
+                }}
+              />
+            </>
+          )}
+          {step === TRANSITION_STATE.RESULT && <RecommendationResult />}
+          {/* For mocking */}
+          {/* <RecommendationResult/> */}
+        </RecommendationProvider>
       </Box>
     </Container>
   );
