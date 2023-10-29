@@ -28,11 +28,9 @@ const getResult: GetResultInterface = async (context: ApiContext, request: GetRe
 
   // TODO: hash instead stringify
   const cacheKey = JSON.stringify(request);
-  const cachedResult = cacheClient.getKey(cacheKey);
+  const cachedResult = await cacheClient.getKey(cacheKey);
 
   if (cachedResult === null) {
-    serverResponse = JSON.parse(cachedResult);
-  } else {
     try {
       serverResponse = (
         await axios.post(`${BACKEND_ENDPOINT}/api/recommendation/structured-format`, request)
@@ -43,6 +41,8 @@ const getResult: GetResultInterface = async (context: ApiContext, request: GetRe
       console.log(error);
       throw error;
     }
+  } else {
+    serverResponse = JSON.parse(cachedResult);
   }
 
   return adapter(serverResponse);
