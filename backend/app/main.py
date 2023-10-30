@@ -1,8 +1,14 @@
+from logging.config import dictConfig
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from mangum import Mangum
 
 from app.api.routes import routers as api_router
+from app.core.config import LogConfig
+
+# Apply logging config to logger
+dictConfig(LogConfig().dict())
 
 app = FastAPI()
 
