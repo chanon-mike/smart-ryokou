@@ -3,16 +3,17 @@
 import RecommendationContainer from './list/RecommendationContainer';
 import Map from '@/components/recommendation/map/Map';
 import { Box, Typography } from '@mui/material';
-import createTranslation from 'next-translate/useTranslation';
 import { ActiveLocationProvider } from './ActiveLocationContext';
+import { useContext } from 'react';
+import { RecommendationContext } from './RecommendationContext';
 
 const RecommendationResult = () => {
-  const { t } = createTranslation('result');
+  const { tripTitle } = useContext(RecommendationContext);
 
   return (
     <Box sx={{ marginTop: 10 }}>
       <Typography variant="h3" component="h3">
-        {t('title', { name: 'Tokyo' })}
+        {tripTitle}
       </Typography>
       <ActiveLocationProvider>
         <div style={{ height: '80vh', width: '80vw' }}>

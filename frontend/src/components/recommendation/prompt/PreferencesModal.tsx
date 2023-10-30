@@ -53,7 +53,7 @@ const PreferencesModal = ({
     selectedInterests,
     handleSelectInterest,
   } = usePreferences();
-  const { setRecommendations } = useContext(RecommendationContext);
+  const { setRecommendations, setTripTitle } = useContext(RecommendationContext);
 
   const homeT = createTranslation('home');
   const commonT = createTranslation('common');
@@ -111,8 +111,8 @@ const PreferencesModal = ({
     } finally {
       setIsLoading(false);
     }
-
     setRecommendations(serverResponse.recommendations);
+    setTripTitle(serverResponse.title);
     transitionToResultCallback();
   };
 

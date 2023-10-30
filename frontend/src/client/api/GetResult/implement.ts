@@ -51,6 +51,7 @@ const getResult: GetResultInterface = async (context: ApiContext, request: GetRe
 // TODO: Refactor
 const adapter = async (serverResponse: GetResultServerResponse) => {
   return {
+    title: serverResponse.title,
     recommendations: await Promise.all(
       serverResponse.recommendation.map(
         async (r: {
