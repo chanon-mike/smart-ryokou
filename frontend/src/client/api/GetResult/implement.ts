@@ -10,6 +10,7 @@ import axios from 'axios';
 import type { Recommendation, Location } from '@/types/recommendation';
 import getLocationData from '@/client/helper/getLocationData';
 import MapConfigs from '@/libs/MapConfigs';
+import cacheClient from '@/client/service/cache/implement';
 
 // eslint-disable-next-line complexity
 const getResult: GetResultInterface = async (context: ApiContext, request: GetResultRequest) => {
@@ -24,13 +25,24 @@ const getResult: GetResultInterface = async (context: ApiContext, request: GetRe
   const BACKEND_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT ?? 'http://localhost:8000';
 
   let serverResponse: GetResultServerResponse;
-  try {
-    serverResponse = (
-      await axios.post(`${BACKEND_ENDPOINT}/api/recommendation/structured-format`, request)
-    ).data;
-  } catch (error) {
-    console.log(error);
-    throw error;
+
+  // TODO: hash instead stringify
+  const cacheKey = JSON.stringify(request);
+  const cachedResult = await cacheClient.getKey(cacheKey);
+
+  if (cachedResult === null) {
+    try {
+      serverResponse = (
+        await axios.post(`${BACKEND_ENDPOINT}/api/recommendation/structured-format`, request)
+      ).data;
+
+      cacheClient.setKey(cacheKey, JSON.stringify(serverResponse));
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  } else {
+    serverResponse = JSON.parse(cachedResult);
   }
 
   return adapter(serverResponse);
