@@ -13,7 +13,7 @@ interface MapProps {
 
 const MapContainer: FC<MapProps> = ({ zoom }) => {
   const activeLocationContext = useContext(ActiveLocationContext);
-  const [mapCenter] = activeLocationContext.mapCenter;
+  const { mapCenter } = activeLocationContext;
 
   return (
     <LoadScript googleMapsApiKey={API_KEY}>
