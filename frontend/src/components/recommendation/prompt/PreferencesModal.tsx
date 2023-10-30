@@ -111,7 +111,6 @@ const PreferencesModal = ({
     } finally {
       setIsLoading(false);
     }
-    console.log(`serverResponse`, serverResponse);
     setRecommendations(serverResponse.recommendations);
     setTripTitle(serverResponse.title);
     transitionToResultCallback();
