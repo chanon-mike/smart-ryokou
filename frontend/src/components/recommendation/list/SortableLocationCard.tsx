@@ -1,8 +1,17 @@
 import type { Location } from '@/types/recommendation';
 import { Edit, Delete, Description } from '@mui/icons-material';
-import { Card, Grid, CardMedia, CardContent, Typography, IconButton } from '@mui/material';
+import { Card, Grid, CardMedia, CardContent, Typography, IconButton, styled } from '@mui/material';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+
+const HoverableCard = styled(Card)(({ theme }) => ({
+  padding: '10px 20px',
+  transition: 'transform 0.3s',
+  '&:hover': {
+    transform: 'translateY(-5px)',
+    boxShadow: theme.shadows[2],
+  },
+}));
 
 type SortableLocationCardProps = {
   step: Location;
@@ -24,11 +33,10 @@ const SortableLocationCard = ({ step, disabled = false }: SortableLocationCardPr
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
       <div id={step.name}>
-        <Card
+        <HoverableCard
+          variant="outlined"
           style={{
             padding: '10px 20px',
-            borderRadius: '16px',
-            border: '2px solid',
             cursor: `${disabled ? 'default' : 'grab'}`,
           }}
         >
@@ -72,7 +80,7 @@ const SortableLocationCard = ({ step, disabled = false }: SortableLocationCardPr
               </IconButton>
             </Grid>
           </Grid>
-        </Card>
+        </HoverableCard>
       </div>
     </div>
   );
