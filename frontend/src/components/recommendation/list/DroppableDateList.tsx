@@ -19,9 +19,11 @@ interface DroppableDateListProps {
 
 const DroppableDateList: FC<DroppableDateListProps> = ({ recommendation }) => {
   const activeLocationContext = useContext(ActiveLocationContext);
-  const { activeStep, setActiveStep, setActiveDate, setMapCenter } = activeLocationContext;
+  const { activeStep, setActiveLocation, setActiveStep, setActiveDate, setMapCenter } =
+    activeLocationContext;
 
   const handleSelect = (index: number) => {
+    setActiveLocation(recommendation.locations[index]);
     setActiveStep(index);
     setActiveDate(recommendation.date);
     setMapCenter({
