@@ -126,5 +126,4 @@ class DayRecommendation(BaseModel):
 
 
 class RecommendationResponse(BaseModel):
-    title: str
     recommendation: list[DayRecommendation]
