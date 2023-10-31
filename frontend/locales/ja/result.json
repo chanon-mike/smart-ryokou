@@ -1,3 +1,7 @@
 {
-  "title": "{{name}}の旅行プラン"
+  "title": "{{name}}の旅行プラン",
+  "input": {
+    "title": "新しい観光地を追加",
+    "placeholder": "Try AI: 博物館を探して"
+  }
 }
