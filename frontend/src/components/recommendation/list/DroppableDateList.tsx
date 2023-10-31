@@ -12,6 +12,7 @@ import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
 import type { FC } from 'react';
 import { useContext } from 'react';
 import { ActiveLocationContext } from '../ActiveLocationContext';
+import NewLocationButton from './NewLocationButton';
 
 interface DroppableDateListProps {
   recommendation: Recommendation;
@@ -63,6 +64,8 @@ const DroppableDateList: FC<DroppableDateListProps> = ({ recommendation }) => {
                 <SortableLocationCard step={step} />
               )}
             </StepContent>
+            {/* If last index, add new location button */}
+            {index === recommendation.locations.length - 1 && <NewLocationButton />}
           </Step>
         ))}
       </Stepper>
