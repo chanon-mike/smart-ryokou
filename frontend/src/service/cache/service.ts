@@ -1,7 +1,8 @@
 import { Redis } from 'ioredis';
 import type CacheServiceInterface from './interface';
+import { REDIS_CONNECTION_URL } from '@/libs/envValues';
 
-const redisClient: Redis = new Redis(process.env.REDIS_CONNECTION_URL ?? 'localhost:6379'); // default local
+const redisClient: Redis = new Redis(REDIS_CONNECTION_URL);
 
 class CacheService implements CacheServiceInterface {
   private client: Redis;

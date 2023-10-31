@@ -4,9 +4,7 @@ import { Box, CardMedia, Paper, Typography } from '@mui/material';
 import { LoadScript, GoogleMap, Marker } from '@react-google-maps/api';
 import { useContext } from 'react';
 import { ActiveLocationContext } from '../ActiveLocationContext';
-import MapConfigs from '@/libs/MapConfigs';
-
-const { API_KEY } = MapConfigs();
+import { GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
 
 const Map = () => {
   const activeLocationContext = useContext(ActiveLocationContext);
@@ -14,7 +12,7 @@ const Map = () => {
 
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative' }}>
-      <LoadScript googleMapsApiKey={API_KEY}>
+      <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY}>
         <GoogleMap
           mapContainerStyle={{ width: '100%', height: '100%' }}
           center={mapCenter}
