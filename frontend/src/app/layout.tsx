@@ -3,6 +3,7 @@ import { UserProvider } from '@auth0/nextjs-auth0/client';
 import type { Metadata } from 'next';
 import Navbar from '@/components/common/Navbar';
 import ThemeRegistry from '@/components/theme/ThemeRegistry';
+import GoogleAnalytics from '@/components/common/GoogleAnalytics';
 
 export const metadata: Metadata = {
   title: 'Smart旅行',
@@ -12,6 +13,9 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
+      <head>
+        <GoogleAnalytics />
+      </head>
       <UserProvider>
         <body>
           <ThemeRegistry options={{ key: 'mui' }}>
