@@ -20,11 +20,11 @@ interface DroppableDateListProps {
 
 const DroppableDateList: FC<DroppableDateListProps> = ({ recommendation }) => {
   const activeLocationContext = useContext(ActiveLocationContext);
-  const [activeStep, setActiveStep] = activeLocationContext.activeStep;
-  const [, setActiveDate] = activeLocationContext.activeDate;
-  const [, setMapCenter] = activeLocationContext.mapCenter;
+  const { activeStep, setActiveLocation, setActiveStep, setActiveDate, setMapCenter } =
+    activeLocationContext;
 
   const handleSelect = (index: number) => {
+    setActiveLocation(recommendation.locations[index]);
     setActiveStep(index);
     setActiveDate(recommendation.date);
     setMapCenter({
@@ -38,34 +38,32 @@ const DroppableDateList: FC<DroppableDateListProps> = ({ recommendation }) => {
       items={recommendation.locations.map((loc) => loc.name)}
       strategy={rectSortingStrategy}
     >
-      <Typography variant="h6" component="div" style={{ paddingTop: '20px' }}>
+      <Typography variant="h5" style={{ paddingTop: '20px' }}>
         {recommendation.date}
       </Typography>
       <Stepper activeStep={activeStep} orientation="vertical" style={{ minHeight: '100px' }}>
         {recommendation.locations.map((step, index) => (
           <Step key={step.name} active={true}>
-            <div onClick={() => handleSelect(index)}>
-              {/* Use StepIconComponent to make checkmark dissappear */}
-              <StepLabel
-                StepIconComponent={(props) => (
-                  <StepIcon
-                    {...props}
-                    icon={props.icon}
-                    active={props.active || props.completed}
-                    completed={false}
-                  />
-                )}
-              >
-                {step.name}
-              </StepLabel>
-              <StepContent>
-                {recommendation.locations.length === 1 ? (
-                  <SortableLocationCard step={step} disabled={true} />
-                ) : (
-                  <SortableLocationCard step={step} />
-                )}
-              </StepContent>
-            </div>
+            {/* Use StepIconComponent to make checkmark dissappear */}
+            <StepLabel
+              StepIconComponent={(props) => (
+                <StepIcon
+                  {...props}
+                  icon={props.icon}
+                  active={props.active || props.completed}
+                  completed={false}
+                />
+              )}
+            >
+              <Typography variant="body1">{step.name}</Typography>
+            </StepLabel>
+            <StepContent onMouseDown={() => handleSelect(index)}>
+              {recommendation.locations.length === 1 ? (
+                <SortableLocationCard step={step} disabled={true} />
+              ) : (
+                <SortableLocationCard step={step} />
+              )}
+            </StepContent>
             {/* If last index, add new location button */}
             {index === recommendation.locations.length - 1 && <NewLocationButton />}
           </Step>

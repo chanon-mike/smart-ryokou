@@ -34,7 +34,7 @@ const RecommendationContainer = () => {
       collisionDetection={closestCorners}
       modifiers={[restrictToVerticalAxis]}
     >
-      <Box style={{ maxWidth: '400px', height: '70vh', overflowY: 'auto' }}>
+      <Box style={{ maxWidth: '400px', height: '70vh', overflowY: 'auto', paddingRight: '20px' }}>
         {recommendations.map((r: Recommendation) => (
           <DroppableDateList key={r.date} recommendation={r} />
         ))}
