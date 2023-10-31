@@ -8,25 +8,25 @@ import {
   DialogActions,
   Button,
 } from '@mui/material';
-import { usePreferences } from '@/hooks/usePreferences';
-import TripTypeForm from '@/components/prompt/form/TripTypeForm';
-import DateRangeForm from '@/components/prompt/form/DateRangeForm';
-import PeopleNumberForm from '@/components/prompt/form/PeopleNumberForm';
-import PaceForm from '@/components/prompt/form/PaceForm';
-import BudgetForm from '@/components/prompt/form/BudgetForm';
-import InterestsForm from '@/components/prompt/form/InterestsForm';
+import { usePreferences } from '@/components/recommendation/prompt/usePreferences';
+import TripTypeForm from '@/components/recommendation/prompt/form/TripTypeForm';
+import DateRangeForm from '@/components/recommendation/prompt/form/DateRangeForm';
+import PeopleNumberForm from '@/components/recommendation/prompt/form/PeopleNumberForm';
+import PaceForm from '@/components/recommendation/prompt/form/PaceForm';
+import BudgetForm from '@/components/recommendation/prompt/form/BudgetForm';
+import InterestsForm from '@/components/recommendation/prompt/form/InterestsForm';
 import createTranslation from 'next-translate/useTranslation';
-import type { Recommendation } from '@/types/recommendation';
 import Client from '@/client/Client';
 import type { ApiContext } from '@/client/ApiContext';
 import type { GetResultRequest, GetResultResponse } from '@/client/api/GetResult/interface';
-import type { Dispatch, SetStateAction } from 'react';
+import { useContext, type Dispatch, type SetStateAction } from 'react';
+import { RecommendationContext } from '../RecommendationContext';
 
-type Props = {
+type PreferencesModalProps = {
   placeInput: string;
   openModal: boolean;
   handleCloseModal: () => void;
-  transitionToResultCallback: (newRecommendations: Recommendation[]) => void;
+  transitionToResultCallback: () => void;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
 };
 
@@ -36,7 +36,7 @@ const PreferencesModal = ({
   handleCloseModal,
   transitionToResultCallback,
   setIsLoading,
-}: Props) => {
+}: PreferencesModalProps) => {
   const {
     fromDate,
     handleFromDateChange,
@@ -53,35 +53,55 @@ const PreferencesModal = ({
     selectedInterests,
     handleSelectInterest,
   } = usePreferences();
+  const { setRecommendations, setTripTitle } = useContext(RecommendationContext);
 
   const homeT = createTranslation('home');
   const commonT = createTranslation('common');
-
   const ht = homeT.t;
   const ct = commonT.t;
 
-  // eslint-disable-next-line complexity
+  const formatDate = (date: moment.Moment | null) => {
+    if (!date) {
+      return '';
+    }
+    // Moment's month starts from 0
+    const month = date.month() + 1;
+    const day = date.date();
+
+    return `${month}月${day}日`;
+  };
+
+  const buildRequestParams = (): GetResultRequest => {
+    return {
+      place: placeInput,
+      date_from: formatDate(fromDate),
+      date_to: formatDate(toDate),
+      people_num: peopleNumber,
+      budget: selectedBudget.length ? selectedBudget : null,
+      trip_pace: selectedPace.length ? selectedPace : null,
+      interests: selectedInterests.length ? selectedInterests : null,
+      trip_type: selectedTripType.length ? selectedTripType : null,
+    };
+  };
+
+  const fetchRecommendationData = async (
+    apiContext: ApiContext,
+    requestParams: GetResultRequest,
+  ) => {
+    return await Client.getResult(apiContext, requestParams);
+  };
+
+  // Handle fetching recommendation data from server when user submit button
   const handleSubmit = async () => {
     setIsLoading(true);
     handleCloseModal();
+
     let serverResponse: GetResultResponse;
-    const fromDateMonth = fromDate?.month(); // NOTE: Moment's month starts from 0
-    const fromDateDay = fromDate?.date();
-    const toDateMonth = toDate?.month(); // NOTE: Moment's month starts from 0
-    const toDateDay = toDate?.date();
     try {
-      serverResponse = await Client.getResult(
-        { useMock: false, requireAuth: false } as ApiContext,
-        {
-          place: placeInput,
-          date_from: fromDateMonth ? `${fromDateMonth + 1}月${fromDateDay}日` : '',
-          date_to: toDateMonth ? `${toDateMonth + 1}月${toDateDay}日` : '',
-          people_num: peopleNumber,
-          budget: selectedBudget.length ? selectedBudget : null,
-          trip_pace: selectedPace.length ? selectedPace : null,
-          interests: selectedInterests.length ? selectedInterests : null,
-          trip_type: selectedTripType.length ? selectedTripType : null,
-        } as GetResultRequest,
+      const requestParams = buildRequestParams();
+      serverResponse = await fetchRecommendationData(
+        { useMock: false, requireAuth: false },
+        requestParams,
       );
     } catch (error) {
       if (error instanceof Error) {
@@ -91,7 +111,9 @@ const PreferencesModal = ({
     } finally {
       setIsLoading(false);
     }
-    transitionToResultCallback(serverResponse.recommendations);
+    setRecommendations(serverResponse.recommendations);
+    setTripTitle(serverResponse.title);
+    transitionToResultCallback();
   };
 
   return (

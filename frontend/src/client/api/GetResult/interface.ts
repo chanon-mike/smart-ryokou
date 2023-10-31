@@ -11,17 +11,19 @@ export interface GetResultRequest {
   date_from: string;
   date_to: string;
   people_num: number;
-  budget: string;
-  trip_pace: string;
-  interests: string[];
-  trip_type: string;
+  trip_type: string | null;
+  trip_pace: string | null;
+  budget: string | null;
+  interests: string[] | null;
 }
 
 export interface GetResultResponse {
+  title: string;
   recommendations: Recommendation[];
 }
 
 export interface GetResultServerResponse {
+  title: string;
   recommendation: {
     date: string;
     activities: {

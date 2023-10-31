@@ -8,6 +8,9 @@ import type {
 } from './interface';
 import axios from 'axios';
 import type { Recommendation, Location } from '@/types/recommendation';
+import getLocationData from '@/client/helper/getLocationData';
+import cacheClient from '@/client/service/cache/implement';
+import { API_ENDPOINT, GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
 
 // eslint-disable-next-line complexity
 const getResult: GetResultInterface = async (context: ApiContext, request: GetResultRequest) => {
@@ -19,45 +22,61 @@ const getResult: GetResultInterface = async (context: ApiContext, request: GetRe
     return getResultMock(request);
   }
 
-  const BACKEND_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT ?? 'http://localhost:8000';
-
   let serverResponse: GetResultServerResponse;
-  try {
-    serverResponse = (
-      await axios.post(`${BACKEND_ENDPOINT}/api/recommendation/structured-format`, request)
-    ).data;
-  } catch (error) {
-    console.log(error);
-    throw error;
+
+  // TODO: hash instead stringify
+  const cacheKey = JSON.stringify(request);
+  const cachedResult = await cacheClient.getKey(cacheKey);
+
+  if (cachedResult === null) {
+    try {
+      serverResponse = (
+        await axios.post(`${API_ENDPOINT}/api/recommendation/structured-format`, request)
+      ).data;
+
+      cacheClient.setKey(cacheKey, JSON.stringify(serverResponse));
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  } else {
+    serverResponse = JSON.parse(cachedResult);
   }
 
   return adapter(serverResponse);
 };
 
-const adapter = (serverResponse: GetResultServerResponse) => {
+// TODO: Refactor
+const adapter = async (serverResponse: GetResultServerResponse) => {
   return {
-    recommendations: serverResponse.recommendation.map(
-      (r: {
-        date: string;
-        activities: {
-          place: string;
-          description: string;
-        }[];
-      }) => {
-        return {
-          date: r.date,
-          locations: r.activities.map((a: { place: string; description: string }) => {
-            return {
-              name: a.place,
-              description: a.description,
-              imageUrl:
-                'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
-              lat: 35.682839,
-              lng: 139.759455,
-            } as Location;
-          }),
-        } as Recommendation;
-      },
+    title: serverResponse.title,
+    recommendations: await Promise.all(
+      serverResponse.recommendation.map(
+        async (r: {
+          date: string;
+          activities: {
+            place: string;
+            description: string;
+          }[];
+        }) => {
+          return {
+            date: r.date,
+            locations: await Promise.all(
+              r.activities.map(async (a: { place: string; description: string }) => {
+                const data = await getLocationData(a.place, GOOGLE_MAPS_API_KEY);
+                return {
+                  name: a.place,
+                  description: a.description,
+                  imageUrl:
+                    'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
+                  lat: data?.lat,
+                  lng: data?.lng,
+                } as Location;
+              }),
+            ),
+          } as Recommendation;
+        },
+      ),
     ),
   } as GetResultResponse;
 };
