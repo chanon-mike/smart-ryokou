@@ -19,8 +19,10 @@ import createTranslation from 'next-translate/useTranslation';
 import Client from '@/client/Client';
 import type { ApiContext } from '@/client/ApiContext';
 import type { GetResultRequest, GetResultResponse } from '@/client/api/GetResult/interface';
-import { useContext, type Dispatch, type SetStateAction } from 'react';
-import { RecommendationContext } from '../RecommendationContext';
+import { type Dispatch, type SetStateAction } from 'react';
+import SessionClient from '@/client/service/session/implement';
+import { useRouter } from 'next/navigation';
+import { generateObjectId } from '@/components/common/helper';
 
 type PreferencesModalProps = {
   placeInput: string;
@@ -53,7 +55,8 @@ const PreferencesModal = ({
     selectedInterests,
     handleSelectInterest,
   } = usePreferences();
-  const { setRecommendations, setTripTitle } = useContext(RecommendationContext);
+
+  const router = useRouter();
 
   const homeT = createTranslation('home');
   const commonT = createTranslation('common');
@@ -93,6 +96,12 @@ const PreferencesModal = ({
 
   // Handle fetching recommendation data from server when user submit button
   const handleSubmit = async () => {
+    // try {
+    //   router.push('/test');
+    // } catch (e) {
+    //   console.error(e);
+    // }
+    // return;
     setIsLoading(true);
     handleCloseModal();
 
@@ -111,8 +120,24 @@ const PreferencesModal = ({
     } finally {
       setIsLoading(false);
     }
-    setRecommendations(serverResponse.recommendations);
-    setTripTitle(serverResponse.title);
+
+    const sessionClient = new SessionClient();
+
+    await sessionClient.insert({
+      _id: generateObjectId(),
+      isDeleted: false,
+      userId: 'test',
+      tripTitle: serverResponse.title,
+      recommendations: serverResponse.recommendations,
+    });
+
+    try {
+      router.push('/test');
+    } catch (e) {
+      console.error(e);
+    }
+    return;
+
     transitionToResultCallback();
   };
 
