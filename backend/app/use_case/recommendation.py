@@ -1,4 +1,5 @@
 import logging
+from typing import Union
 
 import json5
 import openai
@@ -99,7 +100,7 @@ openai_functions = [
 
 def extract_json(
     openai_response: str,
-) -> RecommendationResponse | PromptRecommendationResponse:
+) -> Union[RecommendationResponse, PromptRecommendationResponse]:
     """
     Extract json from openai response
     """
