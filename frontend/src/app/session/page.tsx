@@ -15,8 +15,10 @@ const SessionResult = () => {
 
   useEffect(() => {
     const setup = async () => {
+      setLoading(true);
       const sessionId = searchParams.get('id');
       if (!sessionId) {
+        setLoading(false);
         router.push('/');
         return;
       }
@@ -24,17 +26,17 @@ const SessionResult = () => {
       const sessionClient = new SessionClient();
       const data = await sessionClient.find(sessionId);
       if (!data) {
+        setLoading(false);
         router.push('/');
         return;
       }
 
       setTripTitle(data.tripTitle);
       setRecommendations(data.recommendations);
+      setLoading(false);
     };
 
-    setLoading(true);
     setup();
-    setLoading(false);
   }, [router, searchParams, setRecommendations, setTripTitle]);
 
   return loading ? (
