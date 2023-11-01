@@ -31,10 +31,16 @@ const Map = () => {
 
   useEffect(() => {
     if (allLocations.length > 0) {
-      setMapCenter({
-        lat: allLocations[0].lat,
-        lng: allLocations[0].lng,
-      });
+      // Find every lat and lng and get the average
+      const averageLatLng = allLocations.reduce(
+        (acc, loc) => ({ lat: acc.lat + loc.lat, lng: acc.lng + loc.lng }),
+        { lat: 0, lng: 0 },
+      );
+
+      averageLatLng.lat /= allLocations.length;
+      averageLatLng.lng /= allLocations.length;
+
+      setMapCenter(averageLatLng);
     }
   }, [allLocations, setMapCenter]);
 
