@@ -1,14 +1,42 @@
 'use client';
 
 import { Box, CardMedia, Paper, Typography } from '@mui/material';
-import { LoadScript, GoogleMap, Marker } from '@react-google-maps/api';
-import { useContext } from 'react';
+import { LoadScript, GoogleMap, MarkerF } from '@react-google-maps/api';
+import { useContext, useEffect, useMemo } from 'react';
 import { ActiveLocationContext } from '../ActiveLocationContext';
 import { GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
+import { RecommendationContext } from '../RecommendationContext';
+import type { Location } from '@/types/recommendation';
 
 const Map = () => {
+  const recommendationContext = useContext(RecommendationContext);
   const activeLocationContext = useContext(ActiveLocationContext);
-  const { mapCenter, activeLocation } = activeLocationContext;
+  const { recommendations } = recommendationContext;
+  const { mapCenter, setMapCenter, activeLocation, setActiveLocation } = activeLocationContext;
+
+  const allLocations = useMemo(
+    () =>
+      recommendations.flatMap((rec) =>
+        rec.locations.map((location) => ({
+          ...location,
+        })),
+      ),
+    [recommendations],
+  );
+
+  const handleMarkerClick = (location: Location) => {
+    setActiveLocation(location);
+    setMapCenter({ lat: location.lat, lng: location.lng });
+  };
+
+  useEffect(() => {
+    if (allLocations.length > 0) {
+      setMapCenter({
+        lat: allLocations[0].lat,
+        lng: allLocations[0].lng,
+      });
+    }
+  }, [allLocations, setMapCenter]);
 
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative' }}>
@@ -18,12 +46,13 @@ const Map = () => {
           center={mapCenter}
           zoom={12}
         >
-          <Marker
-            position={mapCenter}
-            onClick={() => {
-              // TODO: Handle marker click here
-            }}
-          />
+          {allLocations.map((location, index) => (
+            <MarkerF
+              key={index}
+              position={{ lat: location.lat, lng: location.lng }}
+              onClick={() => handleMarkerClick(location)}
+            />
+          ))}
         </GoogleMap>
       </LoadScript>
       {activeLocation && (
