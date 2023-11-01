@@ -28,7 +28,6 @@ type PreferencesModalProps = {
   placeInput: string;
   openModal: boolean;
   handleCloseModal: () => void;
-  transitionToResultCallback: () => void;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
 };
 
@@ -36,7 +35,6 @@ const PreferencesModal = ({
   placeInput,
   openModal,
   handleCloseModal,
-  transitionToResultCallback,
   setIsLoading,
 }: PreferencesModalProps) => {
   const {
@@ -95,13 +93,7 @@ const PreferencesModal = ({
   };
 
   // Handle fetching recommendation data from server when user submit button
-  const handleSubmit = async () => {
-    // try {
-    //   router.push('/test');
-    // } catch (e) {
-    //   console.error(e);
-    // }
-    // return;
+  const handleSubmit = async (e: Event) => {
     setIsLoading(true);
     handleCloseModal();
 
@@ -123,7 +115,7 @@ const PreferencesModal = ({
 
     const sessionClient = new SessionClient();
 
-    await sessionClient.insert({
+    const sessionId = await sessionClient.insert({
       _id: generateObjectId(),
       isDeleted: false,
       userId: 'test',
@@ -131,14 +123,10 @@ const PreferencesModal = ({
       recommendations: serverResponse.recommendations,
     });
 
-    try {
-      router.push('/test');
-    } catch (e) {
-      console.error(e);
+    if (sessionId) {
+      e.preventDefault();
+      router.push(`/session?id=${sessionId}`);
     }
-    return;
-
-    transitionToResultCallback();
   };
 
   return (
