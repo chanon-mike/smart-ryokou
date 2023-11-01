@@ -9,8 +9,8 @@ from app.schema.recommendation import (
     INTEREST_JA,
     TRIP_PACE_JA,
     TRIP_TYPE_JA,
-    AdditionalRecommendationResponse,
-    AdditionalRecommendationsQuery,
+    PromptRecommendationResponse,
+    PromptRecommendationsQuery,
     RecommendationResponse,
     StructuredQuery,
 )
@@ -99,7 +99,7 @@ openai_functions = [
 
 def extract_json(
     openai_response: str,
-) -> RecommendationResponse | AdditionalRecommendationResponse:
+) -> RecommendationResponse | PromptRecommendationResponse:
     """
     Extract json from openai response
     """
@@ -194,14 +194,14 @@ def generate_recommendation_structured_format_query(
         raise Exception("User input error")
 
 
-def generate_additional_recommendations(
-    query: AdditionalRecommendationsQuery,
-) -> AdditionalRecommendationResponse:
-    area = query.original_query.place
+def generate_prompt_recommendation(
+    query: PromptRecommendationsQuery,
+) -> PromptRecommendationResponse:
+    trip_title = query.trip_title
     user_prompt = query.user_prompt
     suggested_places = query.suggested_places
     prompt = f"""
-Suggest places in {area} match the following requirement: '{user_prompt}'. Suggested places must not include {",".join(suggested_places)}.
+Suggest places in above area which match the following requirement: '{user_prompt}'. Suggested places must not include {",".join(suggested_places)}.
 """
     try:
         openai_response = openai.ChatCompletion.create(
@@ -210,6 +210,10 @@ Suggest places in {area} match the following requirement: '{user_prompt}'. Sugge
                 {
                     "role": "system",
                     "content": "You are a travel planner. You suggest plan in Japanese.",
+                },
+                {
+                    "role": "user",
+                    "content": f"Return the name of place in this trip title: {trip_title}",
                 },
                 {"role": "user", "content": prompt},
                 {"role": "user", "content": "Send recommended places to user"},

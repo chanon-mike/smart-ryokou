@@ -115,8 +115,8 @@ class StructuredQuery(BaseModel):
     trip_type: Optional[TripType] = None
 
 
-class AdditionalRecommendationsQuery(BaseModel):
-    original_query: StructuredQuery
+class PromptRecommendationsQuery(BaseModel):
+    trip_title: str
     user_prompt: str
     suggested_places: list[str]
 
@@ -136,5 +136,5 @@ class RecommendationResponse(BaseModel):
     recommendation: list[DayRecommendation]
 
 
-class AdditionalRecommendationResponse(BaseModel):
+class PromptRecommendationResponse(BaseModel):
     recommendations: list[Activity]

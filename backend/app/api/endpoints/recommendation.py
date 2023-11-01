@@ -2,9 +2,9 @@ from fastapi import APIRouter, HTTPException
 
 import app.use_case.recommendation as recommendation
 from app.schema.recommendation import (
-    AdditionalRecommendationResponse,
-    AdditionalRecommendationsQuery,
     FreeFormatQuery,
+    PromptRecommendationResponse,
+    PromptRecommendationsQuery,
     RecommendationResponse,
     StructuredQuery,
 )
@@ -35,12 +35,12 @@ async def generate_recommendation(
         )
 
 
-@router.post("/additional_recommendations")
-async def generate_additional_recommendations(
-    request_body: AdditionalRecommendationsQuery,
-) -> AdditionalRecommendationResponse:
+@router.post("/prompt")
+async def generate_prompt_recommendation(
+    request_body: PromptRecommendationsQuery,
+) -> PromptRecommendationResponse:
     try:
-        return recommendation.generate_additional_recommendations(request_body)
+        return recommendation.generate_prompt_recommendation(request_body)
     except Exception as e:
         print("Error: ", e)
         raise HTTPException(
