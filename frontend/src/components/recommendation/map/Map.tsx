@@ -1,7 +1,7 @@
 'use client';
 
 import { Box, CardMedia, Paper, Typography } from '@mui/material';
-import { LoadScript, GoogleMap, Marker } from '@react-google-maps/api';
+import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
 import { useContext } from 'react';
 import { ActiveLocationContext } from '../ActiveLocationContext';
 import { GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
@@ -10,9 +10,13 @@ const Map = () => {
   const activeLocationContext = useContext(ActiveLocationContext);
   const { mapCenter, activeLocation } = activeLocationContext;
 
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: GOOGLE_MAPS_API_KEY,
+  });
+
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative' }}>
-      <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY}>
+      {isLoaded && (
         <GoogleMap
           mapContainerStyle={{ width: '100%', height: '100%' }}
           center={mapCenter}
@@ -25,7 +29,7 @@ const Map = () => {
             }}
           />
         </GoogleMap>
-      </LoadScript>
+      )}
       {activeLocation && (
         <Paper
           elevation={1}
