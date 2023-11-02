@@ -19,6 +19,7 @@ import createTranslation from 'next-translate/useTranslation';
 import Client from '@/client/Client';
 import type { ApiContext } from '@/client/ApiContext';
 import type { GetResultRequest, GetResultResponse } from '@/client/api/GetResult/interface';
+import type { FormEvent } from 'react';
 import { type Dispatch, type SetStateAction } from 'react';
 import SessionClient from '@/client/service/session/implement';
 import { useRouter } from 'next/navigation';
@@ -93,7 +94,7 @@ const PreferencesModal = ({
   };
 
   // Handle fetching recommendation data from server when user submit button
-  const handleSubmit = async (e: Event) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     setIsLoading(true);
     handleCloseModal();
 
@@ -158,12 +159,7 @@ const PreferencesModal = ({
         </DialogContent>
         <DialogActions sx={{ margin: 3 }}>
           <Button onClick={handleCloseModal}>{ct('cancel')}</Button>
-          <Button
-            onClick={handleSubmit}
-            variant="contained"
-            type="submit"
-            disabled={!fromDate || !toDate}
-          >
+          <Button variant="contained" type="submit" disabled={!fromDate || !toDate}>
             {ct('finish')}
           </Button>
         </DialogActions>
