@@ -125,6 +125,8 @@ const PreferencesModal = ({
     if (sessionId) {
       e.preventDefault();
       router.push(`/session?id=${sessionId}`);
+    } else {
+      setIsLoading(false);
     }
   };
 
