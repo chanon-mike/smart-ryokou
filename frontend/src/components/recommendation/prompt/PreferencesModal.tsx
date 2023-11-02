@@ -23,7 +23,7 @@ import type { FormEvent } from 'react';
 import { type Dispatch, type SetStateAction } from 'react';
 import SessionClient from '@/client/service/session/implement';
 import { useRouter } from 'next/navigation';
-import { generateObjectId } from '@/components/common/helper';
+import { generateObjectId } from '@/libs/helper';
 
 type PreferencesModalProps = {
   placeInput: string;
@@ -124,7 +124,7 @@ const PreferencesModal = ({
 
     if (sessionId) {
       e.preventDefault();
-      router.push(`/session?id=${sessionId}`);
+      router.replace(`session?id=${sessionId}`);
     } else {
       setIsLoading(false);
     }
