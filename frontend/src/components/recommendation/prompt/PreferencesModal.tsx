@@ -110,8 +110,6 @@ const PreferencesModal = ({
         alert(error.message);
       }
       return;
-    } finally {
-      setIsLoading(false);
     }
 
     const sessionClient = new SessionClient();
