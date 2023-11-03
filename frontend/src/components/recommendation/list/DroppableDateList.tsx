@@ -1,18 +1,12 @@
 'use client';
 
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import StepContent from '@mui/material/StepContent';
-import Typography from '@mui/material/Typography';
+import SortableLocationCard from '@/components/recommendation/list/SortableLocationCard';
 import type { Recommendation } from '@/types/recommendation';
-import { StepIcon } from '@mui/material';
-import SortableLocationCard from './SortableLocationCard';
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
+import { Step, StepContent, StepIcon, StepLabel, Stepper, Typography } from '@mui/material';
 import type { FC } from 'react';
 import { useContext } from 'react';
 import { ActiveLocationContext } from '../ActiveLocationContext';
-import NewLocationButton from './NewLocationButton';
 
 interface DroppableDateListProps {
   recommendation: Recommendation;
@@ -64,8 +58,6 @@ const DroppableDateList: FC<DroppableDateListProps> = ({ recommendation }) => {
                 <SortableLocationCard step={step} />
               )}
             </StepContent>
-            {/* If last index, add new location button */}
-            {index === recommendation.locations.length - 1 && <NewLocationButton />}
           </Step>
         ))}
       </Stepper>

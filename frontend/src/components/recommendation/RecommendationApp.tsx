@@ -17,28 +17,6 @@ const RecommendationApp = () => {
 
   const [step, setStep] = useState<number>(TRANSITION_STATE.PROMPTING);
 
-  // For mocking purposes
-  // useEffect(() => {
-  //   const fetchResult = async () => {
-  //     let serverResponse: GetResultResponse;
-
-  //     try {
-  //       serverResponse = await Client.getResult(
-  //         { useMock: true, requireAuth: false } as ApiContext,
-  //         {} as GetResultRequest,
-  //       );
-  //     } catch (error) {
-  //       if (error instanceof Error) {
-  //         alert(error.message);
-  //       }
-  //       return;
-  //     }
-  //     setRecommendations(serverResponse.recommendations);
-  //   };
-
-  //   fetchResult();
-  // }, []);
-
   return (
     <Container>
       <Box
@@ -64,7 +42,7 @@ const RecommendationApp = () => {
           )}
           {step === TRANSITION_STATE.RESULT && <RecommendationResult />}
           {/* For mocking */}
-          {/* <RecommendationResult/> */}
+          {/* <RecommendationResult /> */}
         </RecommendationProvider>
       </Box>
     </Container>
