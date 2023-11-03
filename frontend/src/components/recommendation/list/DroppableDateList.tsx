@@ -3,7 +3,7 @@
 import SortableLocationCard from '@/components/recommendation/list/SortableLocationCard';
 import type { Recommendation } from '@/types/recommendation';
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
-import { Step, StepContent, StepIcon, StepLabel, Stepper, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import type { FC } from 'react';
 import { useContext } from 'react';
 import { ActiveLocationContext } from '../ActiveLocationContext';
@@ -15,8 +15,7 @@ interface DroppableDateListProps {
 
 const DroppableDateList: FC<DroppableDateListProps> = ({ recommendation, onConfirmDeleteCard }) => {
   const activeLocationContext = useContext(ActiveLocationContext);
-  const { activeStep, setActiveLocation, setActiveStep, setActiveDate, setMapCenter } =
-    activeLocationContext;
+  const { setActiveLocation, setActiveStep, setActiveDate, setMapCenter } = activeLocationContext;
 
   const handleSelect = (index: number) => {
     setActiveLocation(recommendation.locations[index]);
@@ -33,13 +32,36 @@ const DroppableDateList: FC<DroppableDateListProps> = ({ recommendation, onConfi
       items={recommendation.locations.map((loc) => loc.name)}
       strategy={rectSortingStrategy}
     >
-      <Typography variant="h5" style={{ paddingTop: '20px' }}>
+      <Typography variant="h6" sx={{ marginTop: 1 }}>
         {recommendation.date}
       </Typography>
-      <Stepper activeStep={activeStep} orientation="vertical" style={{ minHeight: '100px' }}>
+
+      <Box sx={{ marginTop: 1 }}>
+        {recommendation.locations.map((loc, index) => (
+          <div key={`${loc}${index}`} onMouseDown={() => handleSelect(index)}>
+            {recommendation.locations.length === 1 ? (
+              <SortableLocationCard
+                location={loc}
+                disabled={true}
+                index={index}
+                onSelect={handleSelect}
+                onConfirmDelete={onConfirmDeleteCard}
+              />
+            ) : (
+              <SortableLocationCard
+                location={loc}
+                index={index}
+                onSelect={handleSelect}
+                onConfirmDelete={onConfirmDeleteCard}
+              />
+            )}
+          </div>
+        ))}
+      </Box>
+      {/* TODO: Refactor stepper when implement the travel duration */}
+      {/* <Stepper activeStep={activeStep} orientation="vertical" style={{ minHeight: '100px' }}>
         {recommendation.locations.map((step, index) => (
           <Step key={step.name} active={true}>
-            {/* Use StepIconComponent to make checkmark dissappear */}
             <StepLabel
               StepIconComponent={(props) => (
                 <StepIcon
@@ -72,7 +94,7 @@ const DroppableDateList: FC<DroppableDateListProps> = ({ recommendation, onConfi
             </StepContent>
           </Step>
         ))}
-      </Stepper>
+      </Stepper> */}
     </SortableContext>
   );
 };

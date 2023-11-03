@@ -19,7 +19,7 @@ const SessionResult = () => {
       setLoading(true);
 
       const sessionId = searchParams.get('id');
-      if (!sessionId) {
+      if (sessionId === null) {
         setLoading(false);
         router.push('/');
         return;
@@ -65,7 +65,7 @@ const SessionResult = () => {
         height="100dvh"
         maxWidth="100%"
       >
-        <RecommendationProvider rec={data.recommendations || []} title={data.tripTitle || ''}>
+        <RecommendationProvider ses={data}>
           <RecommendationResult />
         </RecommendationProvider>
       </Box>

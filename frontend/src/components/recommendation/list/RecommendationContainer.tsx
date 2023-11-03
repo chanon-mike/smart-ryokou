@@ -14,15 +14,15 @@ import _ from 'lodash';
 import createTranslation from 'next-translate/useTranslation';
 
 const RecommendationContainer = () => {
-  const { recommendations, setRecommendations } = useContext(RecommendationContext);
+  const { session, setSession } = useContext(RecommendationContext);
   const [activeContainerIndex, setActiveContainerIndex] = useState<number | null>(null);
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [placeToDelete, setPlaceToDelete] = useState('');
 
   const { sensors, handleDragStart, handleDragOver, handleDragCancel, handleDragEnd } = useDnd({
-    recommendations,
-    setRecommendations,
+    session,
+    setSession,
     setActiveId,
     activeContainerIndex,
     setActiveContainerIndex,
@@ -62,22 +62,18 @@ const RecommendationContainer = () => {
         collisionDetection={closestCorners}
         modifiers={[restrictToVerticalAxis]}
       >
-        <Box style={{ maxWidth: '400px', height: '70vh', overflowY: 'auto', paddingRight: '20px' }}>
-          {recommendations.map((r, index) => (
-            <>
-              <DroppableDateList
-                key={r.date}
-                recommendation={r}
-                onConfirmDeleteCard={handleConfirmDeleteCard}
-              />
+        <Box style={{ maxWidth: '400px', height: '75vh', overflowY: 'auto', paddingRight: '20px' }}>
+          {session.recommendations.map((r, index) => (
+            <Box key={`${r.date}-${index}`}>
+              <DroppableDateList recommendation={r} onConfirmDeleteCard={handleConfirmDeleteCard} />
               <NewLocationButton dateIndex={index} />
-            </>
+            </Box>
           ))}
           <DragOverlay>
             {activeId !== null && activeContainerIndex !== null ? (
               <SortableLocationCard
-                step={
-                  recommendations[activeContainerIndex].locations.filter(
+                location={
+                  session.recommendations[activeContainerIndex].locations.filter(
                     (r) => r.name === activeId,
                   )[0]
                 }

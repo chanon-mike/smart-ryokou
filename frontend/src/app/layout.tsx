@@ -18,6 +18,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     <html lang={lang}>
       <head>
         <GoogleAnalytics />
+        <link href="https://fonts.googleapis.com/css?family=Sawarabi+Gothic" rel="stylesheet" />
       </head>
       <UserProvider>
         <body>

@@ -9,8 +9,9 @@ import axios from 'axios';
 import type { Location } from '@/types/recommendation';
 import getLocationData from '@/client/helper/getLocationData';
 import cacheClient from '@/client/service/cache/implement';
-import { API_ENDPOINT, GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
+import { API_ENDPOINT, CX, GOOGLE_MAPS_API_KEY, GOOGLE_SEARCH_API_KEY } from '@/libs/envValues';
 import getNewLocationMock from './mock';
+import { getImageData } from '@/client/helper/getImageData';
 
 // eslint-disable-next-line complexity
 const getLocation: GetNewLocationInterface = async (
@@ -30,10 +31,10 @@ const getLocation: GetNewLocationInterface = async (
   // TODO: hash instead stringify
   const cacheKey = JSON.stringify(request);
   const cachedResult = await cacheClient.getKey(cacheKey);
+  console.log('request', request);
 
   if (cachedResult === null) {
     try {
-      console.log('request', request);
       serverResponse = (await axios.post(`${API_ENDPOINT}/api/recommendation/prompt`, request))
         .data;
 
@@ -54,21 +55,27 @@ const getLocation: GetNewLocationInterface = async (
 const adapter = async (
   serverResponse: GetNewLocationServerResponse,
 ): Promise<GetNewLocationResponse> => {
-  console.log('serverResponse', serverResponse);
   const locations: Location[] = [];
 
-  for (const recommendation of serverResponse.recommendations) {
-    const location = await getLocationData(recommendation.place, GOOGLE_MAPS_API_KEY);
+  await Promise.all(
+    serverResponse.recommendations.map(
+      async (recommendation: { place: string; description: string }) => {
+        const location = await getLocationData(recommendation.place, GOOGLE_MAPS_API_KEY);
+        const imageUrl = await getImageData(recommendation.place, GOOGLE_SEARCH_API_KEY, CX);
 
-    locations.push({
-      name: recommendation.place,
-      description: recommendation.description,
-      imageUrl:
-        'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
-      lat: location?.lat,
-      lng: location?.lng,
-    } as Location);
-  }
+        locations.push({
+          name: recommendation.place,
+          description: recommendation.description,
+          imageUrl:
+            imageUrl ||
+            'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
+          lat: location?.lat,
+          lng: location?.lng,
+        } as Location);
+      },
+    ),
+  );
+  console.log('locations', locations);
 
   return {
     locations,

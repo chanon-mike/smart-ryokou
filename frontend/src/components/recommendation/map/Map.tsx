@@ -1,28 +1,29 @@
 'use client';
 
-import { Box, CardMedia, Paper, Typography } from '@mui/material';
-import { useJsApiLoader, GoogleMap, MarkerF } from '@react-google-maps/api';
+import LocationDetail from '@/components/recommendation/map/LocationDetail';
+import { GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
+import { mapStyles } from '@/libs/mapStyles';
+import type { Location } from '@/types/recommendation';
+import { GoogleMap, MarkerF, useJsApiLoader } from '@react-google-maps/api';
 import { useContext, useEffect, useMemo } from 'react';
 import { ActiveLocationContext } from '../ActiveLocationContext';
-import { GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
 import { RecommendationContext } from '../RecommendationContext';
-import type { Location } from '@/types/recommendation';
 
 const Map = () => {
   const recommendationContext = useContext(RecommendationContext);
   const activeLocationContext = useContext(ActiveLocationContext);
   const { isLoaded } = useJsApiLoader({ googleMapsApiKey: GOOGLE_MAPS_API_KEY });
-  const { recommendations } = recommendationContext;
+  const { session } = recommendationContext;
   const { mapCenter, setMapCenter, activeLocation, setActiveLocation } = activeLocationContext;
 
   const allLocations = useMemo(
     () =>
-      recommendations.flatMap((rec) =>
+      session.recommendations.flatMap((rec) =>
         rec.locations.map((location) => ({
           ...location,
         })),
       ),
-    [recommendations],
+    [session],
   );
 
   const handleMarkerClick = (location: Location) => {
@@ -52,6 +53,11 @@ const Map = () => {
           mapContainerStyle={{ width: '100%', height: '100%' }}
           center={mapCenter}
           zoom={12}
+          options={{
+            styles: mapStyles,
+            disableDefaultUI: true,
+            keyboardShortcuts: false,
+          }}
         >
           {allLocations.map((location, index) => (
             <MarkerF
@@ -62,37 +68,7 @@ const Map = () => {
           ))}
         </GoogleMap>
       )}
-      {activeLocation && (
-        <Paper
-          elevation={1}
-          style={{
-            position: 'absolute',
-            right: '10%',
-            bottom: '5%',
-            width: '80%',
-            padding: '16px',
-            overflow: 'auto',
-          }}
-        >
-          {/* TODO: Add reviews and images from google map, link to direction */}
-          <Box style={{ display: 'flex' }}>
-            <CardMedia
-              component="img"
-              height="100px"
-              width="100px"
-              image={activeLocation.imageUrl}
-              alt="Image"
-              style={{ flex: '0 0 30%' }}
-            />
-            <Box style={{ flex: '0 0 70%', paddingLeft: '16px' }}>
-              <Typography variant="h6">{activeLocation.name}</Typography>
-              <Typography variant="body2" color="text.secondary">
-                {activeLocation.description}
-              </Typography>
-            </Box>
-          </Box>
-        </Paper>
-      )}
+      {activeLocation && <LocationDetail activeLocation={activeLocation} />}
     </div>
   );
 };

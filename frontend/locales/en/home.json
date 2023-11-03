@@ -1,4 +1,5 @@
 {
+  "caption": "Your AI personal travel planner",
   "input-message": "Search for the place you want to go!",
   "dialog-title": "Your trip in {{name}}",
   "dialog-content": "Select your travel preferences",
