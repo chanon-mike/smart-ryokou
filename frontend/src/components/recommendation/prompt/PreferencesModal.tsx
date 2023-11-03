@@ -2,7 +2,7 @@
 
 import type { ApiContext } from '@/client/ApiContext';
 import Client from '@/client/Client';
-import type { GetResultRequest, GetResultResponse } from '@/client/api/GetResult/interface';
+import type { GetResultRequest, GetResultResponse } from '@/client/api/get-result/interface';
 import SessionClient from '@/client/service/session/implement';
 import BudgetForm from '@/components/recommendation/prompt/form/BudgetForm';
 import DateRangeForm from '@/components/recommendation/prompt/form/DateRangeForm';

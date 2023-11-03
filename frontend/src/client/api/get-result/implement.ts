@@ -71,9 +71,7 @@ const adapter = async (serverResponse: GetResultServerResponse) => {
                 return {
                   name: a.place,
                   description: a.description,
-                  imageUrl:
-                    imageData ||
-                    'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
+                  imageUrl: imageData,
                   lat: latLngData?.lat,
                   lng: latLngData?.lng,
                 } as Location;

@@ -60,18 +60,18 @@ const adapter = async (
   await Promise.all(
     serverResponse.recommendations.map(
       async (recommendation: { place: string; description: string }) => {
-        const location = await getLocationData(recommendation.place, GOOGLE_MAPS_API_KEY);
-        const imageUrl = await getImageData(recommendation.place, GOOGLE_SEARCH_API_KEY, CX);
+        const latLngData = await getLocationData(recommendation.place, GOOGLE_MAPS_API_KEY);
+        const imageData = await getImageData(recommendation.place, GOOGLE_SEARCH_API_KEY, CX);
 
-        locations.push({
-          name: recommendation.place,
-          description: recommendation.description,
-          imageUrl:
-            imageUrl ||
-            'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
-          lat: location?.lat,
-          lng: location?.lng,
-        } as Location);
+        if (latLngData.lat !== undefined && latLngData.lng !== undefined) {
+          locations.push({
+            name: recommendation.place,
+            description: recommendation.description,
+            imageUrl: imageData,
+            lat: latLngData.lat,
+            lng: latLngData.lng,
+          } as Location);
+        }
       },
     ),
   );
