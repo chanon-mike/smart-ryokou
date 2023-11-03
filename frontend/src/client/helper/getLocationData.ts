@@ -19,12 +19,18 @@ const getLocationData = async (placeName: string, apiKey: string) => {
         `https://maps.googleapis.com/maps/api/geocode/json?address=${placeName}&key=${apiKey}`,
       )
     ).data;
-    const locationData: { lat: number; lng: number } = response.results[0].geometry.location;
 
-    cacheClient.setKey(cacheKey, JSON.stringify(locationData));
+    let locationData: { lat: number; lng: number };
+    if (response.results.length === 0) {
+      locationData = { lat: 0, lng: 0 };
+    } else {
+      locationData = response.results[0].geometry.location;
 
+      cacheClient.setKey(cacheKey, JSON.stringify(locationData));
+    }
     return locationData;
   } catch (error) {
+    console.log(`error`, error);
     throw new Error('An unexpected error occurred while fetching location data');
   }
 };

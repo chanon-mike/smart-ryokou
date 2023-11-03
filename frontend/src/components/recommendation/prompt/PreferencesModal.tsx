@@ -98,7 +98,7 @@ const PreferencesModal = ({
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     setIsLoading(true);
     handleCloseModal();
-
+    console.log(`handleSubmit run`);
     let serverResponse: GetResultResponse;
     try {
       const requestParams = buildRequestParams();
@@ -112,6 +112,7 @@ const PreferencesModal = ({
       }
       return;
     }
+    console.log(`serverResponse after input modal`, serverResponse);
 
     const sessionClient = new SessionClient();
 
