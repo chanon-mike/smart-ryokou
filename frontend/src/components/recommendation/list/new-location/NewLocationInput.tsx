@@ -6,7 +6,8 @@ import type {
 import { RecommendationContext } from '@/components/recommendation/RecommendationContext';
 import NewLocationCard from '@/components/recommendation/list/new-location/NewLocationCard';
 import NewLocationPrompt from '@/components/recommendation/list/new-location/NewLocationPrompt';
-import type { Location, Recommendation } from '@/types/recommendation';
+import type Session from '@/service/database/session/model';
+import type { Location } from '@/types/recommendation';
 import { Box, Dialog, DialogContent, DialogTitle } from '@mui/material';
 import createTranslation from 'next-translate/useTranslation';
 import { useContext, useState } from 'react';
@@ -21,7 +22,7 @@ const NewLocationInput = ({ dateIndex, open, handleClose }: NewLocationInputProp
   const [newLocations, setNewLocations] = useState<Location[]>([]);
   const [prompt, setPrompt] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { tripTitle, recommendations, setRecommendations } = useContext(RecommendationContext);
+  const { session, setSession } = useContext(RecommendationContext);
 
   const { t } = createTranslation('result');
 
@@ -34,11 +35,11 @@ const NewLocationInput = ({ dateIndex, open, handleClose }: NewLocationInputProp
     setIsLoading(true);
 
     const buildRequestParams = (): GetNewLocationRequest => {
-      const newSuggestedPlaces = recommendations.flatMap((recommendation) =>
+      const newSuggestedPlaces = session.recommendations.flatMap((recommendation) =>
         recommendation.locations.map((location) => location.name),
       );
       return {
-        trip_title: tripTitle,
+        trip_title: session.tripTitle,
         user_prompt: prompt,
         suggested_places: newSuggestedPlaces,
       };
@@ -69,12 +70,11 @@ const NewLocationInput = ({ dateIndex, open, handleClose }: NewLocationInputProp
       const newLocations = prev.filter((loc) => loc.name !== location.name);
       return newLocations;
     });
-    setRecommendations((prev: Recommendation[]) => {
-      const newRecommendations = [...prev];
+    setSession((prev: Session) => {
+      const newRecommendations = [...prev.recommendations];
       newRecommendations[dateIndex].locations.push(location);
-      return newRecommendations;
+      return { ...session, recommendations: newRecommendations };
     });
-
     return;
   };
 
