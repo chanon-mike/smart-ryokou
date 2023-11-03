@@ -34,7 +34,7 @@ const RecommendationContainer = () => {
       collisionDetection={closestCorners}
       modifiers={[restrictToVerticalAxis]}
     >
-      <Box style={{ maxWidth: '400px', height: '70vh', overflowY: 'auto', paddingRight: '20px' }}>
+      <Box style={{ maxWidth: '400px', height: '75vh', overflowY: 'auto', paddingRight: '20px' }}>
         {recommendations.map((r, index) => (
           <>
             <DroppableDateList key={r.date} recommendation={r} />
@@ -44,7 +44,7 @@ const RecommendationContainer = () => {
         <DragOverlay>
           {activeId !== null && activeContainerIndex !== null ? (
             <SortableLocationCard
-              step={
+              location={
                 recommendations[activeContainerIndex].locations.filter(
                   (r) => r.name === activeId,
                 )[0]

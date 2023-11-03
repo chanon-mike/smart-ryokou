@@ -8,7 +8,7 @@ const Navbar = async () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed" color="inherit">
+      <AppBar elevation={0} position="fixed" color="inherit">
         <Toolbar>
           <a href="/">
             <IconButton size="large" edge="start" color="primary" aria-label="menu">

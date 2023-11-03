@@ -46,6 +46,7 @@ const InputBar = ({ placeInput, setPlaceInput, handleOpenModal }: Props) => {
         placeholder={t('input-message')}
         value={placeInput}
         onChange={handleChange}
+        autoComplete="off"
         InputProps={{
           endAdornment: (
             <InputAdornment

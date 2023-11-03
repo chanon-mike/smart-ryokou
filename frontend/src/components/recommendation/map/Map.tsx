@@ -7,6 +7,7 @@ import { ActiveLocationContext } from '../ActiveLocationContext';
 import { GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
 import { RecommendationContext } from '../RecommendationContext';
 import type { Location } from '@/types/recommendation';
+import { mapStyles } from '@/libs/MapStyles';
 
 const Map = () => {
   const recommendationContext = useContext(RecommendationContext);
@@ -51,6 +52,9 @@ const Map = () => {
           mapContainerStyle={{ width: '100%', height: '100%' }}
           center={mapCenter}
           zoom={12}
+          options={{
+            styles: mapStyles,
+          }}
         >
           {allLocations.map((location, index) => (
             <MarkerF
