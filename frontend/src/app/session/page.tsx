@@ -65,7 +65,7 @@ const SessionResult = () => {
         height="100dvh"
         maxWidth="100%"
       >
-        <RecommendationProvider rec={data.recommendations || []} title={data.tripTitle || ''}>
+        <RecommendationProvider ses={data}>
           <RecommendationResult />
         </RecommendationProvider>
       </Box>

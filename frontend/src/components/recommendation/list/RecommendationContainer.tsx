@@ -12,13 +12,13 @@ import { Box } from '@mui/material';
 import { useContext, useState } from 'react';
 
 const RecommendationContainer = () => {
-  const { recommendations, setRecommendations } = useContext(RecommendationContext);
+  const { session, setSession } = useContext(RecommendationContext);
   const [activeContainerIndex, setActiveContainerIndex] = useState<number | null>(null);
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
 
   const { sensors, handleDragStart, handleDragOver, handleDragCancel, handleDragEnd } = useDnd({
-    recommendations,
-    setRecommendations,
+    session,
+    setSession,
     setActiveId,
     activeContainerIndex,
     setActiveContainerIndex,
@@ -35,7 +35,7 @@ const RecommendationContainer = () => {
       modifiers={[restrictToVerticalAxis]}
     >
       <Box style={{ maxWidth: '400px', height: '75vh', overflowY: 'auto', paddingRight: '20px' }}>
-        {recommendations.map((r, index) => (
+        {session.recommendations.map((r, index) => (
           <Box key={`${r.date}-${index}`}>
             <DroppableDateList recommendation={r} />
             <NewLocationButton dateIndex={index} />
@@ -45,7 +45,7 @@ const RecommendationContainer = () => {
           {activeId !== null && activeContainerIndex !== null ? (
             <SortableLocationCard
               location={
-                recommendations[activeContainerIndex].locations.filter(
+                session.recommendations[activeContainerIndex].locations.filter(
                   (r) => r.name === activeId,
                 )[0]
               }

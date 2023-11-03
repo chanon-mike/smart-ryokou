@@ -8,35 +8,12 @@ import { useContext } from 'react';
 import { RecommendationContext } from '@/components/recommendation/RecommendationContext';
 
 const RecommendationResult = () => {
-  const { tripTitle } = useContext(RecommendationContext);
-
-  // For mocking purposes
-  // const { setRecommendations } = useContext(RecommendationContext);
-  // useEffect(() => {
-  //   const fetchResult = async () => {
-  //     let serverResponse: GetResultResponse;
-
-  //     try {
-  //       serverResponse = await Client.getResult(
-  //         { useMock: true, requireAuth: false } as ApiContext,
-  //         {} as GetResultRequest,
-  //       );
-  //     } catch (error) {
-  //       if (error instanceof Error) {
-  //         alert(error.message);
-  //       }
-  //       return;
-  //     }
-  //     setRecommendations(serverResponse.recommendations);
-  //   };
-
-  //   fetchResult();
-  // }, []);
+  const { session } = useContext(RecommendationContext);
 
   return (
     <Box sx={{ marginTop: 10 }}>
       <Typography variant="h3" component="h3">
-        {tripTitle}
+        {session.tripTitle}
       </Typography>
       <ActiveLocationProvider>
         <div style={{ height: '80vh', width: '80vw' }}>
