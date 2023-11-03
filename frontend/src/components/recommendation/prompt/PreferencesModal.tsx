@@ -19,14 +19,16 @@ import createTranslation from 'next-translate/useTranslation';
 import Client from '@/client/Client';
 import type { ApiContext } from '@/client/ApiContext';
 import type { GetResultRequest, GetResultResponse } from '@/client/api/GetResult/interface';
-import { useContext, type Dispatch, type SetStateAction } from 'react';
-import { RecommendationContext } from '../RecommendationContext';
+import type { FormEvent } from 'react';
+import { type Dispatch, type SetStateAction } from 'react';
+import SessionClient from '@/client/service/session/implement';
+import { useRouter } from 'next/navigation';
+import { generateObjectId } from '@/libs/helper';
 
 type PreferencesModalProps = {
   placeInput: string;
   openModal: boolean;
   handleCloseModal: () => void;
-  transitionToResultCallback: () => void;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
 };
 
@@ -34,7 +36,6 @@ const PreferencesModal = ({
   placeInput,
   openModal,
   handleCloseModal,
-  transitionToResultCallback,
   setIsLoading,
 }: PreferencesModalProps) => {
   const {
@@ -53,7 +54,8 @@ const PreferencesModal = ({
     selectedInterests,
     handleSelectInterest,
   } = usePreferences();
-  const { setRecommendations, setTripTitle } = useContext(RecommendationContext);
+
+  const router = useRouter();
 
   const homeT = createTranslation('home');
   const commonT = createTranslation('common');
@@ -92,7 +94,7 @@ const PreferencesModal = ({
   };
 
   // Handle fetching recommendation data from server when user submit button
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     setIsLoading(true);
     handleCloseModal();
 
@@ -108,12 +110,24 @@ const PreferencesModal = ({
         alert(error.message);
       }
       return;
-    } finally {
+    }
+
+    const sessionClient = new SessionClient();
+
+    const sessionId = await sessionClient.insert({
+      _id: generateObjectId(),
+      isDeleted: false,
+      userId: 'test',
+      tripTitle: serverResponse.title,
+      recommendations: serverResponse.recommendations,
+    });
+
+    if (sessionId) {
+      e.preventDefault();
+      router.replace(`session?id=${sessionId}`);
+    } else {
       setIsLoading(false);
     }
-    setRecommendations(serverResponse.recommendations);
-    setTripTitle(serverResponse.title);
-    transitionToResultCallback();
   };
 
   return (
@@ -145,12 +159,7 @@ const PreferencesModal = ({
         </DialogContent>
         <DialogActions sx={{ margin: 3 }}>
           <Button onClick={handleCloseModal}>{ct('cancel')}</Button>
-          <Button
-            onClick={handleSubmit}
-            variant="contained"
-            type="submit"
-            disabled={!fromDate || !toDate}
-          >
+          <Button variant="contained" type="submit" disabled={!fromDate || !toDate}>
             {ct('finish')}
           </Button>
         </DialogActions>

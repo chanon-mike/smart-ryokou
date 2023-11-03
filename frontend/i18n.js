@@ -3,6 +3,7 @@ module.exports = {
   defaultLocale: 'ja',
   pages: {
     '*': ['common'],
-    '/': ['home', 'result'],
+    '/': ['home'],
+    '/session': ['result'],
   },
 };

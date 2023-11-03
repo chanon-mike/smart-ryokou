@@ -1,7 +1,7 @@
 'use client';
 
 import { Box, CardMedia, Paper, Typography } from '@mui/material';
-import { LoadScript, GoogleMap, MarkerF } from '@react-google-maps/api';
+import { useJsApiLoader, GoogleMap, MarkerF } from '@react-google-maps/api';
 import { useContext, useEffect, useMemo } from 'react';
 import { ActiveLocationContext } from '../ActiveLocationContext';
 import { GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
@@ -12,6 +12,7 @@ import { mapStyles } from '@/libs/MapStyles';
 const Map = () => {
   const recommendationContext = useContext(RecommendationContext);
   const activeLocationContext = useContext(ActiveLocationContext);
+  const { isLoaded } = useJsApiLoader({ googleMapsApiKey: GOOGLE_MAPS_API_KEY });
   const { recommendations } = recommendationContext;
   const { mapCenter, setMapCenter, activeLocation, setActiveLocation } = activeLocationContext;
 
@@ -47,7 +48,7 @@ const Map = () => {
 
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative' }}>
-      <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY}>
+      {isLoaded && (
         <GoogleMap
           mapContainerStyle={{ width: '100%', height: '100%' }}
           center={mapCenter}
@@ -64,7 +65,7 @@ const Map = () => {
             />
           ))}
         </GoogleMap>
-      </LoadScript>
+      )}
       {activeLocation && (
         <Paper
           elevation={1}
