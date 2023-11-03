@@ -36,10 +36,10 @@ const RecommendationContainer = () => {
     >
       <Box style={{ maxWidth: '400px', height: '75vh', overflowY: 'auto', paddingRight: '20px' }}>
         {recommendations.map((r, index) => (
-          <>
-            <DroppableDateList key={r.date} recommendation={r} />
+          <Box key={`${r.date}-${index}`}>
+            <DroppableDateList recommendation={r} />
             <NewLocationButton dateIndex={index} />
-          </>
+          </Box>
         ))}
         <DragOverlay>
           {activeId !== null && activeContainerIndex !== null ? (

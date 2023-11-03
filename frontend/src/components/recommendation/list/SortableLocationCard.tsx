@@ -1,5 +1,5 @@
 import type { Location } from '@/types/recommendation';
-import { Edit, Delete } from '@mui/icons-material';
+import { Delete } from '@mui/icons-material';
 import { Card, Grid, CardMedia, CardContent, Typography, IconButton, styled } from '@mui/material';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -55,17 +55,15 @@ const SortableLocationCard = ({ location, disabled = false }: SortableLocationCa
             <Grid item xs={4}>
               <CardMedia
                 component="img"
-                sx={{
-                  height: '100%',
-                  width: '100%',
-                }}
+                height={'100%'}
+                width={'100%'}
                 image={location.imageUrl}
                 alt="Image"
               />
             </Grid>
             <Grid item xs={7}>
               <CardContent>
-                <Typography variant="h6" component="h3" noWrap>
+                <Typography variant="h6" noWrap>
                   {location.name}
                 </Typography>
                 <Typography variant="body2" color="textSecondary" noWrap>
@@ -83,9 +81,10 @@ const SortableLocationCard = ({ location, disabled = false }: SortableLocationCa
                 height: '100%',
               }}
             >
-              <SecondaryColorHoverIconButton aria-label="Edit">
+              {/* TODO: Make edit button for each location memo instead of edit */}
+              {/* <SecondaryColorHoverIconButton aria-label="Edit">
                 <Edit />
-              </SecondaryColorHoverIconButton>
+              </SecondaryColorHoverIconButton> */}
               <SecondaryColorHoverIconButton aria-label="Delete">
                 <Delete />
               </SecondaryColorHoverIconButton>

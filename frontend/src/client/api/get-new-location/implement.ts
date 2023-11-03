@@ -31,10 +31,10 @@ const getLocation: GetNewLocationInterface = async (
   // TODO: hash instead stringify
   const cacheKey = JSON.stringify(request);
   const cachedResult = await cacheClient.getKey(cacheKey);
+  console.log('request', request);
 
   if (cachedResult === null) {
     try {
-      console.log('request', request);
       serverResponse = (await axios.post(`${API_ENDPOINT}/api/recommendation/prompt`, request))
         .data;
 
@@ -55,7 +55,6 @@ const getLocation: GetNewLocationInterface = async (
 const adapter = async (
   serverResponse: GetNewLocationServerResponse,
 ): Promise<GetNewLocationResponse> => {
-  console.log('serverResponse', serverResponse);
   const locations: Location[] = [];
 
   await Promise.all(
@@ -76,6 +75,7 @@ const adapter = async (
       },
     ),
   );
+  console.log('locations', locations);
 
   return {
     locations,

@@ -31,7 +31,7 @@ const DroppableDateList: FC<DroppableDateListProps> = ({ recommendation }) => {
       items={recommendation.locations.map((loc) => loc.name)}
       strategy={rectSortingStrategy}
     >
-      <Typography variant="h6" component="h2" sx={{ marginTop: 1 }}>
+      <Typography variant="h6" sx={{ marginTop: 1 }}>
         {recommendation.date}
       </Typography>
 

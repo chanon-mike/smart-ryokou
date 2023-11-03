@@ -19,7 +19,7 @@ const SessionResult = () => {
       setLoading(true);
 
       const sessionId = searchParams.get('id');
-      if (!sessionId) {
+      if (sessionId === null) {
         setLoading(false);
         router.push('/');
         return;
