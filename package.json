@@ -13,6 +13,9 @@
     "format": "run-p format:*",
     "format:frontend": "npm run lint:fix --prefix frontend",
     "format:backend": "npm run lint:fix --prefix backend",
+    "debug": "run-p debug:*",
+    "debug:frontend": "npm run debug --prefix frontend",
+    "debug:backend": "npm run dev --prefix backend",
     "prepare": "husky install"
   },
   "keywords": [],
