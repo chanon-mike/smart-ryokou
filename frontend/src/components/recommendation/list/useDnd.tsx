@@ -1,20 +1,21 @@
-import type { Recommendation } from '@/types/recommendation';
+import SessionClient from '@/client/service/session/implement';
+import type Session from '@/service/database/session/model';
 import type { DragStartEvent, DragOverEvent, DragEndEvent, UniqueIdentifier } from '@dnd-kit/core';
 import { useSensors, useSensor, PointerSensor, KeyboardSensor } from '@dnd-kit/core';
 import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import type { Dispatch, SetStateAction } from 'react';
 
 type Props = {
-  recommendations: Recommendation[];
-  setRecommendations: Dispatch<SetStateAction<Recommendation[]>>;
   setActiveId: Dispatch<SetStateAction<UniqueIdentifier | null>>;
   activeContainerIndex: number | null;
   setActiveContainerIndex: Dispatch<SetStateAction<number | null>>;
+  session: Session;
+  setSession: Dispatch<SetStateAction<Session>>;
 };
 
 export const useDnd = ({
-  recommendations,
-  setRecommendations,
+  session,
+  setSession,
   setActiveId,
   activeContainerIndex,
   setActiveContainerIndex,
@@ -28,7 +29,7 @@ export const useDnd = ({
 
   const handleDragStart = (event: DragStartEvent) => {
     const { active } = event;
-    const activeDateContainerIndex = recommendations.findIndex((r) =>
+    const activeDateContainerIndex = session.recommendations.findIndex((r) =>
       r.locations.some((loc) => loc.name === active.id),
     );
 
@@ -49,7 +50,7 @@ export const useDnd = ({
       return;
     }
 
-    const overContainerIndex = recommendations.findIndex((r) =>
+    const overContainerIndex = session.recommendations.findIndex((r) =>
       r.locations.some((loc) => loc.name === over.id),
     );
 
@@ -58,8 +59,8 @@ export const useDnd = ({
     }
 
     // If dragging to a different Container
-    setRecommendations((prev) => {
-      const next = [...prev];
+    setSession((prev) => {
+      const next = [...prev.recommendations];
       const activeContainer = next[activeContainerIndex];
 
       if (!activeContainer) {
@@ -72,8 +73,13 @@ export const useDnd = ({
       );
       next[overContainerIndex]?.locations.push(activeItem); // This places the item at the end of the target Container
 
-      return next;
+      return {
+        ...prev,
+        recommendations: next,
+      };
     });
+
+    saveNewSessionData(session);
 
     setActiveContainerIndex(overContainerIndex); // Update the active Container index for subsequent drag over events
   };
@@ -87,8 +93,8 @@ export const useDnd = ({
       return;
     }
 
-    setRecommendations((prev) => {
-      const newRecommendation = [...prev];
+    setSession((prev) => {
+      const newRecommendation = [...prev.recommendations];
       const activeContainer = newRecommendation.find((r) =>
         r.locations.some((loc) => loc.name === active.id),
       );
@@ -106,8 +112,13 @@ export const useDnd = ({
       const [itemToMove] = activeContainer.locations.splice(activeIndex, 1);
       overContainer.locations.splice(overIndex, 0, itemToMove);
 
-      return newRecommendation;
+      return {
+        ...prev,
+        recommendations: newRecommendation,
+      };
     });
+
+    saveNewSessionData(session);
 
     setActiveId(null);
     setActiveContainerIndex(null);
@@ -121,4 +132,9 @@ export const useDnd = ({
     handleDragOver,
     handleDragEnd,
   };
+};
+
+const saveNewSessionData = (session: Session) => {
+  const client = new SessionClient();
+  client.update(session);
 };
