@@ -1,29 +1,30 @@
 'use client';
 
+import type { ApiContext } from '@/client/ApiContext';
+import Client from '@/client/Client';
+import type { GetResultRequest, GetResultResponse } from '@/client/api/GetResult/interface';
+import SessionClient from '@/client/service/session/implement';
+import BudgetForm from '@/components/recommendation/prompt/form/BudgetForm';
+import DateRangeForm from '@/components/recommendation/prompt/form/DateRangeForm';
+import InterestsForm from '@/components/recommendation/prompt/form/InterestsForm';
+import PaceForm from '@/components/recommendation/prompt/form/PaceForm';
+import PeopleNumberForm from '@/components/recommendation/prompt/form/PeopleNumberForm';
+import TripTypeForm from '@/components/recommendation/prompt/form/TripTypeForm';
+import { usePreferences } from '@/components/recommendation/prompt/usePreferences';
+import { generateObjectId } from '@/libs/helper';
 import {
+  Button,
   Dialog,
-  DialogTitle,
+  DialogActions,
   DialogContent,
   DialogContentText,
-  DialogActions,
-  Button,
+  DialogTitle,
+  Typography,
 } from '@mui/material';
-import { usePreferences } from '@/components/recommendation/prompt/usePreferences';
-import TripTypeForm from '@/components/recommendation/prompt/form/TripTypeForm';
-import DateRangeForm from '@/components/recommendation/prompt/form/DateRangeForm';
-import PeopleNumberForm from '@/components/recommendation/prompt/form/PeopleNumberForm';
-import PaceForm from '@/components/recommendation/prompt/form/PaceForm';
-import BudgetForm from '@/components/recommendation/prompt/form/BudgetForm';
-import InterestsForm from '@/components/recommendation/prompt/form/InterestsForm';
 import createTranslation from 'next-translate/useTranslation';
-import Client from '@/client/Client';
-import type { ApiContext } from '@/client/ApiContext';
-import type { GetResultRequest, GetResultResponse } from '@/client/api/GetResult/interface';
+import { useRouter } from 'next/navigation';
 import type { FormEvent } from 'react';
 import { type Dispatch, type SetStateAction } from 'react';
-import SessionClient from '@/client/service/session/implement';
-import { useRouter } from 'next/navigation';
-import { generateObjectId } from '@/libs/helper';
 
 type PreferencesModalProps = {
   placeInput: string;
@@ -132,10 +133,14 @@ const PreferencesModal = ({
 
   return (
     <Dialog open={openModal} onClose={handleCloseModal}>
-      <DialogTitle>{ht('dialog-title', { name: placeInput })}</DialogTitle>
+      <DialogTitle>
+        <Typography variant="h3">{ht('dialog-title', { name: placeInput })}</Typography>
+      </DialogTitle>
       <form onSubmit={handleSubmit}>
-        <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <DialogContentText>{ht('dialog-content')}</DialogContentText>
+        <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2, paddingTop: 0 }}>
+          <DialogContentText>
+            <Typography variant="body1">{ht('dialog-content')}</Typography>
+          </DialogContentText>
           <DateRangeForm
             fromDate={fromDate}
             handleFromDateChange={handleFromDateChange}

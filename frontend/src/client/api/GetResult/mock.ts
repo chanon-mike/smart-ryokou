@@ -10,27 +10,27 @@ const getResultMockCases: ReadonlyArray<{
     response: {
       recommendations: [
         {
-          date: 'this is a date 1',
+          date: '11月1日',
           locations: [
             {
-              name: 'tokyo',
-              description: 'tokyo',
+              name: '東京',
+              description: 'mock',
               imageUrl:
                 'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
               lat: 30,
               lng: 30,
             },
             {
-              name: 'osaka',
-              description: 'tokyo',
+              name: '大阪',
+              description: 'mock',
               imageUrl:
                 'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
               lat: 30,
               lng: 30,
             },
             {
-              name: 'hiroshima',
-              description: 'tokyo',
+              name: '広島',
+              description: 'mock',
               imageUrl:
                 'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
               lat: 30,
@@ -39,19 +39,19 @@ const getResultMockCases: ReadonlyArray<{
           ],
         },
         {
-          date: 'this is a date 2',
+          date: '11日2日',
           locations: [
             {
-              name: 'kyoto',
-              description: 'tokyo',
+              name: '京都',
+              description: 'mock',
               imageUrl:
                 'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
               lat: 30,
               lng: 30,
             },
             {
-              name: 'nara',
-              description: 'tokyo',
+              name: '奈良',
+              description: 'mock',
               imageUrl:
                 'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
               lat: 30,
@@ -60,11 +60,11 @@ const getResultMockCases: ReadonlyArray<{
           ],
         },
         {
-          date: 'this is a date 3',
+          date: '11月3日',
           locations: [
             {
-              name: 'nagoya',
-              description: 'tokyo',
+              name: '名古屋',
+              description: 'mock',
               imageUrl:
                 'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
               lat: 30,

@@ -1,9 +1,10 @@
 'use client';
 
-import type { Dispatch, SetStateAction } from 'react';
-import { InputAdornment, TextField } from '@mui/material';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import SearchIcon from '@mui/icons-material/Search';
+import { InputAdornment, TextField } from '@mui/material';
 import useTranslation from 'next-translate/useTranslation';
+import type { Dispatch, SetStateAction } from 'react';
 
 type Props = {
   placeInput: string;
@@ -42,17 +43,22 @@ const InputBar = ({ placeInput, setPlaceInput, handleOpenModal }: Props) => {
         fullWidth
         required
         id="search"
-        type="search"
         placeholder={t('input-message')}
         value={placeInput}
         onChange={handleChange}
+        autoComplete="off"
         InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <AutoAwesomeIcon color="primary" />
+            </InputAdornment>
+          ),
           endAdornment: (
             <InputAdornment
               position="end"
               style={{ cursor: placeInput.trim() !== '' ? 'pointer' : 'default' }}
             >
-              <SearchIcon onClick={handleSearchIconClick} />
+              <SearchIcon onClick={handleSearchIconClick} color="secondary" />
             </InputAdornment>
           ),
         }}

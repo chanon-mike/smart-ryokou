@@ -3,5 +3,6 @@
   "input": {
     "title": "新しい観光地を追加",
     "placeholder": "Try AI: 博物館を探して"
-  }
+  },
+  "get-directions": "行き方を調べる"
 }

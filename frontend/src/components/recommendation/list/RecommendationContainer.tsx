@@ -34,17 +34,17 @@ const RecommendationContainer = () => {
       collisionDetection={closestCorners}
       modifiers={[restrictToVerticalAxis]}
     >
-      <Box style={{ maxWidth: '400px', height: '70vh', overflowY: 'auto', paddingRight: '20px' }}>
+      <Box style={{ maxWidth: '400px', height: '75vh', overflowY: 'auto', paddingRight: '20px' }}>
         {session.recommendations.map((r, index) => (
-          <>
-            <DroppableDateList key={r.date} recommendation={r} />
+          <Box key={`${r.date}-${index}`}>
+            <DroppableDateList recommendation={r} />
             <NewLocationButton dateIndex={index} />
-          </>
+          </Box>
         ))}
         <DragOverlay>
           {activeId !== null && activeContainerIndex !== null ? (
             <SortableLocationCard
-              step={
+              location={
                 session.recommendations[activeContainerIndex].locations.filter(
                   (r) => r.name === activeId,
                 )[0]

@@ -10,7 +10,7 @@ interface NewLocationCardProps {
 const NewLocationCard = ({ location, handleAddLocation }: NewLocationCardProps) => {
   return (
     <Card key={location.name} variant="elevation" sx={{ width: 1 / 6 }}>
-      <CardMedia component="img" height="100px" image={location.imageUrl} alt="Image" />
+      <CardMedia component="img" height="100px" image={location.imageUrl} alt={location.name} />
       <CardContent>
         <Typography gutterBottom variant="body1">
           {location.name}

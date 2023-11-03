@@ -10,27 +10,35 @@ import type Session from '@/service/database/session/model';
 import type { Location } from '@/types/recommendation';
 import { Box, Dialog, DialogContent, DialogTitle } from '@mui/material';
 import createTranslation from 'next-translate/useTranslation';
+import type { ChangeEvent, Dispatch, FormEvent, SetStateAction } from 'react';
 import { useContext, useState } from 'react';
 
 interface NewLocationInputProps {
+  newLocations: Location[];
+  setNewLocations: Dispatch<SetStateAction<Location[]>>;
   dateIndex: number;
   open: boolean;
   handleClose: () => void;
 }
 
-const NewLocationInput = ({ dateIndex, open, handleClose }: NewLocationInputProps) => {
-  const [newLocations, setNewLocations] = useState<Location[]>([]);
+const NewLocationInput = ({
+  newLocations,
+  setNewLocations,
+  dateIndex,
+  open,
+  handleClose,
+}: NewLocationInputProps) => {
   const [prompt, setPrompt] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { session, setSession } = useContext(RecommendationContext);
 
   const { t } = createTranslation('result');
 
-  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPrompt(e.target.value);
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
 
