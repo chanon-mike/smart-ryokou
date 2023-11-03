@@ -188,6 +188,9 @@ def generate_recommendation_structured_format_query(
             "arguments"
         ]
         response = extract_json(response_json)
+
+        # Below is hotfix for this ticket: https://github.com/chanon-mike/smart-ryokou/issues/85
+        response["title"] = f"{place}の旅行プラン"
         logger.info(f"openai json response: {response}")
         return response
     else:
