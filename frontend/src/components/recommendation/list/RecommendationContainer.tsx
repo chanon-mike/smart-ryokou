@@ -28,7 +28,7 @@ const RecommendationContainer = () => {
     setActiveContainerIndex,
   });
 
-  const { t } = createTranslation('home');
+  const { t } = createTranslation('result');
 
   const closeConfirmationModal = () => {
     setDeleteModalOpen(false);
@@ -40,15 +40,17 @@ const RecommendationContainer = () => {
   };
 
   const handleDelete = (placeName: string) => {
-    const updatedRecommendations = _.cloneDeep(recommendations);
+    const updatedSession = _.cloneDeep(session);
+    const updatedRecommendations = _.cloneDeep(session.recommendations);
     for (const group of updatedRecommendations) {
       const updatedLocations = group.locations.filter((location) => {
         return location.name !== placeName;
       });
       group.locations = updatedLocations;
     }
+    updatedSession.recommendations = updatedRecommendations;
     closeConfirmationModal();
-    setRecommendations(updatedRecommendations);
+    setSession(updatedSession);
   };
 
   return (

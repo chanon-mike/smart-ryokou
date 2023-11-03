@@ -38,7 +38,7 @@ const DroppableDateList: FC<DroppableDateListProps> = ({ recommendation, onConfi
 
       <Box sx={{ marginTop: 1 }}>
         {recommendation.locations.map((loc, index) => (
-          <div key={`${loc}${index}`} onMouseDown={() => handleSelect(index)}>
+          <div key={`${loc}${index}`}>
             {recommendation.locations.length === 1 ? (
               <SortableLocationCard
                 location={loc}

@@ -97,7 +97,7 @@ const SortableLocationCard = ({
               </SecondaryColorHoverIconButton> */}
               <SecondaryColorHoverIconButton
                 aria-label="Delete"
-                onMouseDown={() => onConfirmDelete(step.name)}
+                onMouseDown={() => onConfirmDelete(location.name)}
               >
                 <Delete />
               </SecondaryColorHoverIconButton>
