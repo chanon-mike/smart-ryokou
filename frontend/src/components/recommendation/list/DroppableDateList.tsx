@@ -10,9 +10,10 @@ import { ActiveLocationContext } from '../ActiveLocationContext';
 
 interface DroppableDateListProps {
   recommendation: Recommendation;
+  onConfirmDeleteCard: (placeName: string) => void;
 }
 
-const DroppableDateList: FC<DroppableDateListProps> = ({ recommendation }) => {
+const DroppableDateList: FC<DroppableDateListProps> = ({ recommendation, onConfirmDeleteCard }) => {
   const activeLocationContext = useContext(ActiveLocationContext);
   const { setActiveLocation, setActiveStep, setActiveDate, setMapCenter } = activeLocationContext;
 
@@ -37,11 +38,22 @@ const DroppableDateList: FC<DroppableDateListProps> = ({ recommendation }) => {
 
       <Box sx={{ marginTop: 1 }}>
         {recommendation.locations.map((loc, index) => (
-          <div key={`${loc}${index}`} onMouseDown={() => handleSelect(index)}>
+          <div key={`${loc}${index}`}>
             {recommendation.locations.length === 1 ? (
-              <SortableLocationCard location={loc} disabled={true} />
+              <SortableLocationCard
+                location={loc}
+                disabled={true}
+                index={index}
+                onSelect={handleSelect}
+                onConfirmDelete={onConfirmDeleteCard}
+              />
             ) : (
-              <SortableLocationCard location={loc} />
+              <SortableLocationCard
+                location={loc}
+                index={index}
+                onSelect={handleSelect}
+                onConfirmDelete={onConfirmDeleteCard}
+              />
             )}
           </div>
         ))}
@@ -62,11 +74,22 @@ const DroppableDateList: FC<DroppableDateListProps> = ({ recommendation }) => {
             >
               <Typography variant="body1">{step.name}</Typography>
             </StepLabel>
-            <StepContent onMouseDown={() => handleSelect(index)}>
+            <StepContent>
               {recommendation.locations.length === 1 ? (
-                <SortableLocationCard step={step} disabled={true} />
+                <SortableLocationCard
+                  step={step}
+                  disabled={true}
+                  index={index}
+                  onSelect={handleSelect}
+                  onConfirmDelete={onConfirmDeleteCard}
+                />
               ) : (
-                <SortableLocationCard step={step} />
+                <SortableLocationCard
+                  step={step}
+                  index={index}
+                  onSelect={handleSelect}
+                  onConfirmDelete={onConfirmDeleteCard}
+                />
               )}
             </StepContent>
           </Step>

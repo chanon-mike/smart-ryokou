@@ -25,9 +25,18 @@ const SecondaryColorHoverIconButton = styled(IconButton)(({ theme }) => ({
 type SortableLocationCardProps = {
   location: Location;
   disabled?: boolean;
+  onSelect?: (index: number) => void;
+  onConfirmDelete?: (placeName: string) => void;
+  index?: number;
 };
 
-const SortableLocationCard = ({ location, disabled = false }: SortableLocationCardProps) => {
+const SortableLocationCard = ({
+  location,
+  disabled = false,
+  onSelect,
+  index,
+  onConfirmDelete,
+}: SortableLocationCardProps) => {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: location.name,
     disabled,
@@ -59,10 +68,11 @@ const SortableLocationCard = ({ location, disabled = false }: SortableLocationCa
                 width={'100%'}
                 image={location.imageUrl}
                 alt="Image"
+                onMouseDown={() => onSelect(index)}
               />
             </Grid>
             <Grid item xs={7}>
-              <CardContent>
+              <CardContent onMouseDown={() => onSelect(index)}>
                 <Typography variant="h6" noWrap>
                   {location.name}
                 </Typography>
@@ -85,7 +95,10 @@ const SortableLocationCard = ({ location, disabled = false }: SortableLocationCa
               {/* <SecondaryColorHoverIconButton aria-label="Edit">
                 <Edit />
               </SecondaryColorHoverIconButton> */}
-              <SecondaryColorHoverIconButton aria-label="Delete">
+              <SecondaryColorHoverIconButton
+                aria-label="Delete"
+                onMouseDown={() => onConfirmDelete(location.name)}
+              >
                 <Delete />
               </SecondaryColorHoverIconButton>
             </Grid>

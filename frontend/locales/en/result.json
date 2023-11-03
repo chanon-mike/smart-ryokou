@@ -4,5 +4,10 @@
     "title": "Where do you want to go?",
     "placeholder": "Try AI: find me a museum"
   },
-  "get-directions": "Get directions"
+  "get-directions": "Get directions",
+  "deleteCardModal": {
+    "title": "Delete this location?",
+    "ok": "OK",
+    "cancel": "Cancel"
+  }
 }
