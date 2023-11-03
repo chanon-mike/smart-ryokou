@@ -5,11 +5,17 @@ import createTranslation from 'next-translate/useTranslation';
 
 interface NewLocationPromptProps {
   isLoading: boolean;
+  prompt: string;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-  handleOnClick: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleOnChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const NewLocationPrompt = ({ isLoading, handleSubmit, handleOnClick }: NewLocationPromptProps) => {
+const NewLocationPrompt = ({
+  isLoading,
+  prompt,
+  handleSubmit,
+  handleOnChange,
+}: NewLocationPromptProps) => {
   const { t } = createTranslation('result');
 
   return (
@@ -22,7 +28,7 @@ const NewLocationPrompt = ({ isLoading, handleSubmit, handleOnClick }: NewLocati
         autoComplete="off"
         placeholder={t('input.placeholder')}
         value={prompt}
-        onChange={handleOnClick}
+        onChange={handleOnChange}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">

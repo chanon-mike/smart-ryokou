@@ -25,7 +25,7 @@ const NewLocationInput = ({ dateIndex, open, handleClose }: NewLocationInputProp
 
   const { t } = createTranslation('result');
 
-  const handleOnClick = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPrompt(e.target.value);
   };
 
@@ -84,8 +84,9 @@ const NewLocationInput = ({ dateIndex, open, handleClose }: NewLocationInputProp
       <DialogContent>
         <NewLocationPrompt
           isLoading={isLoading}
+          prompt={prompt}
           handleSubmit={handleSubmit}
-          handleOnClick={handleOnClick}
+          handleOnChange={handleOnChange}
         />
         <Box display="flex" justifyContent="center" my={2} gap={2}>
           {newLocations.map((location, index) => (
