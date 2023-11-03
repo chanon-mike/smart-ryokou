@@ -7,7 +7,7 @@ import { ActiveLocationContext } from '../ActiveLocationContext';
 import { GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
 import { RecommendationContext } from '../RecommendationContext';
 import type { Location } from '@/types/recommendation';
-import { mapStyles } from '@/libs/MapStyles';
+import { mapStyles } from '@/libs/mapStyles';
 
 const Map = () => {
   const recommendationContext = useContext(RecommendationContext);
