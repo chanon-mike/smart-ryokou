@@ -12,17 +12,17 @@ const Map = () => {
   const recommendationContext = useContext(RecommendationContext);
   const activeLocationContext = useContext(ActiveLocationContext);
   const { isLoaded } = useJsApiLoader({ googleMapsApiKey: GOOGLE_MAPS_API_KEY });
-  const { recommendations } = recommendationContext;
+  const { session } = recommendationContext;
   const { mapCenter, setMapCenter, activeLocation, setActiveLocation } = activeLocationContext;
 
   const allLocations = useMemo(
     () =>
-      recommendations.flatMap((rec) =>
+      session.recommendations.flatMap((rec) =>
         rec.locations.map((location) => ({
           ...location,
         })),
       ),
-    [recommendations],
+    [session],
   );
 
   const handleMarkerClick = (location: Location) => {

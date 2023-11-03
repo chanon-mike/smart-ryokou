@@ -1,35 +1,35 @@
+import type Session from '@/service/database/session/model';
 import type { Recommendation } from '@/types/recommendation';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import { createContext, useState } from 'react';
 
 interface RecommendationProps {
-  recommendations: Recommendation[];
-  setRecommendations: Dispatch<SetStateAction<Recommendation[]>>;
-  tripTitle: string;
-  setTripTitle: Dispatch<SetStateAction<string>>;
+  session: Session;
+  setSession: Dispatch<SetStateAction<Session>>;
 }
 
 export const RecommendationContext = createContext<RecommendationProps>({
-  recommendations: [],
-  setRecommendations: () => {},
-  tripTitle: '',
-  setTripTitle: () => {},
+  session: {
+    _id: '',
+    userId: '',
+    recommendations: [],
+    isDeleted: false,
+    tripTitle: '',
+  },
+  setSession: () => {},
 });
 
 interface RecommendationProviderProps {
   children: ReactNode;
   rec: Recommendation[];
   title: string;
+  ses: Session;
 }
 
-export const RecommendationProvider = ({ children, rec, title }: RecommendationProviderProps) => {
-  const [recommendations, setRecommendations] = useState<Recommendation[]>(rec);
-  const [tripTitle, setTripTitle] = useState<string>(title);
-
+export const RecommendationProvider = ({ children, ses }: RecommendationProviderProps) => {
+  const [session, setSession] = useState<Session>(ses);
   return (
-    <RecommendationContext.Provider
-      value={{ recommendations, setRecommendations, tripTitle, setTripTitle }}
-    >
+    <RecommendationContext.Provider value={{ session, setSession }}>
       {children}
     </RecommendationContext.Provider>
   );
