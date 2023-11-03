@@ -29,7 +29,7 @@ const NewLocationInput = ({
 }: NewLocationInputProps) => {
   const [prompt, setPrompt] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { recommendations, setRecommendations } = useContext(RecommendationContext);
+  const { tripTitle, recommendations, setRecommendations } = useContext(RecommendationContext);
 
   const { t } = createTranslation('result');
 
@@ -46,8 +46,7 @@ const NewLocationInput = ({
         recommendation.locations.map((location) => location.name),
       );
       return {
-        // TODO: change triptitle
-        trip_title: '東京観光',
+        trip_title: tripTitle,
         user_prompt: prompt,
         suggested_places: newSuggestedPlaces,
       };
@@ -67,6 +66,7 @@ const NewLocationInput = ({
       return;
     } finally {
       setIsLoading(false);
+      setPrompt('');
     }
     setNewLocations(serverResponse.locations);
   };

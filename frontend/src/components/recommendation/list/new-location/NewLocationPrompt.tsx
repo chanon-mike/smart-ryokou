@@ -29,6 +29,7 @@ const NewLocationPrompt = ({
         placeholder={t('input.placeholder')}
         value={prompt}
         onChange={handleOnChange}
+        disabled={isLoading}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
