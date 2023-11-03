@@ -1,15 +1,15 @@
 'use client';
 
-import Box from '@mui/material/Box';
-import type { Recommendation } from '@/types/recommendation';
-import DroppableDateList from './DroppableDateList';
-import type { UniqueIdentifier } from '@dnd-kit/core';
-import { DndContext, closestCorners, DragOverlay } from '@dnd-kit/core';
-import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
-import SortableLocationCard from './SortableLocationCard';
-import { useContext, useState } from 'react';
-import { useDnd } from './useDnd';
 import { RecommendationContext } from '@/components/recommendation/RecommendationContext';
+import DroppableDateList from '@/components/recommendation/list/DroppableDateList';
+import SortableLocationCard from '@/components/recommendation/list/SortableLocationCard';
+import NewLocationButton from '@/components/recommendation/list/new-location/NewLocationButton';
+import { useDnd } from '@/components/recommendation/list/useDnd';
+import type { UniqueIdentifier } from '@dnd-kit/core';
+import { DndContext, DragOverlay, closestCorners } from '@dnd-kit/core';
+import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
+import { Box } from '@mui/material';
+import { useContext, useState } from 'react';
 
 const RecommendationContainer = () => {
   const { recommendations, setRecommendations } = useContext(RecommendationContext);
@@ -35,8 +35,11 @@ const RecommendationContainer = () => {
       modifiers={[restrictToVerticalAxis]}
     >
       <Box style={{ maxWidth: '400px', height: '70vh', overflowY: 'auto', paddingRight: '20px' }}>
-        {recommendations.map((r: Recommendation) => (
-          <DroppableDateList key={r.date} recommendation={r} />
+        {recommendations.map((r, index) => (
+          <>
+            <DroppableDateList key={r.date} recommendation={r} />
+            <NewLocationButton dateIndex={index} />
+          </>
         ))}
         <DragOverlay>
           {activeId !== null && activeContainerIndex !== null ? (

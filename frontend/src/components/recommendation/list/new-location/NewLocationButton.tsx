@@ -1,9 +1,13 @@
-import { Box, IconButton } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { Box, IconButton } from '@mui/material';
 import { useState } from 'react';
-import NewLocationInput from './NewLocationInput';
+import NewLocationInput from '@/components/recommendation/list/new-location/NewLocationInput';
 
-const NewLocationButton = () => {
+interface NewLocationButtonProps {
+  dateIndex: number;
+}
+
+const NewLocationButton = ({ dateIndex }: NewLocationButtonProps) => {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
@@ -21,7 +25,7 @@ const NewLocationButton = () => {
         <AddCircleIcon fontSize="large" color="primary" />
       </IconButton>
 
-      <NewLocationInput open={open} handleClose={handleClose} />
+      <NewLocationInput dateIndex={dateIndex} open={open} handleClose={handleClose} />
     </Box>
   );
 };
