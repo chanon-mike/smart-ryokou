@@ -1,62 +1,74 @@
 'use client';
 
-import { Box, CardMedia, Paper, Typography } from '@mui/material';
-import { LoadScript, GoogleMap, Marker } from '@react-google-maps/api';
-import { useContext } from 'react';
-import { ActiveLocationContext } from '../ActiveLocationContext';
+import LocationDetail from '@/components/recommendation/map/LocationDetail';
 import { GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
+import { mapStyles } from '@/libs/mapStyles';
+import type { Location } from '@/types/recommendation';
+import { GoogleMap, MarkerF, useJsApiLoader } from '@react-google-maps/api';
+import { useContext, useEffect, useMemo } from 'react';
+import { ActiveLocationContext } from '../ActiveLocationContext';
+import { RecommendationContext } from '../RecommendationContext';
 
 const Map = () => {
+  const recommendationContext = useContext(RecommendationContext);
   const activeLocationContext = useContext(ActiveLocationContext);
-  const { mapCenter, activeLocation } = activeLocationContext;
+  const { isLoaded } = useJsApiLoader({ googleMapsApiKey: GOOGLE_MAPS_API_KEY });
+  const { session } = recommendationContext;
+  const { mapCenter, setMapCenter, activeLocation, setActiveLocation } = activeLocationContext;
+
+  const allLocations = useMemo(
+    () =>
+      session.recommendations.flatMap((rec) =>
+        rec.locations.map((location) => ({
+          ...location,
+        })),
+      ),
+    [session],
+  );
+
+  const handleMarkerClick = (location: Location) => {
+    setActiveLocation(location);
+    setMapCenter({ lat: location.lat, lng: location.lng });
+  };
+
+  useEffect(() => {
+    if (allLocations.length > 0) {
+      // Find every lat and lng and get the average
+      const averageLatLng = allLocations.reduce(
+        (acc, loc) => ({ lat: acc.lat + loc.lat, lng: acc.lng + loc.lng }),
+        { lat: 0, lng: 0 },
+      );
+
+      averageLatLng.lat /= allLocations.length;
+      averageLatLng.lng /= allLocations.length;
+
+      setMapCenter(averageLatLng);
+    }
+  }, [allLocations, setMapCenter]);
 
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative' }}>
-      <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY}>
+      {isLoaded && (
         <GoogleMap
           mapContainerStyle={{ width: '100%', height: '100%' }}
           center={mapCenter}
           zoom={12}
-        >
-          <Marker
-            position={mapCenter}
-            onClick={() => {
-              // TODO: Handle marker click here
-            }}
-          />
-        </GoogleMap>
-      </LoadScript>
-      {activeLocation && (
-        <Paper
-          elevation={1}
-          style={{
-            position: 'absolute',
-            right: '10%',
-            bottom: '5%',
-            width: '80%',
-            padding: '16px',
-            overflow: 'auto',
+          options={{
+            styles: mapStyles,
+            disableDefaultUI: true,
+            keyboardShortcuts: false,
           }}
         >
-          {/* TODO: Add reviews and images from google map, link to direction */}
-          <Box style={{ display: 'flex' }}>
-            <CardMedia
-              component="img"
-              height="100px"
-              width="100px"
-              image={activeLocation.imageUrl}
-              alt="Image"
-              style={{ flex: '0 0 30%' }}
+          {allLocations.map((location, index) => (
+            <MarkerF
+              key={index}
+              position={{ lat: location.lat, lng: location.lng }}
+              onClick={() => handleMarkerClick(location)}
             />
-            <Box style={{ flex: '0 0 70%', paddingLeft: '16px' }}>
-              <Typography variant="h6">{activeLocation.name}</Typography>
-              <Typography variant="body2" color="text.secondary">
-                {activeLocation.description}
-              </Typography>
-            </Box>
-          </Box>
-        </Paper>
+          ))}
+        </GoogleMap>
       )}
+      {activeLocation && <LocationDetail activeLocation={activeLocation} />}
     </div>
   );
 };

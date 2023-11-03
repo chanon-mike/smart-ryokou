@@ -1,4 +1,5 @@
 import logging
+from typing import Union
 
 import json5
 import openai
@@ -9,6 +10,8 @@ from app.schema.recommendation import (
     INTEREST_JA,
     TRIP_PACE_JA,
     TRIP_TYPE_JA,
+    PromptRecommendationResponse,
+    PromptRecommendationsQuery,
     RecommendationResponse,
     StructuredQuery,
 )
@@ -21,6 +24,34 @@ opeanai_api_key = settings.OPENAI_API_KEY
 
 openai.api_key = opeanai_api_key
 openai.api_base = "https://api.openai.iniad.org/api/v1"
+
+additional_recommendation_functions = [
+    {
+        "name": "send_recommendations",
+        "description": "Send additional recommendations to user.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "recommendations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "place": {
+                                "type": "string",
+                                "description": "Name of a recommended place.",
+                            },
+                            "description": {
+                                "type": "string",
+                                "description": "Description of a recommended place.",
+                            },
+                        },
+                    },
+                }
+            },
+        },
+    }
+]
 
 openai_functions = [
     {
@@ -67,7 +98,9 @@ openai_functions = [
 ]
 
 
-def extract_json(openai_response: str) -> RecommendationResponse:
+def extract_json(
+    openai_response: str,
+) -> Union[RecommendationResponse, PromptRecommendationResponse]:
     """
     Extract json from openai response
     """
@@ -149,6 +182,56 @@ def generate_recommendation_structured_format_query(
     )
 
     logger.debug(f"openai_response {openai_response}")  # DEBUG
+
+    if openai_functions_called:
+        response_json = openai_response["choices"][0]["message"]["function_call"][
+            "arguments"
+        ]
+        response = extract_json(response_json)
+
+        # Below is hotfix for this ticket: https://github.com/chanon-mike/smart-ryokou/issues/85
+        response["title"] = f"{place}の旅行プラン"
+        logger.info(f"openai json response: {response}")
+        return response
+    else:
+        # when user enter invalid place
+        raise Exception("User input error")
+
+
+def generate_prompt_recommendation(
+    query: PromptRecommendationsQuery,
+) -> PromptRecommendationResponse:
+    trip_title = query.trip_title
+    user_prompt = query.user_prompt
+    suggested_places = query.suggested_places
+    prompt = f"""
+Suggest places in above area which match the following requirement: '{user_prompt}'. Suggested places must not include {",".join(suggested_places)}.
+"""
+    try:
+        openai_response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo-0613",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a travel planner. You suggest plan in Japanese.",
+                },
+                {
+                    "role": "user",
+                    "content": f"Return the name of place in this trip title: {trip_title}",
+                },
+                {"role": "user", "content": prompt},
+                {"role": "user", "content": "Send recommended places to user"},
+            ],
+            functions=additional_recommendation_functions,
+        )
+
+    except Exception as e:
+        logger.error(f"OpenAI error: {e}")
+        raise Exception("OpenAI service error")
+
+    openai_functions_called = openai_response["choices"][0]["message"].get(
+        "function_call"
+    )
 
     if openai_functions_called:
         response_json = openai_response["choices"][0]["message"]["function_call"][

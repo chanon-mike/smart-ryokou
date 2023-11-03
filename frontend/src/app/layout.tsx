@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import Navbar from '@/components/common/Navbar';
 import ThemeRegistry from '@/components/theme/ThemeRegistry';
 import GoogleAnalytics from '@/components/common/GoogleAnalytics';
+import createTranslation from 'next-translate/useTranslation';
 
 export const metadata: Metadata = {
   title: 'Smart旅行',
@@ -11,10 +12,13 @@ export const metadata: Metadata = {
 };
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
+  const { lang } = createTranslation('common');
+
   return (
-    <html lang="en">
+    <html lang={lang}>
       <head>
         <GoogleAnalytics />
+        <link href="https://fonts.googleapis.com/css?family=Sawarabi+Gothic" rel="stylesheet" />
       </head>
       <UserProvider>
         <body>

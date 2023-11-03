@@ -5,15 +5,15 @@ import Map from '@/components/recommendation/map/Map';
 import { Box, Typography } from '@mui/material';
 import { ActiveLocationProvider } from './ActiveLocationContext';
 import { useContext } from 'react';
-import { RecommendationContext } from './RecommendationContext';
+import { RecommendationContext } from '@/components/recommendation/RecommendationContext';
 
 const RecommendationResult = () => {
-  const { tripTitle } = useContext(RecommendationContext);
+  const { session } = useContext(RecommendationContext);
 
   return (
     <Box sx={{ marginTop: 10 }}>
       <Typography variant="h3" component="h3">
-        {tripTitle}
+        {session.tripTitle}
       </Typography>
       <ActiveLocationProvider>
         <div style={{ height: '80vh', width: '80vw' }}>

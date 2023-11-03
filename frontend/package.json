@@ -11,7 +11,8 @@
     "lint:prettier": "prettier --check \"./**/*.{ts,tsx,js}\" --ignore-path ../.gitignore",
     "lint:fix": "npm run lint:js -- --fix && prettier --write \"./**/*.{ts,tsx,js}\" --ignore-path ../.gitignore",
     "start": "next start",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "debug": "cross-env NODE_OPTIONS='--inspect' next dev -p 3000"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^3.1.0",
@@ -26,6 +27,7 @@
     "@react-google-maps/api": "^2.19.2",
     "axios": "^1.5.0",
     "ioredis": "^5.3.2",
+    "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "mongodb": "^6.1.0",
     "next": "13.4.16",
@@ -35,10 +37,12 @@
   },
   "devDependencies": {
     "@types/gtag.js": "^0.0.17",
+    "@types/lodash": "^4.14.200",
     "@types/node": "20.5.0",
     "@types/react": "18.2.20",
     "@types/react-dom": "18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.4.0",
+    "cross-env": "^7.0.3",
     "eslint": "8.47.0",
     "eslint-config-next": "13.4.16",
     "eslint-config-prettier": "^9.0.0",

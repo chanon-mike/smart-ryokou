@@ -5,11 +5,7 @@ import InputBar from '@/components/recommendation/prompt/InputBar';
 import PreferencesModal from '@/components/recommendation/prompt/PreferencesModal';
 import { Box, LinearProgress } from '@mui/material';
 
-interface PromptProps {
-  transitionToResultCallback: () => void;
-}
-
-const Prompt: React.FC<PromptProps> = ({ transitionToResultCallback }) => {
+const Prompt = () => {
   const [openModal, setOpenModal] = useState(false);
   const [placeInput, setPlaceInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -39,7 +35,6 @@ const Prompt: React.FC<PromptProps> = ({ transitionToResultCallback }) => {
             placeInput={placeInput}
             openModal={openModal}
             handleCloseModal={handleCloseModal}
-            transitionToResultCallback={transitionToResultCallback}
             setIsLoading={setIsLoading}
           />
         </>

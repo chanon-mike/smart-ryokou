@@ -10,7 +10,8 @@ import axios from 'axios';
 import type { Recommendation, Location } from '@/types/recommendation';
 import getLocationData from '@/client/helper/getLocationData';
 import cacheClient from '@/client/service/cache/implement';
-import { API_ENDPOINT, GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
+import { API_ENDPOINT, CX, GOOGLE_MAPS_API_KEY, GOOGLE_SEARCH_API_KEY } from '@/libs/envValues';
+import { getImageData } from '@/client/helper/getImageData';
 
 // eslint-disable-next-line complexity
 const getResult: GetResultInterface = async (context: ApiContext, request: GetResultRequest) => {
@@ -63,14 +64,16 @@ const adapter = async (serverResponse: GetResultServerResponse) => {
             date: r.date,
             locations: await Promise.all(
               r.activities.map(async (a: { place: string; description: string }) => {
-                const data = await getLocationData(a.place, GOOGLE_MAPS_API_KEY);
+                // Fetch location data from google places api and image data from pexels api
+                const latLngData = await getLocationData(a.place, GOOGLE_MAPS_API_KEY);
+                const imageData = await getImageData(a.place, GOOGLE_SEARCH_API_KEY, CX);
+
                 return {
                   name: a.place,
                   description: a.description,
-                  imageUrl:
-                    'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
-                  lat: data?.lat,
-                  lng: data?.lng,
+                  imageUrl: imageData,
+                  lat: latLngData?.lat,
+                  lng: latLngData?.lng,
                 } as Location;
               }),
             ),

@@ -84,3 +84,6 @@ poetry/core/*
 
 # redis
 data/redis
+
+# mongo
+data/mongodb
