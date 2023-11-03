@@ -49,7 +49,7 @@ const NewLocationInput = ({ dateIndex, open, handleClose }: NewLocationInputProp
     try {
       const requestParams = buildRequestParams();
       serverResponse = await Client.getLocation(
-        { useMock: true, requireAuth: false },
+        { useMock: false, requireAuth: false },
         requestParams,
       );
     } catch (error) {
