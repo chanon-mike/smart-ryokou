@@ -10,9 +10,10 @@ import { ActiveLocationContext } from '../ActiveLocationContext';
 
 interface DroppableDateListProps {
   recommendation: Recommendation;
+  onConfirmDeleteCard: (placeName: string) => void;
 }
 
-const DroppableDateList: FC<DroppableDateListProps> = ({ recommendation }) => {
+const DroppableDateList: FC<DroppableDateListProps> = ({ recommendation, onConfirmDeleteCard }) => {
   const activeLocationContext = useContext(ActiveLocationContext);
   const { activeStep, setActiveLocation, setActiveStep, setActiveDate, setMapCenter } =
     activeLocationContext;
@@ -51,11 +52,22 @@ const DroppableDateList: FC<DroppableDateListProps> = ({ recommendation }) => {
             >
               <Typography variant="body1">{step.name}</Typography>
             </StepLabel>
-            <StepContent onMouseDown={() => handleSelect(index)}>
+            <StepContent>
               {recommendation.locations.length === 1 ? (
-                <SortableLocationCard step={step} disabled={true} />
+                <SortableLocationCard
+                  step={step}
+                  disabled={true}
+                  index={index}
+                  onSelect={handleSelect}
+                  onConfirmDelete={onConfirmDeleteCard}
+                />
               ) : (
-                <SortableLocationCard step={step} />
+                <SortableLocationCard
+                  step={step}
+                  index={index}
+                  onSelect={handleSelect}
+                  onConfirmDelete={onConfirmDeleteCard}
+                />
               )}
             </StepContent>
           </Step>

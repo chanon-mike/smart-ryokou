@@ -49,5 +49,10 @@
     "zoo": "Zoo",
     "aquarium": "Aquarium",
     "amusement": "Amusement"
+  },
+  "deleteCardModal": {
+    "title": "Delete this location?",
+    "ok": "OK",
+    "cancel": "Cancel"
   }
 }

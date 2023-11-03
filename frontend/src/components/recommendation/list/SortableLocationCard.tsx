@@ -16,9 +16,18 @@ const HoverableCard = styled(Card)(({ theme }) => ({
 type SortableLocationCardProps = {
   step: Location;
   disabled?: boolean;
+  onSelect?: (index: number) => void;
+  onConfirmDelete?: (placeName: string) => void;
+  index?: number;
 };
 
-const SortableLocationCard = ({ step, disabled = false }: SortableLocationCardProps) => {
+const SortableLocationCard = ({
+  step,
+  disabled = false,
+  onSelect,
+  index,
+  onConfirmDelete,
+}: SortableLocationCardProps) => {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: step.name,
     disabled,
@@ -56,10 +65,11 @@ const SortableLocationCard = ({ step, disabled = false }: SortableLocationCardPr
                 width="100px"
                 image={step.imageUrl}
                 alt="Image"
+                onMouseDown={() => onSelect(index)}
               />
             </Grid>
             <Grid item xs={7}>
-              <CardContent>
+              <CardContent onMouseDown={() => onSelect(index)}>
                 <Typography variant="h6" component="div">
                   {step.name}
                 </Typography>
@@ -72,7 +82,7 @@ const SortableLocationCard = ({ step, disabled = false }: SortableLocationCardPr
               <IconButton aria-label="Edit">
                 <Edit />
               </IconButton>
-              <IconButton aria-label="Delete">
+              <IconButton aria-label="Delete" onMouseDown={() => onConfirmDelete(step.name)}>
                 <Delete />
               </IconButton>
               <IconButton aria-label="Description">

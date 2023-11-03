@@ -49,5 +49,10 @@
     "zoo": "動物園",
     "aquarium": "水族館",
     "amusement": "遊園地"
+  },
+  "deleteCardModal": {
+    "title": "この場所を削除しますか？",
+    "ok": "はい",
+    "cancel": "キャンセル"
   }
 }
