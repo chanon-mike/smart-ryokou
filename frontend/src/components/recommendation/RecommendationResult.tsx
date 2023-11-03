@@ -5,7 +5,7 @@ import Map from '@/components/recommendation/map/Map';
 import { Box, Typography } from '@mui/material';
 import { ActiveLocationProvider } from './ActiveLocationContext';
 import { useContext } from 'react';
-import { RecommendationContext } from './RecommendationContext';
+import { RecommendationContext } from '@/components/recommendation/RecommendationContext';
 
 const RecommendationResult = () => {
   const { tripTitle } = useContext(RecommendationContext);
