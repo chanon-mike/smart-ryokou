@@ -46,7 +46,7 @@ const SortableLocationCard = ({ location, disabled = false }: SortableLocationCa
           variant="outlined"
           style={{
             padding: 0,
-            minHeight: '100px',
+            height: '100px',
             margin: '10px 0px',
             cursor: `${disabled ? 'pointer' : 'grab'}`,
           }}
@@ -55,15 +55,17 @@ const SortableLocationCard = ({ location, disabled = false }: SortableLocationCa
             <Grid item xs={4}>
               <CardMedia
                 component="img"
-                height="100px"
-                width="100px"
+                sx={{
+                  height: '100%',
+                  width: '100%',
+                }}
                 image={location.imageUrl}
                 alt="Image"
               />
             </Grid>
             <Grid item xs={7}>
               <CardContent>
-                <Typography variant="h6" component="div">
+                <Typography variant="h6" component="h3" noWrap>
                   {location.name}
                 </Typography>
                 <Typography variant="body2" color="textSecondary" noWrap>
@@ -74,7 +76,12 @@ const SortableLocationCard = ({ location, disabled = false }: SortableLocationCa
             <Grid
               item
               xs={1}
-              sx={{ display: 'flex', justifyContent: 'space-evenly', flexDirection: 'column' }}
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-evenly',
+                flexDirection: 'column',
+                height: '100%',
+              }}
             >
               <SecondaryColorHoverIconButton aria-label="Edit">
                 <Edit />

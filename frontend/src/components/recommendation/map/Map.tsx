@@ -55,6 +55,8 @@ const Map = () => {
           zoom={12}
           options={{
             styles: mapStyles,
+            disableDefaultUI: true,
+            keyboardShortcuts: false,
           }}
         >
           {allLocations.map((location, index) => (
@@ -71,7 +73,7 @@ const Map = () => {
           elevation={1}
           style={{
             position: 'absolute',
-            right: '10%',
+            right: '8%',
             bottom: '5%',
             width: '80%',
             padding: '16px',
