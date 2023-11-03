@@ -18,11 +18,13 @@ export const RecommendationContext = createContext<RecommendationProps>({
 
 interface RecommendationProviderProps {
   children: ReactNode;
+  rec: Recommendation[];
+  title: string;
 }
 
-export const RecommendationProvider = ({ children }: RecommendationProviderProps) => {
-  const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
-  const [tripTitle, setTripTitle] = useState<string>('');
+export const RecommendationProvider = ({ children, rec, title }: RecommendationProviderProps) => {
+  const [recommendations, setRecommendations] = useState<Recommendation[]>(rec);
+  const [tripTitle, setTripTitle] = useState<string>(title);
 
   return (
     <RecommendationContext.Provider
