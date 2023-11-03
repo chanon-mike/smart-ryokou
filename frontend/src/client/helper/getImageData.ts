@@ -8,7 +8,7 @@ export const getImageData = async (
 ): Promise<string> => {
   try {
     // Cache location data
-    const cacheKey = `location:${placeName}`;
+    const cacheKey = `image:${placeName}`;
     const cachedResult = await cacheClient.getKey(cacheKey);
 
     if (cachedResult !== null) {
