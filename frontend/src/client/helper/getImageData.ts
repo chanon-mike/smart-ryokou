@@ -21,9 +21,15 @@ export const getImageData = async (
         `https://www.googleapis.com/customsearch/v1?q=${placeName}&key=${apiKey}&cx=${cx}&searchType=image`,
       )
     ).data;
-    const imageData = response.items[0].link;
-
-    cacheClient.setKey(cacheKey, JSON.stringify(imageData));
+    let imageData;
+    if (response.items) {
+      imageData = response.items[0].link;
+      cacheClient.setKey(cacheKey, JSON.stringify(imageData));
+    } else {
+      // When google cannot find image, use default
+      imageData =
+        'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk';
+    }
 
     return imageData;
   } catch (error) {
