@@ -44,7 +44,8 @@ const getResult: GetResultInterface = async (context: ApiContext, request: GetRe
     serverResponse = JSON.parse(cachedResult);
   }
 
-  return adapter(serverResponse);
+  const result = await adapter(serverResponse);
+  return result;
 };
 
 // TODO: Refactor
