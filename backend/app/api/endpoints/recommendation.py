@@ -2,7 +2,6 @@ from fastapi import APIRouter, HTTPException
 
 import app.use_case.recommendation as recommendation
 from app.schema.recommendation import (
-    FreeFormatQuery,
     PromptRecommendationResponse,
     PromptRecommendationsQuery,
     RecommendationResponse,
@@ -41,25 +40,6 @@ async def generate_prompt_recommendation(
 ) -> PromptRecommendationResponse:
     try:
         return recommendation.generate_prompt_recommendation(request_body)
-    except Exception as e:
-        print("Error: ", e)
-        raise HTTPException(
-            status_code=500,
-            detail={
-                "status": "failed",
-                "message": "Service is currently unavailable",
-                "error": str(e),
-            },
-        )
-
-
-@router.post("/free-format")
-async def generate_recommendation_free_format_query(
-    request_body: FreeFormatQuery,
-) -> str:
-    query = request_body.query
-    try:
-        return recommendation.generate_recommendation_free_format_query(query)
     except Exception as e:
         print("Error: ", e)
         raise HTTPException(

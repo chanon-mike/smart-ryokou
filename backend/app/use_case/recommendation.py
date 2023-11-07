@@ -243,18 +243,3 @@ Suggest places in above area which match the following requirement: '{user_promp
     else:
         # when user enter invalid place
         raise Exception("User input error")
-
-
-def generate_recommendation_free_format_query(query: str) -> str:
-    try:
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": "あなたは私の旅行プランナー"},
-                {"role": "user", "content": query},
-            ],
-        )
-        return response["choices"][0]["message"]["content"]
-    except Exception as e:
-        logger.error(f"OpenAI error: {e}")
-        raise Exception("OpenAI error")

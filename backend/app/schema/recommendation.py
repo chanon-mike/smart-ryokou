@@ -96,10 +96,6 @@ TRIP_TYPE_JA = {
 }
 
 
-class FreeFormatQuery(BaseModel):
-    query: str
-
-
 class StructuredQuery(BaseModel):
     """
     Place and duration and people_num are required. Other properties are optional
