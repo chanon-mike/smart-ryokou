@@ -39,14 +39,18 @@ class RecommendationUseCase:
 
     async def chat_completion_request(
         self,
-        model: str = "gpt-3.5-turbo",
+        model: str = "gpt-3.5-turbo-1106",
         messages: List[ChatCompletionMessageParam] = None,
         functions: List[Function] = None,
+        temperature: float = 0,
     ) -> ChatCompletion:
         """Send request to OpenAI chat completion API."""
         try:
             response = await self.client.chat.completions.create(
-                model=model, messages=messages, functions=functions
+                model=model,
+                messages=messages,
+                functions=functions,
+                temperature=temperature,
             )
             return response
         except Exception as e:
