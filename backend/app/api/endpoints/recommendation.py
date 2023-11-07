@@ -7,7 +7,7 @@ from app.use_case.recommendation import (
 )
 from app.schema.recommendation import (
     PromptRecommendationResponse,
-    PromptRecommendationsQuery,
+    PromptRecommendationQuery,
     StructuredRecommendationResponse,
     StructuredRecommendationQuery,
 )
@@ -41,7 +41,7 @@ async def generate_recommendation(
 
 @router.post("/prompt")
 async def generate_prompt_recommendation(
-    request_body: PromptRecommendationsQuery,
+    request_body: PromptRecommendationQuery,
 ) -> PromptRecommendationResponse:
     recommendation_usecase = PromptRecommendationUseCase()
     try:

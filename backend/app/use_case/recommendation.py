@@ -2,7 +2,7 @@ import logging
 from typing import List
 from app.schema.recommendation import (
     PromptRecommendationResponse,
-    PromptRecommendationsQuery,
+    PromptRecommendationQuery,
     StructuredRecommendationResponse,
     StructuredRecommendationQuery,
 )
@@ -74,10 +74,6 @@ class StructuredRecommendationUseCase(RecommendationUseCase):
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "title": {
-                            "type": "string",
-                            "description": "Title for recommended itinerary in Japanese.",
-                        },
                         "recommendation": {
                             "type": "array",
                             "items": {
@@ -101,48 +97,49 @@ class StructuredRecommendationUseCase(RecommendationUseCase):
                                                     "description": "Description of a recommended place in Japanese.",
                                                 },
                                             },
+                                            "required": ["place", "description"],
                                         },
                                     },
                                 },
+                                "required": ["date", "activities"],
                             },
                         },
                     },
-                    "required": ["title", "recommendation"],
+                    "required": ["recommendation"],
                 },
             }
         ]
 
     def _build_prompt(self, query: StructuredRecommendationQuery) -> str:
         prompt = (
-            "Create itinerary Include a mix of well-known and hidden gems. Each recommendation should be geographically feasible,"
-            "include what makes the place special and activities that align with the user's interests. The itinerary should be realistically possible,"
-            "considering travel times between locations. Base on the following information:\n"
-            f"Place: {query.place}\n"
-            f"Date: {query.date_from} to {query.date_to}\n"
-            f"People number: {query.people_num}\n"
+            "良く知られている場所と隠れた名所を組み合わせた旅行プランを作成してください。"
+            "移動時間を考慮した実現可能な旅程であること。以下の情報に基づいてください：\n"
+            f"場所: {query.place}\n"
+            f"日付: {query.date_from} から {query.date_to} まで\n"
+            f"人数: {query.people_num}人\n"
         )
 
-        optional_fields = {
-            "budget": query.budget,
-            "trip_pace": query.trip_pace,
-            "interests": ", ".join(query.interests) if query.interests else None,
-            "trip_type": query.trip_type,
-        }
-        for field_name, value in optional_fields.items():
-            if value:
-                prompt += f"{field_name}: {value}\n"
+        if query.budget:
+            prompt += f"予算: {query.budget.to_japanese()}\n"
+        if query.trip_pace:
+            prompt += f"旅行のペース: {query.trip_pace.to_japanese()}\n"
+        if query.interests:
+            prompt += f"興味: {', '.join([interest.to_japanese() for interest in query.interests])}\n"
+        if query.trip_type:
+            prompt += f"旅行の種類: {query.trip_type.to_japanese()}\n"
 
         return prompt
 
     def get_recommendations(
         self, query: StructuredRecommendationQuery
     ) -> StructuredRecommendationResponse:
+        logger.info(f"Query: {query}")
         prompt = self._build_prompt(query)
         response = self.chat_completion_request(
             messages=[
                 {
                     "role": "system",
-                    "content": "You are a Japanese travel planner. You suggest plan in Japanese.",
+                    "content": "You are a travel planner. You suggest plan in Japanese.",
                 },
                 {
                     "role": "system",
@@ -154,7 +151,7 @@ class StructuredRecommendationUseCase(RecommendationUseCase):
             functions=self.functions,
         )
         response_json: StructuredRecommendationResponse = self.parse_response(response)
-
+        response_json["title"] = f"{query.place}の旅行プラン"
         return response_json
 
 
@@ -182,23 +179,27 @@ class PromptRecommendationUseCase(RecommendationUseCase):
                                         "description": "Description of a recommended place in Japanese.",
                                     },
                                 },
+                                "required": ["place", "description"],
                             },
                         }
                     },
+                    "required": ["recommendations"],
                 },
             }
         ]
 
-    def _build_prompt(self, query: PromptRecommendationsQuery) -> str:
+    def _build_prompt(self, query: PromptRecommendationQuery) -> str:
         prompt = (
-            f"Suggest places in above area which match the following requirement: '{query.user_prompt}'.",
-            f"Suggested places must not include {', '.join(query.suggested_places)}.",
+            f"Suggest places in above area which match the following requirement: '{query.user_prompt}'."
+            f"Suggested places must not include {', '.join(query.suggested_places)}."
         )
+        logger.info(f"Prompt: {prompt}")
         return prompt
 
     def get_recommendations(
-        self, query: PromptRecommendationsQuery
+        self, query: PromptRecommendationQuery
     ) -> PromptRecommendationResponse:
+        logger.info(f"Query: {query}")
         prompt = self._build_prompt(query)
         response = self.chat_completion_request(
             messages=[

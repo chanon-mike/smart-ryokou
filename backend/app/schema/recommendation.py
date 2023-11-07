@@ -20,14 +20,6 @@ class BudgetType(Enum):
     def to_japanese(self) -> str:
         return BudgetType.mapper()[self]
 
-    @staticmethod
-    def from_japanese(japanese: str) -> Optional["BudgetType"]:
-        mapper = BudgetType.mapper()
-        for pref, name in mapper.items():
-            if name == japanese:
-                return pref
-        return None
-
 
 class TripPace(Enum):
     RELAXED = "relaxed"
@@ -44,14 +36,6 @@ class TripPace(Enum):
 
     def to_japanese(self) -> str:
         return TripPace.mapper()[self]
-
-    @staticmethod
-    def from_japanese(japanese: str) -> Optional["TripPace"]:
-        mapper = TripPace.mapper()
-        for pref, name in mapper.items():
-            if name == japanese:
-                return pref
-        return None
 
 
 class Interest(Enum):
@@ -104,14 +88,6 @@ class Interest(Enum):
     def to_japanese(self) -> str:
         return Interest.mapper()[self]
 
-    @staticmethod
-    def from_japanese(japanese: str) -> Optional["Interest"]:
-        mapper = Interest.mapper()
-        for pref, name in mapper.items():
-            if name == japanese:
-                return pref
-        return None
-
 
 class TripType(Enum):
     SOLO = "solo"
@@ -135,14 +111,6 @@ class TripType(Enum):
     def to_japanese(self) -> str:
         return TripType.mapper()[self]
 
-    @staticmethod
-    def from_japanese(japanese: str) -> Optional["TripType"]:
-        mapper = TripType.mapper()
-        for pref, name in mapper.items():
-            if name == japanese:
-                return pref
-        return None
-
 
 class StructuredRecommendationQuery(BaseModel):
     """Place and duration and people_num are required. Other properties are optional"""
@@ -157,7 +125,7 @@ class StructuredRecommendationQuery(BaseModel):
     trip_type: Optional[TripType] = None
 
 
-class PromptRecommendationsQuery(BaseModel):
+class PromptRecommendationQuery(BaseModel):
     trip_title: str
     user_prompt: str
     suggested_places: list[str]
