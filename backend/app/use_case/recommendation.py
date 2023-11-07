@@ -2,7 +2,7 @@ import logging
 from typing import List
 
 import json5
-from openai import OpenAI
+from openai import AsyncOpenAI
 from openai.resources.chat.completions import ChatCompletion, ChatCompletionMessageParam
 from openai.types.chat.completion_create_params import Function
 
@@ -22,7 +22,7 @@ class RecommendationUseCase:
         openai_api_key = settings.OPENAI_API_KEY
         base_url = "https://api.openai.iniad.org/api/v1"
 
-        self.client = OpenAI(
+        self.client = AsyncOpenAI(
             api_key=openai_api_key,
             base_url=base_url,
         )
@@ -37,7 +37,7 @@ class RecommendationUseCase:
             logger.error(f"Error decoding JSON: {e}")
             raise ValueError("Invalid JSON format") from e
 
-    def chat_completion_request(
+    async def chat_completion_request(
         self,
         model: str = "gpt-3.5-turbo",
         messages: List[ChatCompletionMessageParam] = None,
@@ -45,7 +45,7 @@ class RecommendationUseCase:
     ) -> ChatCompletion:
         """Send request to OpenAI chat completion API."""
         try:
-            response = self.client.chat.completions.create(
+            response = await self.client.chat.completions.create(
                 model=model, messages=messages, functions=functions
             )
             return response
@@ -132,12 +132,12 @@ class StructuredRecommendationUseCase(RecommendationUseCase):
 
         return prompt
 
-    def get_recommendations(
+    async def get_recommendations(
         self, query: StructuredRecommendationQuery
     ) -> StructuredRecommendationResponse:
         logger.info(f"Query: {query}")
         prompt = self._build_prompt(query)
-        response = self.chat_completion_request(
+        response = await self.chat_completion_request(
             messages=[
                 {
                     "role": "system",
@@ -195,15 +195,14 @@ class PromptRecommendationUseCase(RecommendationUseCase):
             f"Suggest places in above area which match the following requirement: '{query.user_prompt}'."
             f"Suggested places must not include {', '.join(query.suggested_places)}."
         )
-        logger.info(f"Prompt: {prompt}")
         return prompt
 
-    def get_recommendations(
+    async def get_recommendations(
         self, query: PromptRecommendationQuery
     ) -> PromptRecommendationResponse:
         logger.info(f"Query: {query}")
         prompt = self._build_prompt(query)
-        response = self.chat_completion_request(
+        response = await self.chat_completion_request(
             messages=[
                 {
                     "role": "system",

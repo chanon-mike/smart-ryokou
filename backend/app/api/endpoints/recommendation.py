@@ -27,7 +27,7 @@ async def generate_recommendation(
 ) -> StructuredRecommendationResponse:
     recommendation_usecase = StructuredRecommendationUseCase()
     try:
-        return recommendation_usecase.get_recommendations(request_body)
+        return await recommendation_usecase.get_recommendations(request_body)
     except Exception as e:
         logger.error(f"Error: {e}")
         raise HTTPException(
@@ -46,7 +46,7 @@ async def generate_prompt_recommendation(
 ) -> PromptRecommendationResponse:
     recommendation_usecase = PromptRecommendationUseCase()
     try:
-        return recommendation_usecase.get_recommendations(request_body)
+        return await recommendation_usecase.get_recommendations(request_body)
     except Exception as e:
         logger.error(f"Error: {e}")
         raise HTTPException(
