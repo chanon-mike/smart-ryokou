@@ -12,7 +12,7 @@ pydantic = {extras = ["dotenv"], version = "^1.10.12"}
 uvicorn = "^0.23.2"
 pyjwt = "^2.8.0"
 cryptography = "^3.4.7"
-openai = "^0.27.9"
+openai = "^1.1.0"
 mangum = "^0.17.0"
 json5 = "^0.9.14"
 

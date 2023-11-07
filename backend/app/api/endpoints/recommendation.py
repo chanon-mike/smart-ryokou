@@ -1,6 +1,10 @@
+import logging
 from fastapi import APIRouter, HTTPException
 
-import app.use_case.recommendation as recommendation
+from app.use_case.recommendation import (
+    StructuredRecommendationUseCase,
+    PromptRecommendationUseCase,
+)
 from app.schema.recommendation import (
     PromptRecommendationResponse,
     PromptRecommendationsQuery,
@@ -13,17 +17,18 @@ router = APIRouter(
     tags=["generate_recommendation"],
 )
 
+logger = logging.getLogger(__name__)
+
 
 @router.post("/structured-format")
 async def generate_recommendation(
     request_body: StructuredQuery,
 ) -> RecommendationResponse:
+    recommendation_usecase = StructuredRecommendationUseCase()
     try:
-        return recommendation.generate_recommendation_structured_format_query(
-            request_body
-        )
+        return recommendation_usecase.get_recommendations(request_body)
     except Exception as e:
-        print("Error: ", e)
+        logger.error(f"Error: {e}")
         raise HTTPException(
             status_code=500,
             detail={
@@ -38,10 +43,11 @@ async def generate_recommendation(
 async def generate_prompt_recommendation(
     request_body: PromptRecommendationsQuery,
 ) -> PromptRecommendationResponse:
+    recommendation_usecase = PromptRecommendationUseCase()
     try:
-        return recommendation.generate_prompt_recommendation(request_body)
+        return recommendation_usecase.get_recommendations(request_body)
     except Exception as e:
-        print("Error: ", e)
+        logger.error(f"Error: {e}")
         raise HTTPException(
             status_code=500,
             detail={
