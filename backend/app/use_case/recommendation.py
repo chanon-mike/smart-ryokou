@@ -1,16 +1,18 @@
 import logging
 from typing import List
-from app.schema.recommendation import (
-    PromptRecommendationResponse,
-    PromptRecommendationQuery,
-    StructuredRecommendationResponse,
-    StructuredRecommendationQuery,
-)
+
 import json5
 from openai import OpenAI
 from openai.resources.chat.completions import ChatCompletion, ChatCompletionMessageParam
 from openai.types.chat.completion_create_params import Function
+
 from app.core.config import settings
+from app.schema.recommendation import (
+    PromptRecommendationQuery,
+    PromptRecommendationResponse,
+    StructuredRecommendationQuery,
+    StructuredRecommendationResponse,
+)
 
 logger = logging.getLogger(__name__)
 

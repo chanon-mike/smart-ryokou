@@ -1,15 +1,16 @@
 import logging
+
 from fastapi import APIRouter, HTTPException
 
-from app.use_case.recommendation import (
-    StructuredRecommendationUseCase,
-    PromptRecommendationUseCase,
-)
 from app.schema.recommendation import (
-    PromptRecommendationResponse,
     PromptRecommendationQuery,
-    StructuredRecommendationResponse,
+    PromptRecommendationResponse,
     StructuredRecommendationQuery,
+    StructuredRecommendationResponse,
+)
+from app.use_case.recommendation import (
+    PromptRecommendationUseCase,
+    StructuredRecommendationUseCase,
 )
 
 router = APIRouter(
