@@ -8,8 +8,8 @@ from app.use_case.recommendation import (
 from app.schema.recommendation import (
     PromptRecommendationResponse,
     PromptRecommendationsQuery,
-    RecommendationResponse,
-    StructuredQuery,
+    StructuredRecommendationResponse,
+    StructuredRecommendationQuery,
 )
 
 router = APIRouter(
@@ -22,8 +22,8 @@ logger = logging.getLogger(__name__)
 
 @router.post("/structured-format")
 async def generate_recommendation(
-    request_body: StructuredQuery,
-) -> RecommendationResponse:
+    request_body: StructuredRecommendationQuery,
+) -> StructuredRecommendationResponse:
     recommendation_usecase = StructuredRecommendationUseCase()
     try:
         return recommendation_usecase.get_recommendations(request_body)

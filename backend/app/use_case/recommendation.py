@@ -3,8 +3,8 @@ from typing import List
 from app.schema.recommendation import (
     PromptRecommendationResponse,
     PromptRecommendationsQuery,
-    RecommendationResponse,
-    StructuredQuery,
+    StructuredRecommendationResponse,
+    StructuredRecommendationQuery,
 )
 import json5
 from openai import OpenAI
@@ -112,7 +112,7 @@ class StructuredRecommendationUseCase(RecommendationUseCase):
             }
         ]
 
-    def _build_prompt(self, query: StructuredQuery) -> str:
+    def _build_prompt(self, query: StructuredRecommendationQuery) -> str:
         prompt = (
             "Create itinerary Include a mix of well-known and hidden gems. Each recommendation should be geographically feasible,"
             "include what makes the place special and activities that align with the user's interests. The itinerary should be realistically possible,"
@@ -134,7 +134,9 @@ class StructuredRecommendationUseCase(RecommendationUseCase):
 
         return prompt
 
-    def get_recommendations(self, query: StructuredQuery) -> RecommendationResponse:
+    def get_recommendations(
+        self, query: StructuredRecommendationQuery
+    ) -> StructuredRecommendationResponse:
         prompt = self._build_prompt(query)
         response = self.chat_completion_request(
             messages=[
@@ -151,7 +153,7 @@ class StructuredRecommendationUseCase(RecommendationUseCase):
             ],
             functions=self.functions,
         )
-        response_json: RecommendationResponse = self.parse_response(response)
+        response_json: StructuredRecommendationResponse = self.parse_response(response)
 
         return response_json
 

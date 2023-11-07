@@ -9,12 +9,24 @@ class BudgetType(Enum):
     MEDIUM = "medium"
     HIGH = "high"
 
+    @staticmethod
+    def mapper() -> dict:
+        return {
+            BudgetType.LOW: "少なめ",
+            BudgetType.MEDIUM: "普通",
+            BudgetType.HIGH: "多め",
+        }
 
-BUDGET_TYPE_JA = {
-    BudgetType.LOW: "少なめ",
-    BudgetType.MEDIUM: "普通",
-    BudgetType.HIGH: "多め",
-}
+    def to_japanese(self) -> str:
+        return BudgetType.mapper()[self]
+
+    @staticmethod
+    def from_japanese(japanese: str) -> Optional["BudgetType"]:
+        mapper = BudgetType.mapper()
+        for pref, name in mapper.items():
+            if name == japanese:
+                return pref
+        return None
 
 
 class TripPace(Enum):
@@ -22,12 +34,24 @@ class TripPace(Enum):
     NORMAL = "normal"
     PACKED = "packed"
 
+    @staticmethod
+    def mapper() -> dict:
+        return {
+            TripPace.RELAXED: "ゆっくり",
+            TripPace.NORMAL: "普通",
+            TripPace.PACKED: "早い",
+        }
 
-TRIP_PACE_JA = {
-    TripPace.RELAXED: "ゆっくり",
-    TripPace.NORMAL: "普通",
-    TripPace.PACKED: "早い",
-}
+    def to_japanese(self) -> str:
+        return TripPace.mapper()[self]
+
+    @staticmethod
+    def from_japanese(japanese: str) -> Optional["TripPace"]:
+        mapper = TripPace.mapper()
+        for pref, name in mapper.items():
+            if name == japanese:
+                return pref
+        return None
 
 
 class Interest(Enum):
@@ -52,29 +76,41 @@ class Interest(Enum):
     AQUARIUM = "aquarium"
     AMUSEMENT = "amusement"
 
+    @staticmethod
+    def mapper() -> dict:
+        return {
+            Interest.FOOD: "グルメ",
+            Interest.NATURE: "自然",
+            Interest.SHOPPING: "買い物",
+            Interest.SPORTS: "スポーツ",
+            Interest.CULTURE: "文化",
+            Interest.ART: "芸術",
+            Interest.HISTORY: "歴史",
+            Interest.MUSEUM: "博物館",
+            Interest.ADVENTURE: "アドベンチャー",
+            Interest.SIGHTSEEING: "観光",
+            Interest.FESTIVAL: "お祭り",
+            Interest.PARTY: "パーティー",
+            Interest.PHOTO: "写真",
+            Interest.BEACH: "海",
+            Interest.MOUNTAIN: "山",
+            Interest.TEMPLE: "お寺・神社",
+            Interest.PARK: "公園",
+            Interest.ZOO: "動物園",
+            Interest.AQUARIUM: "水族館",
+            Interest.AMUSEMENT: "遊園地",
+        }
 
-INTEREST_JA = {
-    Interest.FOOD: "グルメ",
-    Interest.NATURE: "自然",
-    Interest.SHOPPING: "買い物",
-    Interest.SPORTS: "スポーツ",
-    Interest.CULTURE: "文化",
-    Interest.ART: "芸術",
-    Interest.HISTORY: "歴史",
-    Interest.MUSEUM: "博物館",
-    Interest.ADVENTURE: "アドベンチャー",
-    Interest.SIGHTSEEING: "観光",
-    Interest.FESTIVAL: "お祭り",
-    Interest.PARTY: "パーティー",
-    Interest.PHOTO: "写真",
-    Interest.BEACH: "海",
-    Interest.MOUNTAIN: "山",
-    Interest.TEMPLE: "お寺・神社",
-    Interest.PARK: "公園",
-    Interest.ZOO: "動物園",
-    Interest.AQUARIUM: "水族館",
-    Interest.AMUSEMENT: "遊園地",
-}
+    def to_japanese(self) -> str:
+        return Interest.mapper()[self]
+
+    @staticmethod
+    def from_japanese(japanese: str) -> Optional["Interest"]:
+        mapper = Interest.mapper()
+        for pref, name in mapper.items():
+            if name == japanese:
+                return pref
+        return None
 
 
 class TripType(Enum):
@@ -85,21 +121,31 @@ class TripType(Enum):
     BUSINESS = "business"
     BACKPACKER = "backpacker"
 
+    @staticmethod
+    def mapper() -> dict:
+        return {
+            TripType.SOLO: "一人",
+            TripType.COUPLE: "カップル",
+            TripType.FAMILY: "家族",
+            TripType.FRIENDS: "友達",
+            TripType.BUSINESS: "ビジネス",
+            TripType.BACKPACKER: "バックパッカー",
+        }
 
-TRIP_TYPE_JA = {
-    TripType.SOLO: "一人",
-    TripType.COUPLE: "カップル",
-    TripType.FAMILY: "家族",
-    TripType.FRIENDS: "友達",
-    TripType.BUSINESS: "ビジネス",
-    TripType.BACKPACKER: "バックパッカー",
-}
+    def to_japanese(self) -> str:
+        return TripType.mapper()[self]
+
+    @staticmethod
+    def from_japanese(japanese: str) -> Optional["TripType"]:
+        mapper = TripType.mapper()
+        for pref, name in mapper.items():
+            if name == japanese:
+                return pref
+        return None
 
 
-class StructuredQuery(BaseModel):
-    """
-    Place and duration and people_num are required. Other properties are optional
-    """
+class StructuredRecommendationQuery(BaseModel):
+    """Place and duration and people_num are required. Other properties are optional"""
 
     place: str
     date_from: str
@@ -127,7 +173,7 @@ class DayRecommendation(BaseModel):
     activities: list[Activity]
 
 
-class RecommendationResponse(BaseModel):
+class StructuredRecommendationResponse(BaseModel):
     title: str
     recommendation: list[DayRecommendation]
 
