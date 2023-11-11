@@ -36,25 +36,27 @@ const InterestsForm = ({ selectedInterests, handleSelectInterest }: Props) => {
     <>
       <Typography variant="h6">{t('interests-label')}</Typography>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-        {interests.map((interest) => (
-          <Chip
-            key={interest.value}
-            label={interest.label}
-            clickable
-            onClick={() => handleSelectInterest(interest.value)}
-            sx={{
-              backgroundColor: selectedInterests.includes(interest.value)
-                ? 'primary.main'
-                : undefined,
-              color: selectedInterests.includes(interest.value) ? 'white' : undefined,
-              '&:hover': {
-                backgroundColor: selectedInterests.includes(interest.value)
-                  ? 'primary.main'
-                  : undefined,
-              },
-            }}
-          />
-        ))}
+        {interests.map((interest) => {
+          const isSelected = selectedInterests.includes(interest.value);
+          const isDisabled = selectedInterests.length >= 3 && !isSelected;
+
+          return (
+            <Chip
+              key={interest.value}
+              label={interest.label}
+              clickable
+              onClick={() => handleSelectInterest(interest.value)}
+              disabled={isDisabled}
+              sx={{
+                backgroundColor: isSelected ? 'primary.main' : undefined,
+                color: isSelected ? 'white' : undefined,
+                '&:hover': {
+                  backgroundColor: isSelected ? 'primary.main' : undefined,
+                },
+              }}
+            />
+          );
+        })}
       </Box>
     </>
   );

@@ -42,9 +42,15 @@ export const usePreferences = () => {
 
   const handleSelectInterest = (interestLabel: string) => {
     if (selectedInterests.includes(interestLabel)) {
-      setSelectedInterests((prevLabel) => prevLabel.filter((label) => label !== interestLabel));
-    } else {
-      setSelectedInterests((prevLabel) => [...prevLabel, interestLabel]);
+      setSelectedInterests((prevInterests) =>
+        prevInterests.filter((label) => label !== interestLabel),
+      );
+      return;
+    }
+
+    // Max limit interests to 3 for gpt to handle
+    if (selectedInterests.length < 3) {
+      setSelectedInterests((prevInterests) => [...prevInterests, interestLabel]);
     }
   };
 
