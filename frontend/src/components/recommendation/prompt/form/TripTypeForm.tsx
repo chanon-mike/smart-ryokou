@@ -15,8 +15,8 @@ const TripTypeForm = ({ selectedTripTypes, handleSelectTripType }: Props) => {
     { label: t('trip-type.couple'), value: 'couple' },
     { label: t('trip-type.family'), value: 'family' },
     { label: t('trip-type.friends'), value: 'friends' },
-    { label: t('trip-type.business'), value: 'business' },
-    { label: t('trip-type.backpacker'), value: 'backpacker' },
+    // { label: t('trip-type.business'), value: 'business' },
+    // { label: t('trip-type.backpacker'), value: 'backpacker' },
   ];
 
   return (
