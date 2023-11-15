@@ -3,6 +3,7 @@ import type {
   GetNewLocationRequest,
   GetNewLocationResponse,
 } from '@/client/api/get-new-location/interface';
+import { useSnackbar } from '@/components/common/snackbar/SnackbarContext';
 import { RecommendationContext } from '@/components/recommendation/RecommendationContext';
 import NewLocationCard from '@/components/recommendation/list/new-location/NewLocationCard';
 import NewLocationPrompt from '@/components/recommendation/list/new-location/NewLocationPrompt';
@@ -38,6 +39,8 @@ const NewLocationInput = ({
     setPrompt(e.target.value);
   };
 
+  const { openSnackbar } = useSnackbar();
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
@@ -62,7 +65,7 @@ const NewLocationInput = ({
       );
     } catch (error) {
       if (error instanceof Error) {
-        alert(error.message);
+        openSnackbar(error.message, 'warning');
       }
       return;
     } finally {
