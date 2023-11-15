@@ -12,6 +12,7 @@ import getLocationData from '@/client/helper/getLocationData';
 import cacheClient from '@/client/service/cache/implement';
 import { API_ENDPOINT, CX, GOOGLE_MAPS_API_KEY, GOOGLE_SEARCH_API_KEY } from '@/libs/envValues';
 import { getImageData } from '@/client/helper/getImageData';
+import { generateObjectId } from '@/libs/helper';
 
 // eslint-disable-next-line complexity
 const getResult: GetResultInterface = async (context: ApiContext, request: GetResultRequest) => {
@@ -70,6 +71,7 @@ const adapter = async (serverResponse: GetResultServerResponse) => {
                 const imageData = await getImageData(a.place, GOOGLE_SEARCH_API_KEY, CX);
 
                 return {
+                  id: generateObjectId(),
                   name: a.place,
                   description: a.description,
                   imageUrl: imageData,

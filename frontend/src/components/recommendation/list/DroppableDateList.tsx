@@ -29,7 +29,7 @@ const DroppableDateList: FC<DroppableDateListProps> = ({ recommendation, onConfi
 
   return (
     <SortableContext
-      items={recommendation.locations.map((loc) => loc.name)}
+      items={recommendation.locations.map((loc) => loc.id)}
       strategy={rectSortingStrategy}
     >
       <Typography variant="h6" sx={{ marginTop: 1 }}>

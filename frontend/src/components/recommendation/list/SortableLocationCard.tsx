@@ -38,7 +38,7 @@ const SortableLocationCard = ({
   onConfirmDelete,
 }: SortableLocationCardProps) => {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
-    id: location.name,
+    id: location.id,
     disabled,
   });
 
