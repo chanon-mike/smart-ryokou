@@ -1,12 +1,11 @@
 import type { SelectChangeEvent } from '@mui/material';
 import type { Moment } from 'moment';
-import type { ChangeEvent } from 'react';
 import { useState } from 'react';
 
 export const usePreferences = () => {
   const [fromDate, setFromDate] = useState<Moment | null>(null);
   const [toDate, setToDate] = useState<Moment | null>(null);
-  const [peopleNumber, setPeopleNumber] = useState(1);
+  // const [peopleNumber, setPeopleNumber] = useState(1);
   const [selectedTripType, setSelectedTripType] = useState('');
   const [selectedPace, setSelectedPace] = useState('');
   const [selectedBudget, setSelectedBudget] = useState('');
@@ -20,13 +19,13 @@ export const usePreferences = () => {
     setToDate(date);
   };
 
-  const handlePeopleNumberChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = Number(e.target.value);
-    if (value < 1) {
-      return;
-    }
-    setPeopleNumber(value);
-  };
+  // const handlePeopleNumberChange = (e: ChangeEvent<HTMLInputElement>) => {
+  //   const value = Number(e.target.value);
+  //   if (value < 1) {
+  //     return;
+  //   }
+  //   setPeopleNumber(value);
+  // };
 
   const handleSelectTripType = (e: SelectChangeEvent) => {
     setSelectedTripType(e.target.value);
@@ -59,8 +58,8 @@ export const usePreferences = () => {
     handleFromDateChange,
     toDate,
     handleToDateChange,
-    peopleNumber,
-    handlePeopleNumberChange,
+    // peopleNumber,
+    // handlePeopleNumberChange,
     selectedTripType,
     handleSelectTripType,
     selectedPace,

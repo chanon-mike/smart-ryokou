@@ -8,7 +8,6 @@ import BudgetForm from '@/components/recommendation/prompt/form/BudgetForm';
 import DateRangeForm from '@/components/recommendation/prompt/form/DateRangeForm';
 import InterestsForm from '@/components/recommendation/prompt/form/InterestsForm';
 import PaceForm from '@/components/recommendation/prompt/form/PaceForm';
-import PeopleNumberForm from '@/components/recommendation/prompt/form/PeopleNumberForm';
 import TripTypeForm from '@/components/recommendation/prompt/form/TripTypeForm';
 import { usePreferences } from '@/components/recommendation/prompt/usePreferences';
 import { generateObjectId } from '@/libs/helper';
@@ -44,8 +43,8 @@ const PreferencesModal = ({
     handleFromDateChange,
     toDate,
     handleToDateChange,
-    peopleNumber,
-    handlePeopleNumberChange,
+    // peopleNumber,
+    // handlePeopleNumberChange,
     selectedTripType,
     handleSelectTripType,
     selectedPace,
@@ -79,7 +78,7 @@ const PreferencesModal = ({
       place: placeInput,
       date_from: formatDate(fromDate),
       date_to: formatDate(toDate),
-      people_num: peopleNumber,
+      // people_num: peopleNumber,
       budget: selectedBudget.length ? selectedBudget : null,
       trip_pace: selectedPace.length ? selectedPace : null,
       interests: selectedInterests.length ? selectedInterests : null,
@@ -148,10 +147,10 @@ const PreferencesModal = ({
             toDate={toDate}
             handleToDateChange={handleToDateChange}
           />
-          <PeopleNumberForm
+          {/* <PeopleNumberForm
             peopleNumber={peopleNumber}
             handlePeopleNumberChange={handlePeopleNumberChange}
-          />
+          /> */}
           <TripTypeForm
             selectedTripTypes={selectedTripType}
             handleSelectTripType={handleSelectTripType}

@@ -122,11 +122,11 @@ class StructuredRecommendationUseCase(RecommendationUseCase):
             "移動時間を考慮した実現可能な旅程であること。以下の情報に基づいてください：\n"
             f"場所: {query.place}\n"
             f"日付: {query.date_from} から {query.date_to} まで\n"
-            f"人数: {query.people_num}人\n"
+            # f"人数: {query.people_num}人\n"
         )
 
-        if query.budget:
-            prompt += f"予算: {query.budget.to_japanese()}\n"
+        # if query.budget:
+        #     prompt += f"予算: {query.budget.to_japanese()}\n"
         if query.trip_pace:
             prompt += f"旅行のペース: {query.trip_pace.to_japanese()}\n"
         if query.interests:

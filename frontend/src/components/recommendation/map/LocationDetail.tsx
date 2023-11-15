@@ -45,6 +45,8 @@ const LocationDetail = ({ activeLocation }: LocationDetailProps) => {
         <Grid item xs={1} sx={{ display: 'flex', justifyContent: 'center' }}>
           <a
             href={`https://www.google.com/maps?saddr=My+Location&daddr=${activeLocation.lat},${activeLocation.lng}`}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             <Tooltip title={t('get-directions')}>
               <IconButton aria-label="directions">
