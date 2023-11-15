@@ -12,6 +12,7 @@ import cacheClient from '@/client/service/cache/implement';
 import { API_ENDPOINT, CX, GOOGLE_MAPS_API_KEY, GOOGLE_SEARCH_API_KEY } from '@/libs/envValues';
 import getNewLocationMock from './mock';
 import { getImageData } from '@/client/helper/getImageData';
+import { generateObjectId } from '@/libs/helper';
 
 // eslint-disable-next-line complexity
 const getLocation: GetNewLocationInterface = async (
@@ -66,6 +67,7 @@ const adapter = async (
 
         if (latLngData.lat !== undefined && latLngData.lng !== undefined) {
           locations.push({
+            id: generateObjectId(),
             name: recommendation.place,
             description: recommendation.description,
             imageUrl: imageData,
