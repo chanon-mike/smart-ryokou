@@ -87,7 +87,8 @@ class StructuredRecommendationUseCase(RecommendationUseCase):
                                 "properties": {
                                     "date": {
                                         "type": "string",
-                                        "description": "Date in recommended itinerary, e.g 9月1日.",
+                                        "pattern": "^[0-9]{4}/(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])$",
+                                        "description": "Date in recommended itinerary in format YYYY/MM/DD",
                                     },
                                     "activities": {
                                         "type": "array",

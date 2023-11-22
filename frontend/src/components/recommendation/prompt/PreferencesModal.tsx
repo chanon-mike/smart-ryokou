@@ -69,8 +69,9 @@ const PreferencesModal = ({
     // Moment's month starts from 0
     const month = date.month() + 1;
     const day = date.date();
+    const year = date.year();
 
-    return `${month}月${day}日`;
+    return `${year}年${month}月${day}日`;
   };
 
   const buildRequestParams = (): GetResultRequest => {
