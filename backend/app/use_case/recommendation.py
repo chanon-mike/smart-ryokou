@@ -159,7 +159,6 @@ class StructuredRecommendationUseCase(RecommendationUseCase):
         )
         response_json: StructuredRecommendationResponse = self.parse_response(response)
         response_json["title"] = f"{query.place}の旅行プラン"
-        logger.info(f"response {response_json}")
         return response_json
 
 
