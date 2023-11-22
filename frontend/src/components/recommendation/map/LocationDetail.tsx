@@ -15,7 +15,7 @@ const LocationDetail = ({ activeLocation }: LocationDetailProps) => {
       elevation={1}
       style={{
         position: 'absolute',
-        right: '8%',
+        right: '10%',
         bottom: '5%',
         width: '80%',
         padding: '16px',
