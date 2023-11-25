@@ -111,9 +111,9 @@ const PreferencesModal = ({
       );
     } catch (error) {
       if (error instanceof Error) {
-        openSnackbar(error.message, 'warning');
-        setIsLoading(false);
+        openSnackbar(error.message, 'error');
       }
+      setIsLoading(false);
       return;
     }
     console.log(`serverResponse after input modal`, serverResponse);
