@@ -4,10 +4,23 @@ import LocationDetail from '@/components/recommendation/map/LocationDetail';
 import { GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
 import { mapStyles } from '@/libs/mapStyles';
 import type { Location } from '@/types/recommendation';
-import { GoogleMap, MarkerF, useJsApiLoader } from '@react-google-maps/api';
+import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
 import { useContext, useEffect, useMemo } from 'react';
 import { ActiveLocationContext } from '../ActiveLocationContext';
 import { RecommendationContext } from '../RecommendationContext';
+
+const fixedColors = [
+  'red',
+  'blue',
+  'green',
+  'yellow',
+  'purple',
+  'orange',
+  'pink',
+  'brown',
+  'gray',
+  'cyan',
+];
 
 const Map = () => {
   const recommendationContext = useContext(RecommendationContext);
@@ -18,9 +31,12 @@ const Map = () => {
 
   const allLocations = useMemo(
     () =>
-      session.recommendations.flatMap((rec) =>
+      session.recommendations.flatMap((rec, recIndex) =>
         rec.locations.map((location) => ({
           ...location,
+          color: `https://maps.google.com/mapfiles/ms/icons/${
+            fixedColors[recIndex % fixedColors.length]
+          }-dot.png`,
         })),
       ),
     [session],
@@ -33,7 +49,6 @@ const Map = () => {
 
   useEffect(() => {
     if (allLocations.length > 0) {
-      // Find every lat and lng and get the average
       const averageLatLng = allLocations.reduce(
         (acc, loc) => ({ lat: acc.lat + loc.lat, lng: acc.lng + loc.lng }),
         { lat: 0, lng: 0 },
@@ -60,10 +75,11 @@ const Map = () => {
           }}
         >
           {allLocations.map((location, index) => (
-            <MarkerF
+            <Marker
               key={index}
               position={{ lat: location.lat, lng: location.lng }}
               onClick={() => handleMarkerClick(location)}
+              icon={location.color}
             />
           ))}
         </GoogleMap>
