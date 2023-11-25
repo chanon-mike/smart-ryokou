@@ -67,6 +67,7 @@ const NewLocationInput = ({
       if (error instanceof Error) {
         openSnackbar(error.message, 'warning');
       }
+      setIsLoading(false);
       return;
     } finally {
       setIsLoading(false);

@@ -112,6 +112,7 @@ const PreferencesModal = ({
     } catch (error) {
       if (error instanceof Error) {
         openSnackbar(error.message, 'warning');
+        setIsLoading(false);
       }
       return;
     }
