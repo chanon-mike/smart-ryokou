@@ -79,6 +79,9 @@ const RecommendationContainer = () => {
                     (loc) => loc.id === activeId,
                   )[0]
                 }
+                index={0}
+                onSelect={() => {}}
+                onConfirmDelete={() => {}}
               />
             ) : null}
           </DragOverlay>
