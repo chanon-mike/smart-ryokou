@@ -4,6 +4,7 @@ import type { ApiContext } from '@/client/ApiContext';
 import Client from '@/client/Client';
 import type { GetResultRequest, GetResultResponse } from '@/client/api/get-result/interface';
 import SessionClient from '@/client/service/session/implement';
+import { useSnackbar } from '@/components/common/snackbar/SnackbarContext';
 import BudgetForm from '@/components/recommendation/prompt/form/BudgetForm';
 import DateRangeForm from '@/components/recommendation/prompt/form/DateRangeForm';
 import InterestsForm from '@/components/recommendation/prompt/form/InterestsForm';
@@ -94,6 +95,8 @@ const PreferencesModal = ({
     return await Client.getResult(apiContext, requestParams);
   };
 
+  const { openSnackbar } = useSnackbar();
+
   // Handle fetching recommendation data from server when user submit button
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     setIsLoading(true);
@@ -108,8 +111,9 @@ const PreferencesModal = ({
       );
     } catch (error) {
       if (error instanceof Error) {
-        alert(error.message);
+        openSnackbar(error.message, 'error');
       }
+      setIsLoading(false);
       return;
     }
     console.log(`serverResponse after input modal`, serverResponse);
