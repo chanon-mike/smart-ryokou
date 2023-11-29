@@ -4,7 +4,7 @@ import LocationDetail from '@/components/recommendation/map/LocationDetail';
 import { GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
 import { mapStyles } from '@/libs/mapStyles';
 import type { Location } from '@/types/recommendation';
-import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
+import { GoogleMap, MarkerF, useJsApiLoader } from '@react-google-maps/api';
 import { useContext, useEffect, useMemo } from 'react';
 import { ActiveLocationContext } from '../ActiveLocationContext';
 import { RecommendationContext } from '../RecommendationContext';
@@ -75,7 +75,7 @@ const Map = () => {
           }}
         >
           {allLocations.map((location, index) => (
-            <Marker
+            <MarkerF
               key={index}
               position={{ lat: location.lat, lng: location.lng }}
               onClick={() => handleMarkerClick(location)}
