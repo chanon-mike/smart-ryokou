@@ -9,6 +9,19 @@ import { useContext, useEffect, useMemo } from 'react';
 import { ActiveLocationContext } from '../ActiveLocationContext';
 import { RecommendationContext } from '../RecommendationContext';
 
+const fixedColors = [
+  'red',
+  'blue',
+  'green',
+  'yellow',
+  'purple',
+  'orange',
+  'pink',
+  'brown',
+  'gray',
+  'cyan',
+];
+
 const Map = () => {
   const recommendationContext = useContext(RecommendationContext);
   const activeLocationContext = useContext(ActiveLocationContext);
@@ -19,9 +32,12 @@ const Map = () => {
 
   const allLocations = useMemo(
     () =>
-      session.recommendations.flatMap((rec) =>
+      session.recommendations.flatMap((rec, recIndex) =>
         rec.locations.map((location) => ({
           ...location,
+          color: `https://maps.google.com/mapfiles/ms/icons/${
+            fixedColors[recIndex % fixedColors.length]
+          }-dot.png`,
         })),
       ),
     [session],
@@ -57,6 +73,7 @@ const Map = () => {
               key={index}
               position={{ lat: location.lat, lng: location.lng }}
               onClick={() => handleMarkerClick(location)}
+              icon={location.color}
             />
           ))}
         </GoogleMap>
