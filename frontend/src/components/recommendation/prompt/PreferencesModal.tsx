@@ -4,11 +4,11 @@ import type { ApiContext } from '@/client/ApiContext';
 import Client from '@/client/Client';
 import type { GetResultRequest, GetResultResponse } from '@/client/api/get-result/interface';
 import SessionClient from '@/client/service/session/implement';
+import { useSnackbar } from '@/components/common/snackbar/SnackbarContext';
 import BudgetForm from '@/components/recommendation/prompt/form/BudgetForm';
 import DateRangeForm from '@/components/recommendation/prompt/form/DateRangeForm';
 import InterestsForm from '@/components/recommendation/prompt/form/InterestsForm';
 import PaceForm from '@/components/recommendation/prompt/form/PaceForm';
-import PeopleNumberForm from '@/components/recommendation/prompt/form/PeopleNumberForm';
 import TripTypeForm from '@/components/recommendation/prompt/form/TripTypeForm';
 import { usePreferences } from '@/components/recommendation/prompt/usePreferences';
 import { generateObjectId } from '@/libs/helper';
@@ -44,8 +44,8 @@ const PreferencesModal = ({
     handleFromDateChange,
     toDate,
     handleToDateChange,
-    peopleNumber,
-    handlePeopleNumberChange,
+    // peopleNumber,
+    // handlePeopleNumberChange,
     selectedTripType,
     handleSelectTripType,
     selectedPace,
@@ -70,8 +70,9 @@ const PreferencesModal = ({
     // Moment's month starts from 0
     const month = date.month() + 1;
     const day = date.date();
+    const year = date.year();
 
-    return `${month}月${day}日`;
+    return `${year}年${month}月${day}日`;
   };
 
   const buildRequestParams = (): GetResultRequest => {
@@ -79,7 +80,7 @@ const PreferencesModal = ({
       place: placeInput,
       date_from: formatDate(fromDate),
       date_to: formatDate(toDate),
-      people_num: peopleNumber,
+      // people_num: peopleNumber,
       budget: selectedBudget.length ? selectedBudget : null,
       trip_pace: selectedPace.length ? selectedPace : null,
       interests: selectedInterests.length ? selectedInterests : null,
@@ -93,6 +94,8 @@ const PreferencesModal = ({
   ) => {
     return await Client.getResult(apiContext, requestParams);
   };
+
+  const { openSnackbar } = useSnackbar();
 
   // Handle fetching recommendation data from server when user submit button
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -108,8 +111,9 @@ const PreferencesModal = ({
       );
     } catch (error) {
       if (error instanceof Error) {
-        alert(error.message);
+        openSnackbar(error.message, 'error');
       }
+      setIsLoading(false);
       return;
     }
     console.log(`serverResponse after input modal`, serverResponse);
@@ -148,10 +152,10 @@ const PreferencesModal = ({
             toDate={toDate}
             handleToDateChange={handleToDateChange}
           />
-          <PeopleNumberForm
+          {/* <PeopleNumberForm
             peopleNumber={peopleNumber}
             handlePeopleNumberChange={handlePeopleNumberChange}
-          />
+          /> */}
           <TripTypeForm
             selectedTripTypes={selectedTripType}
             handleSelectTripType={handleSelectTripType}

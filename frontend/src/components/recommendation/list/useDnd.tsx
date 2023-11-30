@@ -30,7 +30,7 @@ export const useDnd = ({
   const handleDragStart = (event: DragStartEvent) => {
     const { active } = event;
     const activeDateContainerIndex = session.recommendations.findIndex((r) =>
-      r.locations.some((loc) => loc.name === active.id),
+      r.locations.some((loc) => loc.id === active.id),
     );
 
     setActiveId(active.id);
@@ -51,7 +51,7 @@ export const useDnd = ({
     }
 
     const overContainerIndex = session.recommendations.findIndex((r) =>
-      r.locations.some((loc) => loc.name === over.id),
+      r.locations.some((loc) => loc.id === over.id),
     );
 
     if (activeContainerIndex === null || activeContainerIndex === overContainerIndex) {
@@ -68,7 +68,7 @@ export const useDnd = ({
       }
 
       const [activeItem] = activeContainer.locations.splice(
-        activeContainer.locations.findIndex((loc) => loc.name === active.id),
+        activeContainer.locations.findIndex((loc) => loc.id === active.id),
         1,
       );
       next[overContainerIndex]?.locations.push(activeItem); // This places the item at the end of the target Container
@@ -96,10 +96,10 @@ export const useDnd = ({
     setSession((prev) => {
       const newRecommendation = [...prev.recommendations];
       const activeContainer = newRecommendation.find((r) =>
-        r.locations.some((loc) => loc.name === active.id),
+        r.locations.some((loc) => loc.id === active.id),
       );
       const overContainer = newRecommendation.find((r) =>
-        r.locations.some((loc) => loc.name === over.id),
+        r.locations.some((loc) => loc.id === over.id),
       );
 
       if (!activeContainer || !overContainer) return prev;

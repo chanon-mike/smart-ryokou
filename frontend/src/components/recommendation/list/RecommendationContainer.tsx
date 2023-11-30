@@ -76,9 +76,12 @@ const RecommendationContainer = () => {
               <SortableLocationCard
                 location={
                   session.recommendations[activeContainerIndex].locations.filter(
-                    (r) => r.name === activeId,
+                    (loc) => loc.id === activeId,
                   )[0]
                 }
+                index={0}
+                onSelect={() => {}}
+                onConfirmDelete={() => {}}
               />
             ) : null}
           </DragOverlay>
