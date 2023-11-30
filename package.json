@@ -13,13 +13,15 @@
     "format": "run-p format:*",
     "format:frontend": "npm run lint:fix --prefix frontend",
     "format:backend": "npm run lint:fix --prefix backend",
+    "debug": "run-p debug:*",
+    "debug:frontend": "npm run debug --prefix frontend",
+    "debug:backend": "npm run dev --prefix backend",
     "prepare": "husky install"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/googlemaps": "^3.43.3",
     "husky": "^8.0.0",
     "npm-run-all": "^4.1.5"
   }

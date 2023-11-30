@@ -19,6 +19,7 @@ Always checkout from and merge to develop branch
    ```sh
     cd frontend
     npm install
+    cp .env.example .env
    ```
 
 3. Install Python packages
@@ -35,4 +36,6 @@ Always checkout from and merge to develop branch
     npm run dev
    ```
 
-5. Open [http://localhost:3000](http://localhost:3000) and [http://localhost:8000](http://localhost:8000) with your browser to see the result.
+5. Open [http://localhost:3000](http://localhost:3000) for frontend and [http://localhost:8000](http://localhost:8000) for backend with to see the result.
+
+6. Run `docker compose up -d` to boot redis and mongodb instance (`docker compose down` to stop them)
