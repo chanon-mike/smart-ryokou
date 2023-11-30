@@ -2,7 +2,7 @@ import { createTheme } from '@mui/material/styles';
 
 const themeColors = {
   primary: '#4D70D9',
-  secondary: '#F1D0D5',
+  secondary: '#D94D70',
   background: '#FFFFFF',
 };
 
@@ -20,17 +20,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
+    fontFamily: ['"Sawarabi Gothic"'].join(','),
   },
   components: {
     MuiButtonBase: {

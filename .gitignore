@@ -81,3 +81,9 @@ poetry/core/*
 .secrets
 
 .serverless
+
+# redis
+data/redis
+
+# mongo
+data/mongodb
