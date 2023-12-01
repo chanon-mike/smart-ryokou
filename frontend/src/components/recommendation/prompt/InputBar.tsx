@@ -3,9 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { InputAdornment, TextField, Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import useTranslation from 'next-translate/useTranslation';
-import MapConfigs from '@/libs/MapConfigs';
+import { GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
 
-const { API_KEY } = MapConfigs();
+const API_KEY = GOOGLE_MAPS_API_KEY;
 
 type Props = {
   placeInput: string;
