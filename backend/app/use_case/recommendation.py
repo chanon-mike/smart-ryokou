@@ -1,4 +1,6 @@
+import json
 import logging
+from datetime import datetime, timedelta
 from typing import List
 
 import json5
@@ -39,17 +41,17 @@ class RecommendationUseCase:
 
     async def chat_completion_request(
         self,
-        model: str = "gpt-3.5-turbo-1106",
+        model: str = "gpt-3.5-turbo",
         messages: List[ChatCompletionMessageParam] = None,
-        functions: List[Function] = None,
-        temperature: float = 0,
+        tools: List[Function] = None,
+        temperature: float = 0.5,
     ) -> ChatCompletion:
         """Send request to OpenAI chat completion API."""
         try:
             response = await self.client.chat.completions.create(
                 model=model,
                 messages=messages,
-                functions=functions,
+                tools=tools,
                 temperature=temperature,
             )
             return response
@@ -59,10 +61,9 @@ class RecommendationUseCase:
 
     def parse_response(self, response: ChatCompletion):
         """Parse response from OpenAI chat completion API."""
-        function_call = response.choices[0].message.function_call
-
-        if function_call:
-            response_json = self._extract_json(function_call.arguments)
+        tool_calls = json.loads(response.json())["choices"][0]["message"]["tool_calls"]
+        if len(tool_calls) > 0:
+            response_json = self._extract_json(tool_calls[0]["function"]["arguments"])
             logger.info(f"Response: {response_json}")
             return response_json
         else:
@@ -75,65 +76,100 @@ class StructuredRecommendationUseCase(RecommendationUseCase):
         super().__init__()
         self.functions: List[Function] = [
             {
-                "name": "send_itinerary",
-                "description": "Create itinerary plan based on user input.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "recommendation": {
-                            "type": "array",
-                            "items": {
-                                "type": "object",
-                                "properties": {
-                                    "date": {
-                                        "type": "string",
-                                        "pattern": "^[0-9]{4}/(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])$",
-                                        "description": "Date in recommended itinerary in format YYYY/MM/DD",
-                                    },
-                                    "activities": {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "object",
-                                            "properties": {
-                                                "place": {
-                                                    "type": "string",
-                                                    "description": "Recommended place in Japanese.",
+                "type": "function",
+                "function": {
+                    "name": "generate_itinerary",
+                    "description": "旅行プランを提案する",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "recommendation": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "date": {
+                                            "type": "string",
+                                            "pattern": "[1-9]*日",
+                                            "description": "例えば：1日、２日",
+                                        },
+                                        "activities": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "place": {
+                                                        "type": "string",
+                                                        "description": "日本語で場所の名前",
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "description": "場所の説明",
+                                                    },
                                                 },
-                                                "description": {
-                                                    "type": "string",
-                                                    "description": "Description of a recommended place in Japanese.",
-                                                },
+                                                "required": ["place", "description"],
                                             },
-                                            "required": ["place", "description"],
                                         },
                                     },
+                                    "required": ["date", "activities"],
                                 },
-                                "required": ["date", "activities"],
                             },
                         },
+                        "required": ["recommendation"],
                     },
-                    "required": ["recommendation"],
                 },
             }
         ]
 
-    def _build_prompt(self, query: StructuredRecommendationQuery) -> str:
-        prompt = (
-            "良く知られている場所と隠れた名所を組み合わせた旅行プランを作成してください。"
-            "移動時間を考慮した実現可能な旅程であること。以下の情報に基づいてください：\n"
-            f"場所: {query.place}\n"
-            f"日付: {query.date_from} から {query.date_to} まで\n"
-            # f"人数: {query.people_num}人\n"
-        )
+    def _assign_date_to_response(
+        self,
+        query: StructuredRecommendationQuery,
+        response_json: StructuredRecommendationResponse,
+    ):
+        """
+        ChatGPT response mark `date` properties as `day 1`, `day 2`. Convert to date such as `2023-12-31` based on user input date
 
-        # if query.budget:
-        #     prompt += f"予算: {query.budget.to_japanese()}\n"
-        if query.trip_pace:
-            prompt += f"旅行のペース: {query.trip_pace.to_japanese()}\n"
+        ### Return
+        Modified copy of json_response
+        """
+        response_json_copy = response_json.copy()
+        current_date = datetime.strptime(query.date_from, "%Y-%m-%d")
+        recommendation_lst = response_json_copy["recommendation"]
+        for recommendation in recommendation_lst:
+            current_date_str = current_date.strftime("%Y年%m月%d日")
+            recommendation["date"] = current_date_str
+            current_date = current_date + timedelta(days=1)
+        return response_json_copy
+
+    def _build_prompt(self, query: StructuredRecommendationQuery) -> str:
+        prompt = ""
+        commands = []
+
+        date_from = query.date_from
+        date_to = query.date_to
+
+        date_format = "%Y-%m-%d"
+        date_from = datetime.strptime(date_from, date_format)
+        date_to = datetime.strptime(date_to, date_format)
+
+        date_difference = date_to - date_from
+        trip_days_num = date_difference.days
+
         if query.interests:
-            prompt += f"興味: {', '.join([interest.to_japanese() for interest in query.interests])}\n"
-        if query.trip_type:
-            prompt += f"旅行の種類: {query.trip_type.to_japanese()}\n"
+            num = 1
+            for interest in query.interests:
+                commands.append(
+                    f"Recommend places to visit in {query.place} which are suitable for {interest.value} and save results as variable data{num}"
+                )
+                num += 1
+        else:
+            commands.append(
+                f"Recommend places to visit in {query.place} and save results as variable data1"
+            )
+
+        commands_num = len(commands)
+        intermediate_data_vars = [f"data{i}" for i in range(1, commands_num + 1)]
+        prompt = f"You are a travel planner. You suggest plan in Japanese. {'. '.join(commands)}. From above variables {', '.join(intermediate_data_vars)}, generate a plan for a {trip_days_num + 1} days trip in Japanese."
 
         return prompt
 
@@ -141,24 +177,27 @@ class StructuredRecommendationUseCase(RecommendationUseCase):
         self, query: StructuredRecommendationQuery
     ) -> StructuredRecommendationResponse:
         logger.info(f"Query: {query}")
-        prompt = self._build_prompt(query)
+        prompts = self._build_prompt(query)
+        logger.info(f"promps {prompts}")
+        messages = []
+        messages.append(
+            {
+                "role": "system",
+                "content": "Use Japanese name when possible",
+            }
+        )
+
+        messages.append({"role": "user", "content": prompts})
+
+        logger.info(f"messages {messages}")
+
         response = await self.chat_completion_request(
-            messages=[
-                {
-                    "role": "system",
-                    "content": "You are a travel planner. You suggest plan in Japanese.",
-                },
-                {
-                    "role": "system",
-                    "content": f"Ask for clarification if there is no existing location named '{query.place}'.",
-                },
-                {"role": "user", "content": prompt},
-                {"role": "user", "content": "Send generated trip to user"},
-            ],
-            functions=self.functions,
+            messages=messages,
+            tools=self.functions,
         )
         response_json: StructuredRecommendationResponse = self.parse_response(response)
         response_json["title"] = f"{query.place}の旅行プラン"
+        response_json = self._assign_date_to_response(query, response_json)
         return response_json
 
 
