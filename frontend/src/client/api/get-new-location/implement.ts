@@ -6,12 +6,13 @@ import type {
 } from './interface';
 import axios from 'axios';
 import type { Location } from '@/types/recommendation';
-import getLocationData from '@/client/helper/getLocationData';
 import cacheClient from '@/client/service/cache/implement';
-import { API_ENDPOINT, CX, GOOGLE_MAPS_API_KEY, GOOGLE_SEARCH_API_KEY } from '@/libs/envValues';
+import { API_ENDPOINT, GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
 import getNewLocationMock from './mock';
-import { getImageData } from '@/client/helper/getImageData';
 import { generateObjectId } from '@/libs/helper';
+import { getPlaceDetails } from '@/client/helper/getPlaceDetails';
+import { getPlaceId } from '@/client/helper/getPlaceId';
+import { getPlacePhoto } from '@/client/helper/getPlacePhoto';
 
 // eslint-disable-next-line complexity
 const getLocation: GetNewLocationInterface = async (
@@ -64,21 +65,21 @@ const mapLocation = async (recommendation: {
   place: string;
   description: string;
 }): Promise<Location | undefined> => {
-  const latLngData = await getLocationData(recommendation.place, GOOGLE_MAPS_API_KEY);
-  const imageData = await getImageData(recommendation.place, GOOGLE_SEARCH_API_KEY, CX);
+  const placeId = await getPlaceId(recommendation.place, GOOGLE_MAPS_API_KEY);
+  const placeDetails = await getPlaceDetails(placeId, GOOGLE_MAPS_API_KEY, 'ja');
+  const placePhoto = await getPlacePhoto(placeDetails.photo, GOOGLE_MAPS_API_KEY);
 
-  if (latLngData.lat !== undefined && latLngData.lng !== undefined) {
-    return {
-      id: generateObjectId(),
-      name: recommendation.place,
-      description: recommendation.description,
-      imageUrl: imageData,
-      lat: latLngData.lat,
-      lng: latLngData.lng,
-    };
-  }
-
-  return undefined;
+  return {
+    id: generateObjectId(),
+    name: placeDetails.name,
+    description: recommendation.description,
+    address: placeDetails.address,
+    rating: placeDetails.rating,
+    userRatingCount: placeDetails.userRatingCount,
+    imageUrl: placePhoto,
+    lat: placeDetails.location.lat,
+    lng: placeDetails.location.lng,
+  };
 };
 
 export default getLocation;
