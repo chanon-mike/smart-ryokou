@@ -13,8 +13,12 @@ export async function POST(req: NextRequest) {
     const placeDetails: PlaceDetails = await getPlaceDetails(placeId, apiKey, 'ja');
     const placePhoto: string = await getPlacePhoto(placeId, apiKey);
 
-    const response = {
-      details: placeDetails,
+    const response: PlaceDetails = {
+      name: placeDetails.name,
+      address: placeDetails.address,
+      location: placeDetails.location,
+      rating: placeDetails.rating,
+      userRatingCount: placeDetails.userRatingCount,
       photo: placePhoto,
     };
     return NextResponse.json(response);
