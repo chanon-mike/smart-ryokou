@@ -1,6 +1,15 @@
 import type { Location } from '@/types/recommendation';
 import DirectionsIcon from '@mui/icons-material/Directions';
-import { Box, CardMedia, Grid, IconButton, Paper, Tooltip, Typography } from '@mui/material';
+import {
+  Box,
+  CardMedia,
+  Grid,
+  IconButton,
+  Paper,
+  Rating,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import createTranslation from 'next-translate/useTranslation';
 
 interface LocationDetailProps {
@@ -29,7 +38,7 @@ const LocationDetail = ({ activeLocation }: LocationDetailProps) => {
             component="img"
             height="100px"
             width="100px"
-            image={activeLocation.photo}
+            image={`data:image/jpeg;base64,${activeLocation.photo}`}
             alt="Image"
             style={{ flex: '0 0 30%' }}
           />
@@ -37,6 +46,17 @@ const LocationDetail = ({ activeLocation }: LocationDetailProps) => {
         <Grid item xs={7}>
           <Box style={{ flex: '0 0 70%', paddingLeft: '16px' }}>
             <Typography variant="h6">{activeLocation.name}</Typography>
+            {activeLocation.rating && activeLocation.userRatingCount && (
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, pb: 0.3 }}>
+                <Typography variant="body2" color="text.secondary">
+                  {activeLocation.rating}
+                </Typography>
+                <Rating value={activeLocation.rating} precision={0.1} size="small" readOnly />
+                <Typography variant="body2" color="text.secondary">
+                  ({activeLocation.userRatingCount})
+                </Typography>
+              </Box>
+            )}
             <Typography variant="body2" color="text.secondary">
               {activeLocation.description}
             </Typography>
