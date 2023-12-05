@@ -10,7 +10,7 @@ export interface Location {
   address: string;
   rating: number;
   userRatingCount: number;
-  imageUrl: string;
+  photo: string;
   lat: number;
   lng: number;
 }

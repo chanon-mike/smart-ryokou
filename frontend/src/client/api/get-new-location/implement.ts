@@ -72,7 +72,7 @@ const mapLocation = async (recommendation: {
     address: placeData.address,
     rating: placeData.rating,
     userRatingCount: placeData.userRatingCount,
-    imageUrl: placeData.photo,
+    photo: placeData.photo,
     lat: placeData.location.lat,
     lng: placeData.location.lng,
   };

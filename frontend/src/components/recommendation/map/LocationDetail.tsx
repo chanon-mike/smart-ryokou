@@ -29,7 +29,7 @@ const LocationDetail = ({ activeLocation }: LocationDetailProps) => {
             component="img"
             height="100px"
             width="100px"
-            image={activeLocation.imageUrl}
+            image={activeLocation.photo}
             alt="Image"
             style={{ flex: '0 0 30%' }}
           />
