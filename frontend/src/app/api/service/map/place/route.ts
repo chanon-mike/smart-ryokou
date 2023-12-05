@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
       location: placeDetails.location,
       rating: placeDetails.rating,
       userRatingCount: placeDetails.userRatingCount,
-      photo: placePhoto,
+      photo: placePhoto, // photo jpeg in base64
     };
     return NextResponse.json(response);
   } catch (error) {
