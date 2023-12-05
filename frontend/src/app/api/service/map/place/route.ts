@@ -15,7 +15,6 @@ export async function POST(req: NextRequest) {
 
     const response: PlaceDetails = {
       name: placeDetails.name,
-      address: placeDetails.address,
       location: placeDetails.location,
       rating: placeDetails.rating,
       userRatingCount: placeDetails.userRatingCount,

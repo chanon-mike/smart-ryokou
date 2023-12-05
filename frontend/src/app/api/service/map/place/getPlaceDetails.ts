@@ -27,7 +27,6 @@ export const getPlaceDetails = async (
 
     const data = {
       name: response.displayName.text,
-      address: response.formatted_address,
       location: {
         lat: response.location.latitude,
         lng: response.location.longitude,
