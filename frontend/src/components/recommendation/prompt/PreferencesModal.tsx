@@ -72,7 +72,7 @@ const PreferencesModal = ({
     const day = date.date();
     const year = date.year();
 
-    return `${year}年${month}月${day}日`;
+    return `${year}-${month}-${day}`;
   };
 
   const buildRequestParams = (): GetResultRequest => {
