@@ -1,7 +1,9 @@
 import type { Location } from '@/types/recommendation';
 import DirectionsIcon from '@mui/icons-material/Directions';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import {
   Box,
+  Button,
   CardMedia,
   Grid,
   IconButton,
@@ -31,7 +33,6 @@ const LocationDetail = ({ activeLocation }: LocationDetailProps) => {
         overflow: 'auto',
       }}
     >
-      {/* TODO: Add reviews and images from google map, link to direction */}
       <Grid container>
         <Grid item xs={4}>
           <CardMedia
@@ -39,11 +40,11 @@ const LocationDetail = ({ activeLocation }: LocationDetailProps) => {
             height="100px"
             width="100px"
             image={`data:image/jpeg;base64,${activeLocation.photo}`}
-            alt="Image"
+            alt={activeLocation.name}
             style={{ flex: '0 0 30%' }}
           />
         </Grid>
-        <Grid item xs={7}>
+        <Grid item xs={8}>
           <Box style={{ flex: '0 0 70%', paddingLeft: '16px' }}>
             <Typography variant="h6">{activeLocation.name}</Typography>
             {activeLocation.rating && activeLocation.userRatingCount && (
@@ -62,20 +63,39 @@ const LocationDetail = ({ activeLocation }: LocationDetailProps) => {
             </Typography>
           </Box>
         </Grid>
-        <Grid item xs={1} sx={{ display: 'flex', justifyContent: 'center' }}>
-          <a
-            href={`https://www.google.com/maps?saddr=My+Location&daddr=${activeLocation.lat},${activeLocation.lng}`}
+        <Grid
+          item
+          xs={1}
+          sx={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'column' }}
+        />
+      </Grid>
+      <Box sx={{ display: 'flex', mt: 1, gap: 1, alignContent: 'center' }}>
+        <Box sx={{ width: '33%' }}>
+          <Button
+            variant="contained"
+            fullWidth={true}
+            href={`https://www.google.com/maps/place/?q=place_id:${activeLocation.placeId}`}
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Tooltip title={t('get-directions')}>
-              <IconButton aria-label="directions">
-                <DirectionsIcon color="primary" />
-              </IconButton>
-            </Tooltip>
-          </a>
-        </Grid>
-      </Grid>
+            <OpenInNewIcon />
+            <Typography variant="caption" sx={{ ml: 0.5 }} fontSize={10}>
+              {t('open-in-google-maps')}
+            </Typography>
+          </Button>
+        </Box>
+        <Tooltip title={t('get-directions')}>
+          <IconButton
+            aria-label="directions"
+            href={`https://www.google.com/maps?saddr=My+Location&daddr=${activeLocation.lat},${activeLocation.lng}&travelmode=walk`}
+            target="_blank"
+            rel="noopener noreferrer"
+            sx={{ p: 0.75 }}
+          >
+            <DirectionsIcon color="inherit" />
+          </IconButton>
+        </Tooltip>
+      </Box>
     </Paper>
   );
 };

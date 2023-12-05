@@ -8,8 +8,7 @@ import type { FC } from 'react';
 import { useContext } from 'react';
 import { ActiveLocationContext } from '@/components/recommendation/ActiveLocationContext';
 import { SecondaryColorHoverIconButton } from '@/components/common/mui/SecondaryColorHoverIconButton';
-import PlaceIcon from '@mui/icons-material/Place';
-
+import PinDropIcon from '@mui/icons-material/PinDrop';
 interface DroppableDateListProps {
   recommendation: Recommendation;
   onConfirmDeleteCard: (placeName: string) => void;
@@ -57,7 +56,7 @@ const DroppableDateList: FC<DroppableDateListProps> = ({ recommendation, onConfi
           {recommendation.date}
         </Typography>
         <SecondaryColorHoverIconButton onClick={handleSelectDate} sx={{ paddingBottom: 0 }}>
-          <PlaceIcon />
+          <PinDropIcon />
         </SecondaryColorHoverIconButton>
       </Box>
 
