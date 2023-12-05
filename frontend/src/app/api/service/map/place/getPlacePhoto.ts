@@ -1,17 +1,15 @@
-import cacheClient from '@/client/service/cache/implement';
+import cacheService from '@/service/cache/service';
 import axios from 'axios';
 
 export const getPlacePhoto = async (placeId: string, apiKey: string): Promise<string> => {
   try {
-    // Cache location data
     const cacheKey = `placePhoto:${placeId}`;
-    const cachedResult = await cacheClient.getKey(cacheKey);
+    const cachedResult = await cacheService.getKey(cacheKey);
 
     if (cachedResult !== null) {
       return JSON.parse(cachedResult);
     }
 
-    // If not cached, fetch from google search api
     const response = (
       await axios.get(`https://places.googleapis.com/v1/${placeId}/media`, {
         headers: {
@@ -22,7 +20,7 @@ export const getPlacePhoto = async (placeId: string, apiKey: string): Promise<st
       })
     ).data;
 
-    cacheClient.setKey(cacheKey, JSON.stringify(response));
+    await cacheService.setKey(cacheKey, JSON.stringify(response));
 
     return response;
   } catch (error) {

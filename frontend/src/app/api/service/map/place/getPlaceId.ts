@@ -1,17 +1,16 @@
-import cacheClient from '@/client/service/cache/implement';
+// import cacheClient from '@/client/service/cache/implement';
+import cacheService from '@/service/cache/service';
 import axios from 'axios';
 
 export const getPlaceId = async (placeName: string, apiKey: string): Promise<string> => {
   try {
-    // Cache location data
     const cacheKey = `placeId:${placeName}`;
-    const cachedResult = await cacheClient.getKey(cacheKey);
+    const cachedResult = await cacheService.getKey(cacheKey);
 
     if (cachedResult !== null) {
       return JSON.parse(cachedResult);
     }
 
-    // If not cached, fetch from google search api
     const response = (
       await axios.post(
         'https://places.googleapis.com/v1/places:searchText',
@@ -20,14 +19,15 @@ export const getPlaceId = async (placeName: string, apiKey: string): Promise<str
         },
         {
           headers: {
-            key: apiKey,
+            'X-Goog-Api-Key': apiKey,
+            'X-Goog-FieldMask': 'places.id',
           },
         },
       )
     ).data;
 
     const placeId = response.places[0].id;
-    cacheClient.setKey(cacheKey, JSON.stringify(placeId));
+    await cacheService.setKey(cacheKey, JSON.stringify(placeId));
 
     return placeId;
   } catch (error) {
