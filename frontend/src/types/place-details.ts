@@ -1,4 +1,5 @@
 export interface PlaceDetails {
+  placeId: string;
   name: string;
   location: {
     lat: number;

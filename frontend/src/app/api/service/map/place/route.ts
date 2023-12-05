@@ -14,6 +14,7 @@ export async function POST(req: NextRequest) {
     const placePhoto: string = await getPlacePhoto(placeDetails.photo, apiKey);
 
     const response: PlaceDetails = {
+      placeId,
       name: placeDetails.name,
       location: placeDetails.location,
       rating: placeDetails.rating,

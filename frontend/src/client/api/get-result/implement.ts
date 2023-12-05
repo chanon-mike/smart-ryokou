@@ -57,9 +57,9 @@ const generateLocation = async (activity: {
 
   return {
     id: generateObjectId(),
+    placeId: placeData.placeId,
     name: placeData.name,
     description: activity.description,
-    address: placeData.address,
     rating: placeData.rating,
     userRatingCount: placeData.userRatingCount,
     photo: placeData.photo,

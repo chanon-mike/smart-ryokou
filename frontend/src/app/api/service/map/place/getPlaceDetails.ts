@@ -26,6 +26,7 @@ export const getPlaceDetails = async (
     ).data;
 
     const data = {
+      placeId,
       name: response.displayName.text,
       location: {
         lat: response.location.latitude,
