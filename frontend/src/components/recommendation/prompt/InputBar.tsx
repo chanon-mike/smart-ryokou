@@ -19,9 +19,6 @@ const InputBar = ({ placeInput, setPlaceInput, handleOpenModal }: Props) => {
 
   // Function to format the address as per your requirements
   const formatShortAddress = (place: google.maps.places.PlaceResult): string => {
-    const city = place.address_components.find((component) => component.types.includes('locality'))
-      ?.long_name;
-
     const prefecture = place.address_components.find((component) =>
       component.types.includes('administrative_area_level_1'),
     )?.long_name;
@@ -31,7 +28,7 @@ const InputBar = ({ placeInput, setPlaceInput, handleOpenModal }: Props) => {
     )?.long_name;
 
     // Customize the address format as needed
-    return `${city}, ${prefecture}, ${country}`;
+    return `${prefecture}, ${country}`;
   };
 
   useEffect(() => {
@@ -41,7 +38,7 @@ const InputBar = ({ placeInput, setPlaceInput, handleOpenModal }: Props) => {
     script.onload = () => {
       const input = document.getElementById('search') as HTMLInputElement;
       const options = {
-        types: ['establishment'],
+        types: ['administrative_area_level_1', 'country'],
       };
       const autoCompleteInstance = new google.maps.places.Autocomplete(input, options);
       setAutocomplete(autoCompleteInstance);
