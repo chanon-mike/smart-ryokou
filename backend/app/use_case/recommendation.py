@@ -125,12 +125,10 @@ class StructuredRecommendationUseCase(RecommendationUseCase):
         self,
         query: StructuredRecommendationQuery,
         response_json: StructuredRecommendationResponse,
-    ):
+    ) -> StructuredRecommendationResponse:
         """
-        ChatGPT response mark `date` properties as `day 1`, `day 2`. Convert to date such as `2023-12-31` based on user input date
-
-        ### Return
-        Modified copy of json_response
+        GPT returns a list of activities with 'date' properties as `day 1`, `day 2`.
+        This function convert to date in format of `yyyy-mm-dd` to each activity based on user input.
         """
         response_json_copy = response_json.copy()
         current_date = datetime.strptime(query.date_from, "%Y-%m-%d")
@@ -143,7 +141,7 @@ class StructuredRecommendationUseCase(RecommendationUseCase):
 
     def _build_prompt(self, query: StructuredRecommendationQuery) -> str:
         prompt = ""
-        commands = []
+        prompts = []
 
         date_from = query.date_from
         date_to = query.date_to
@@ -158,18 +156,18 @@ class StructuredRecommendationUseCase(RecommendationUseCase):
         if query.interests:
             num = 1
             for interest in query.interests:
-                commands.append(
+                prompts.append(
                     f"Recommend places to visit in {query.place} which are suitable for {interest.value} and save results as variable data{num}"
                 )
                 num += 1
         else:
-            commands.append(
+            prompts.append(
                 f"Recommend places to visit in {query.place} and save results as variable data1"
             )
 
-        commands_num = len(commands)
-        intermediate_data_vars = [f"data{i}" for i in range(1, commands_num + 1)]
-        prompt = f"You are a travel planner. You suggest plan in Japanese. {'. '.join(commands)}. From above variables {', '.join(intermediate_data_vars)}, generate a plan for a {trip_days_num + 1} days trip in Japanese."
+        prompt_num = len(prompts)
+        intermediate_data_vars = [f"data{i}" for i in range(1, prompt_num + 1)]
+        prompt = f"You are a travel planner. You suggest plan in Japanese. {'. '.join(prompts)}. From above variables {', '.join(intermediate_data_vars)}, generate a plan for a {trip_days_num + 1} days trip in Japanese."
 
         return prompt
 
@@ -178,7 +176,7 @@ class StructuredRecommendationUseCase(RecommendationUseCase):
     ) -> StructuredRecommendationResponse:
         logger.info(f"Query: {query}")
         prompts = self._build_prompt(query)
-        logger.info(f"promps {prompts}")
+
         messages = []
         messages.append(
             {
@@ -186,10 +184,9 @@ class StructuredRecommendationUseCase(RecommendationUseCase):
                 "content": "Use Japanese name when possible",
             }
         )
-
         messages.append({"role": "user", "content": prompts})
 
-        logger.info(f"messages {messages}")
+        logger.info(f"Messages: {messages}")
 
         response = await self.chat_completion_request(
             messages=messages,
