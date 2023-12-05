@@ -10,7 +10,7 @@ class MapPlaceService implements MapPlaceServiceInterface {
   }
 
   async getPlaceData(placeName: string): Promise<PlaceDetails> {
-    const placeData = await fetch(encodeURI(`/api/place/id/`), {
+    const placeData = await fetch(encodeURI(`/api/service/map/place/`), {
       method: 'POST',
       body: JSON.stringify({
         placeName,

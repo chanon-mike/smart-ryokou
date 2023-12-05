@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
   try {
     const placeId: string = await getPlaceId(placeName, apiKey);
     const placeDetails: PlaceDetails = await getPlaceDetails(placeId, apiKey, 'ja');
-    const placePhoto: string = await getPlacePhoto(placeId, apiKey);
+    const placePhoto: string = await getPlacePhoto(placeDetails.photo, apiKey);
 
     const response: PlaceDetails = {
       name: placeDetails.name,
@@ -24,9 +24,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(response);
   } catch (error) {
     console.error(error);
-    return NextResponse.json(
-      { error: `An unexpected error occurred while fetching place: ${error}` },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: `Error: ${error}` }, { status: 500 });
   }
 }

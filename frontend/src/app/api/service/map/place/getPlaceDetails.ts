@@ -17,7 +17,7 @@ export const getPlaceDetails = async (
 
     const response = (
       await axios.get(`https://places.googleapis.com/v1/places/${placeId}`, {
-        headers: {
+        params: {
           key: apiKey,
           fields: 'displayName,formatted_address,location,photos,rating,userRatingCount',
           languageCode,
@@ -29,8 +29,8 @@ export const getPlaceDetails = async (
       name: response.displayName.text,
       address: response.formatted_address,
       location: {
-        lat: response.location.lat,
-        lng: response.location.lng,
+        lat: response.location.latitude,
+        lng: response.location.longitude,
       },
       rating: response.rating,
       userRatingCount: response.userRatingCount,
@@ -40,6 +40,6 @@ export const getPlaceDetails = async (
 
     return data;
   } catch (error) {
-    throw new Error('An unexpected error occurred while fetching place details');
+    throw new Error(`An unexpected error occurred while fetching place details: ${error}`);
   }
 };

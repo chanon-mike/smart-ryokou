@@ -31,6 +31,6 @@ export const getPlaceId = async (placeName: string, apiKey: string): Promise<str
 
     return placeId;
   } catch (error) {
-    throw new Error('An unexpected error occurred while fetching place Id');
+    throw new Error(`An unexpected error occurred while fetching place Id ${error}`);
   }
 };
