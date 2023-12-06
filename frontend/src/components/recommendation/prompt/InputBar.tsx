@@ -17,20 +17,6 @@ const InputBar = ({ placeInput, setPlaceInput, handleOpenModal }: Props) => {
   const { t } = useTranslation('home');
   const [, setAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
 
-  // Function to format the address as per your requirements
-  const formatShortAddress = (place: google.maps.places.PlaceResult): string => {
-    const prefecture = place.address_components.find((component) =>
-      component.types.includes('administrative_area_level_1'),
-    )?.long_name;
-
-    const country = place.address_components.find((component) =>
-      component.types.includes('country'),
-    )?.long_name;
-
-    // Customize the address format as needed
-    return `${prefecture}, ${country}`;
-  };
-
   useEffect(() => {
     const script = document.createElement('script');
     script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&libraries=places`;
@@ -39,6 +25,7 @@ const InputBar = ({ placeInput, setPlaceInput, handleOpenModal }: Props) => {
       const input = document.getElementById('search') as HTMLInputElement;
       const options = {
         types: ['administrative_area_level_1', 'country'],
+        language: navigator.language.split('-')[0], // Set language based on user's preferred language
       };
       const autoCompleteInstance = new google.maps.places.Autocomplete(input, options);
       setAutocomplete(autoCompleteInstance);
@@ -59,6 +46,19 @@ const InputBar = ({ placeInput, setPlaceInput, handleOpenModal }: Props) => {
       document.head.removeChild(script);
     };
   }, [setPlaceInput]);
+
+  const formatShortAddress = (place: google.maps.places.PlaceResult): string => {
+    const prefecture = place.address_components.find((component) =>
+      component.types.includes('administrative_area_level_1'),
+    )?.long_name;
+
+    const country = place.address_components.find((component) =>
+      component.types.includes('country'),
+    )?.long_name;
+
+    // Customize the address format as needed
+    return `${prefecture}, ${country}`;
+  };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPlaceInput(event.target.value);
