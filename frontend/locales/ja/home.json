@@ -1,7 +1,7 @@
 {
-  "caption": "AIで旅行計画を立てよう！",
+  "caption": "AIで旅行計画を立てよう!",
   "input-message": "日本、東京",
-  "input-button": "計画を立てる！",
+  "input-button": "計画を立てる!",
   "dialog-title": "{{name}}での旅行計画",
   "dialog-content": "旅行の好みを選択してください",
   "date-label": "日程",
@@ -52,6 +52,8 @@
     "aquarium": "水族館",
     "amusement": "遊園地"
   },
+  "featured-title": "人気",
+  "featured-subtitle": "人気の都市",
   "featured": {
     "tokyo": "東京",
     "kyoto": "京都",

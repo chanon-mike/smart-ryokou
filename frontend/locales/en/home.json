@@ -52,6 +52,8 @@
     "aquarium": "Aquarium",
     "amusement": "Amusement"
   },
+  "featured-title": "Featured",
+  "featured-subtitle": "Most popular city for traveling",
   "featured": {
     "tokyo": "Tokyo",
     "kyoto": "Kyoto",
