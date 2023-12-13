@@ -1,14 +1,8 @@
+import s3Service from '@/service/s3/service';
 import axios from 'axios';
 
 export const getPlacePhoto = async (photoId: string, apiKey: string): Promise<string> => {
   try {
-    // const cacheKey = `placePhoto:${photoId}`;
-    // const cachedResult = await cacheService.getKey(cacheKey);
-
-    // if (cachedResult !== null) {
-    //   return cachedResult;
-    // }
-
     const response = (
       await axios.get(`https://places.googleapis.com/v1/${photoId}/media`, {
         params: {
@@ -19,11 +13,11 @@ export const getPlacePhoto = async (photoId: string, apiKey: string): Promise<st
         responseType: 'arraybuffer',
       })
     ).data;
+    const photoInBase64 = Buffer.from(response, 'binary');
 
-    const photoInBase64 = Buffer.from(response, 'binary').toString('base64');
-    // await cacheService.setKey(cacheKey, photoInBase64);
-
-    return photoInBase64;
+    const responseS3 = await s3Service.uploadJpgPhoto(`${photoId}.jpg`, photoInBase64);
+    console.log(responseS3);
+    return responseS3;
   } catch (error) {
     throw new Error(`An unexpected error occurred while fetching place photo ${error}`);
   }

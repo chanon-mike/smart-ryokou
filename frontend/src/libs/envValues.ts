@@ -12,3 +12,7 @@ export const CX = process.env.NEXT_PUBLIC_CX ?? '';
 // Public
 export const API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT ?? 'http://localhost:8000';
 export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? '';
+
+// AWS
+export const AWS_REGION = process.env.AWS_REGION ?? 'ap-northeast-1';
+export const AWS_BUCKET_NAME = process.env.AWS_BUCKET_NAME ?? 'bucket';
