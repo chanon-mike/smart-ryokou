@@ -19,7 +19,6 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Typography,
 } from '@mui/material';
 import createTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/navigation';
