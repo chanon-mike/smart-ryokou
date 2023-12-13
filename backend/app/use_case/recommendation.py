@@ -236,21 +236,21 @@ class PromptRecommendationUseCase(RecommendationUseCase):
 
     def _build_prompt(self, query: PromptRecommendationQuery) -> str:
         prompt = f"""
-#Instruction
-You are a travel planner. You suggest plan in Japanese.
+            #Instruction
+            You are a travel planner. You suggest plan in Japanese.
 
-#Instruction
-Save the name of place {query.trip_title.split("の")[0]} as variable data1.
+            #Instruction
+            Save the name of place {query.trip_title.split("の")[0]} as variable data1.
 
-#Instruction
-Translate this command to English '{query.user_prompt}' and save as variable data2.
+            #Instruction
+            Translate this command to English '{query.user_prompt}' and save as variable data2.
 
-#Instruction
-Suggest places in variable data1 which match the requirement in variable data2.
+            #Instruction
+            Suggest places in variable data1 which match the requirement in variable data2.
 
-#Instruction
-Response is in Japanese
-"""
+            #Instruction
+            Response is in Japanese
+        """
         return prompt
 
     async def get_recommendations(
