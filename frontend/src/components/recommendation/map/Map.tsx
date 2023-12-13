@@ -68,9 +68,9 @@ const Map = () => {
             zoom,
           }}
         >
-          {allLocations.map((location, index) => (
+          {allLocations.map((location) => (
             <MarkerF
-              key={index}
+              key={`${location.id}-${location.color}}`}
               position={{ lat: location.lat, lng: location.lng }}
               onClick={() => handleMarkerClick(location)}
               icon={location.color}
