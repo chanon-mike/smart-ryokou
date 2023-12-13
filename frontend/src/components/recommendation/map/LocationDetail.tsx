@@ -39,7 +39,7 @@ const LocationDetail = ({ activeLocation }: LocationDetailProps) => {
             component="img"
             height="100px"
             width="100px"
-            image={`data:image/jpeg;base64,${activeLocation.photo}`}
+            image={activeLocation.photo}
             alt={activeLocation.name}
             style={{ flex: '0 0 30%' }}
           />
