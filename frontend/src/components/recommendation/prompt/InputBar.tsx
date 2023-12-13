@@ -1,14 +1,14 @@
 'use client';
 
-import type { ChangeEvent, Dispatch, FormEvent, SetStateAction } from 'react';
-import React, { useEffect, useState } from 'react';
-import { InputAdornment, TextField, Button } from '@mui/material';
+import type { ChangeEvent, Dispatch, SetStateAction } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { InputAdornment, Button, TextField } from '@mui/material';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import SearchIcon from '@mui/icons-material/Search';
-import useTranslation from 'next-translate/useTranslation';
 import { GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
 
-const API_KEY = GOOGLE_MAPS_API_KEY;
+import { useLoadScript } from '@react-google-maps/api';
+import useTranslation from 'next-translate/useTranslation';
 
 type Props = {
   placeInput: string;
@@ -17,51 +17,46 @@ type Props = {
 };
 
 const InputBar = ({ placeInput, setPlaceInput, handleOpenModal }: Props) => {
-  const { t } = useTranslation('home');
-  const [, setAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
+  const { t, lang } = useTranslation('home');
+  const autoCompleteRef = useRef<google.maps.places.Autocomplete>();
+  const inputRef = useRef(null);
+
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: GOOGLE_MAPS_API_KEY,
+    libraries: ['places'],
+    language: lang,
+  });
 
   useEffect(() => {
-    const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&libraries=places`;
-    script.async = true;
-    script.onload = () => {
-      const input = document.getElementById('search') as HTMLInputElement;
+    const initAutocomplete = () => {
       const options = {
         types: ['administrative_area_level_1', 'country'],
-        language: navigator.language.split('-')[0], // Set language based on user's preferred language
       };
-      const autoCompleteInstance = new google.maps.places.Autocomplete(input, options);
-      setAutocomplete(autoCompleteInstance);
-      autoCompleteInstance.addListener('place_changed', () => {
-        const place = autoCompleteInstance.getPlace();
-        if (place.geometry && place.geometry.location) {
-          // Shorten the address (e.g., take only the first two lines)
-          const shortenedAddress = formatShortAddress(place);
-          setPlaceInput(shortenedAddress);
-        } else {
-          console.error('Error retrieving place details:', place);
-        }
-      });
+
+      if (isLoaded && window.google && inputRef.current) {
+        autoCompleteRef.current = new window.google.maps.places.Autocomplete(
+          inputRef.current,
+          options,
+        );
+
+        autoCompleteRef.current.addListener('place_changed', async () => {
+          const place = await autoCompleteRef.current?.getPlace();
+          console.log(place);
+          if (place && place.formatted_address !== undefined) {
+            setPlaceInput(place.formatted_address);
+          }
+        });
+      }
     };
-    document.head.appendChild(script);
+
+    initAutocomplete();
+
     return () => {
-      // Cleanup the script tag to avoid memory leaks
-      document.head.removeChild(script);
+      if (autoCompleteRef.current) {
+        window.google.maps.event.clearInstanceListeners(autoCompleteRef.current);
+      }
     };
-  }, [setPlaceInput]);
-
-  const formatShortAddress = (place: google.maps.places.PlaceResult): string => {
-    const prefecture = place.address_components.find((component) =>
-      component.types.includes('administrative_area_level_1'),
-    )?.long_name;
-
-    const country = place.address_components.find((component) =>
-      component.types.includes('country'),
-    )?.long_name;
-
-    // Customize the address format as needed
-    return `${prefecture}, ${country}`;
-  };
+  }, [isLoaded, setPlaceInput]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPlaceInput(event.target.value);
@@ -73,46 +68,36 @@ const InputBar = ({ placeInput, setPlaceInput, handleOpenModal }: Props) => {
     }
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    handleOpenModal();
-  };
-
   return (
-    <form
-      style={{
-        padding: 20,
-        width: '600px',
+    <TextField
+      fullWidth
+      required
+      id="autocomplete"
+      type="text"
+      autoComplete="off"
+      placeholder={t('input-message')}
+      value={placeInput}
+      inputRef={inputRef}
+      onChange={handleChange}
+      style={{ padding: 20, width: '600px' }}
+      InputProps={{
+        startAdornment: (
+          <InputAdornment position="start">
+            <AutoAwesomeIcon color="primary" />
+          </InputAdornment>
+        ),
+        endAdornment: (
+          <InputAdornment position="end">
+            <Button
+              onClick={handleSearchIconClick}
+              style={{ cursor: placeInput.trim() !== '' ? 'pointer' : 'default' }}
+            >
+              <SearchIcon color="secondary" />
+            </Button>
+          </InputAdornment>
+        ),
       }}
-      onSubmit={handleSubmit}
-    >
-      <TextField
-        fullWidth
-        required
-        id="search"
-        type="text"
-        placeholder={t('input-message')}
-        value={placeInput}
-        onChange={handleChange}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <AutoAwesomeIcon color="primary" />
-            </InputAdornment>
-          ),
-          endAdornment: (
-            <InputAdornment position="end">
-              <Button
-                onClick={handleSearchIconClick}
-                style={{ cursor: placeInput.trim() !== '' ? 'pointer' : 'default' }}
-              >
-                <SearchIcon color="secondary" />
-              </Button>
-            </InputAdornment>
-          ),
-        }}
-      />
-    </form>
+    />
   );
 };
 
