@@ -44,6 +44,7 @@ const LanguageMenu = () => {
         onClose={handleClose}
       >
         <MenuItem onClick={handleClose}>
+          {/* TODO: changing language while not reloading site not trigger change in loading google map autocomplete script */}
           <Link href="/?lang=ja" as="/ja">
             <Typography variant="body1" component="div" color="primary">
               日本語
