@@ -1,12 +1,13 @@
 'use client';
 
 import type { ChangeEvent, Dispatch, SetStateAction } from 'react';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { InputAdornment, Button, TextField } from '@mui/material';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import SearchIcon from '@mui/icons-material/Search';
 import { GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
 
+import type { Libraries } from '@react-google-maps/api';
 import { useLoadScript } from '@react-google-maps/api';
 import useTranslation from 'next-translate/useTranslation';
 
@@ -18,12 +19,13 @@ type Props = {
 
 const InputBar = ({ placeInput, setPlaceInput, handleOpenModal }: Props) => {
   const { t, lang } = useTranslation('home');
+  const [libraries] = useState<Libraries>(['places']);
   const autoCompleteRef = useRef<google.maps.places.Autocomplete>();
   const inputRef = useRef(null);
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: GOOGLE_MAPS_API_KEY,
-    libraries: ['places'],
+    libraries,
     language: lang,
   });
 
@@ -41,7 +43,6 @@ const InputBar = ({ placeInput, setPlaceInput, handleOpenModal }: Props) => {
 
         autoCompleteRef.current.addListener('place_changed', async () => {
           const place = await autoCompleteRef.current?.getPlace();
-          console.log(place);
           if (place && place.formatted_address !== undefined) {
             setPlaceInput(place.formatted_address);
           }
