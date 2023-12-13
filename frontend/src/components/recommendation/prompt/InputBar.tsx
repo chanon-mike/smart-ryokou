@@ -1,6 +1,9 @@
 'use client';
+
+import type { ChangeEvent, Dispatch, FormEvent, SetStateAction } from 'react';
 import React, { useEffect, useState } from 'react';
 import { InputAdornment, TextField, Button } from '@mui/material';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import SearchIcon from '@mui/icons-material/Search';
 import useTranslation from 'next-translate/useTranslation';
 import { GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
@@ -9,7 +12,7 @@ const API_KEY = GOOGLE_MAPS_API_KEY;
 
 type Props = {
   placeInput: string;
-  setPlaceInput: React.Dispatch<React.SetStateAction<string>>;
+  setPlaceInput: Dispatch<SetStateAction<string>>;
   handleOpenModal: () => void;
 };
 
@@ -60,23 +63,29 @@ const InputBar = ({ placeInput, setPlaceInput, handleOpenModal }: Props) => {
     return `${prefecture}, ${country}`;
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPlaceInput(event.target.value);
   };
 
-  const handleSearchClick = () => {
-    // Trigger form submission when the search icon is clicked
-    handleOpenModal();
+  const handleSearchIconClick = () => {
+    if (placeInput.trim() !== '') {
+      handleOpenModal();
+    }
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log('Form submitted!');
     handleOpenModal();
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form
+      style={{
+        padding: 20,
+        width: '600px',
+      }}
+      onSubmit={handleSubmit}
+    >
       <TextField
         fullWidth
         required
@@ -86,10 +95,18 @@ const InputBar = ({ placeInput, setPlaceInput, handleOpenModal }: Props) => {
         value={placeInput}
         onChange={handleChange}
         InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <AutoAwesomeIcon color="primary" />
+            </InputAdornment>
+          ),
           endAdornment: (
             <InputAdornment position="end">
-              <Button onClick={handleSearchClick} style={{ cursor: 'pointer' }}>
-                <SearchIcon />
+              <Button
+                onClick={handleSearchIconClick}
+                style={{ cursor: placeInput.trim() !== '' ? 'pointer' : 'default' }}
+              >
+                <SearchIcon color="secondary" />
               </Button>
             </InputAdornment>
           ),
