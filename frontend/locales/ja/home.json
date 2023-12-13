@@ -51,5 +51,17 @@
     "zoo": "動物園",
     "aquarium": "水族館",
     "amusement": "遊園地"
+  },
+  "featured": {
+    "tokyo": "東京",
+    "kyoto": "京都",
+    "osaka": "大阪",
+    "hokkaido": "北海道",
+    "okinawa": "沖縄",
+    "nara": "奈良",
+    "nagoya": "名古屋",
+    "kanazawa": "金沢",
+    "yokohama": "横浜",
+    "nikko": "日光"
   }
 }

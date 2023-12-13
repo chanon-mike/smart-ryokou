@@ -51,5 +51,17 @@
     "zoo": "Zoo",
     "aquarium": "Aquarium",
     "amusement": "Amusement"
+  },
+  "featured": {
+    "tokyo": "Tokyo",
+    "kyoto": "Kyoto",
+    "osaka": "Osaka",
+    "hokkaido": "Hokkaido",
+    "okinawa": "Okinawa",
+    "nara": "Nara",
+    "nagoya": "Nagoya",
+    "kanazawa": "Kanazawa",
+    "yokohama": "Yokohama",
+    "nikko": "Nikko"
   }
 }
