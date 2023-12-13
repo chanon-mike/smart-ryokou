@@ -1,24 +1,22 @@
 'use client';
 
+import './Autocomplete.css';
 import type { ChangeEvent, Dispatch, SetStateAction } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
-import { InputAdornment, Button, TextField } from '@mui/material';
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+import { InputAdornment, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
-
 import type { Libraries } from '@react-google-maps/api';
 import { useLoadScript } from '@react-google-maps/api';
-import useTranslation from 'next-translate/useTranslation';
+import createTranslation from 'next-translate/useTranslation';
 
 type Props = {
   placeInput: string;
   setPlaceInput: Dispatch<SetStateAction<string>>;
-  handleOpenModal: () => void;
 };
 
-const InputBar = ({ placeInput, setPlaceInput, handleOpenModal }: Props) => {
-  const { t, lang } = useTranslation('home');
+const InputBar = ({ placeInput, setPlaceInput }: Props) => {
+  const { t, lang } = createTranslation('home');
   const [libraries] = useState<Libraries>(['places']);
   const autoCompleteRef = useRef<google.maps.places.Autocomplete>();
   const inputRef = useRef(null);
@@ -63,12 +61,6 @@ const InputBar = ({ placeInput, setPlaceInput, handleOpenModal }: Props) => {
     setPlaceInput(event.target.value);
   };
 
-  const handleSearchIconClick = () => {
-    if (placeInput.trim() !== '') {
-      handleOpenModal();
-    }
-  };
-
   return (
     <TextField
       fullWidth
@@ -84,17 +76,7 @@ const InputBar = ({ placeInput, setPlaceInput, handleOpenModal }: Props) => {
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">
-            <AutoAwesomeIcon color="primary" />
-          </InputAdornment>
-        ),
-        endAdornment: (
-          <InputAdornment position="end">
-            <Button
-              onClick={handleSearchIconClick}
-              style={{ cursor: placeInput.trim() !== '' ? 'pointer' : 'default' }}
-            >
-              <SearchIcon color="secondary" />
-            </Button>
+            <SearchIcon color="primary" />
           </InputAdornment>
         ),
       }}
