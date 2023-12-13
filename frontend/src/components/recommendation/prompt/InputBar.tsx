@@ -72,7 +72,8 @@ const InputBar = ({ placeInput, setPlaceInput }: Props) => {
       value={placeInput}
       inputRef={inputRef}
       onChange={handleChange}
-      style={{ padding: 20, width: '600px' }}
+      sx={{ width: '500px' }}
+      size="small"
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">

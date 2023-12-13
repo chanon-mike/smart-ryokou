@@ -15,7 +15,7 @@ const Home = () => {
         flexDirection="column"
         alignItems="center"
         justifyContent="center"
-        height="100dvh"
+        marginTop={15}
         maxWidth="100%"
       >
         <Box sx={{ display: 'flex', flexDirection: 'row', minHeight: 120 }}>
