@@ -203,60 +203,70 @@ class PromptRecommendationUseCase(RecommendationUseCase):
         super().__init__()
         self.functions: List[Function] = [
             {
-                "name": "send_recommendations",
-                "description": "Send additional recommendations to user in Japanese.",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "recommendations": {
-                            "type": "array",
-                            "items": {
-                                "type": "object",
-                                "properties": {
-                                    "place": {
-                                        "type": "string",
-                                        "description": "Recommended place in Japanese.",
+                "type": "function",
+                "function": {
+                    "name": "recommend_places",
+                    "description": "旅行プランを提案する",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "recommendations": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "place": {
+                                            "type": "string",
+                                            "description": "日本語で場所の名前",
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "description": "場所の説明",
+                                        },
                                     },
-                                    "description": {
-                                        "type": "string",
-                                        "description": "Description of a recommended place in Japanese.",
-                                    },
+                                    "required": ["place", "description"],
                                 },
-                                "required": ["place", "description"],
-                            },
-                        }
+                            }
+                        },
+                        "required": ["recommendations"],
                     },
-                    "required": ["recommendations"],
                 },
             }
         ]
 
     def _build_prompt(self, query: PromptRecommendationQuery) -> str:
-        prompt = (
-            f"Suggest places in above area which match the following requirement: '{query.user_prompt}'."
-            f"Suggested places must not include {', '.join(query.suggested_places)}."
-        )
+        prompt = f"""
+#Instruction
+You are a travel planner. You suggest plan in Japanese.
+
+#Instruction
+Save the name of place {query.trip_title.split("の")[0]} as variable data1.
+
+#Instruction
+Translate this command to English '{query.user_prompt}' and save as variable data2.
+
+#Instruction
+Suggest places in variable data1 which match the requirement in variable data2.
+
+#Instruction
+Response is in Japanese
+"""
         return prompt
 
     async def get_recommendations(
         self, query: PromptRecommendationQuery
     ) -> PromptRecommendationResponse:
-        logger.info(f"Query: {query}")
         prompt = self._build_prompt(query)
+        logger.info(f"Prompt: {prompt}")
         response = await self.chat_completion_request(
             messages=[
                 {
                     "role": "system",
-                    "content": "You are a travel planner. You suggest plan in Japanese.",
-                },
-                {
-                    "role": "user",
-                    "content": f"Return the name of place in this trip title: {query.trip_title}",
+                    "content": "Use Japanese name when possible",
                 },
                 {"role": "user", "content": prompt},
-                {"role": "user", "content": "Send recommended places to user"},
             ],
-            functions=self.functions,
+            tools=self.functions,
         )
         response_json: PromptRecommendationResponse = self.parse_response(response)
 
