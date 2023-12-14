@@ -6,10 +6,11 @@ import PreferencesModal from '@/components/recommendation/prompt/PreferencesModa
 import { Box, Button, LinearProgress } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import createTranslation from 'next-translate/useTranslation';
+import { useQueryState, parseAsString } from 'next-usequerystate';
 
 const Prompt = () => {
+  const [placeInput, setPlaceInput] = useQueryState('place', parseAsString.withDefault(''));
   const [openModal, setOpenModal] = useState(false);
-  const [placeInput, setPlaceInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const ifPlaceInputEmpty = placeInput === '';

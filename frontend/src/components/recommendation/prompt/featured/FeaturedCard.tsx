@@ -4,7 +4,11 @@ import createTranslation from 'next-translate/useTranslation';
 import { Suspense } from 'react';
 import FeaturedCardImage from './FeaturedCardImage';
 
-const FeaturedCard = ({ location }: { location: string }) => {
+type FeaturedCardProps = {
+  location: string;
+};
+
+const FeaturedCard = ({ location }: FeaturedCardProps) => {
   const { t } = createTranslation('home');
 
   return (
