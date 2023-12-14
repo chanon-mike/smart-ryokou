@@ -30,7 +30,7 @@ const InputBar = ({ placeInput, setPlaceInput }: Props) => {
   useEffect(() => {
     const initAutocomplete = () => {
       const options = {
-        types: ['sublocality_level_1', 'locality', 'administrative_area_level_1', 'country'],
+        types: ['locality', 'administrative_area_level_1', 'country'],
       };
 
       if (isLoaded && window.google && inputRef.current) {
