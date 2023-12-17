@@ -64,6 +64,18 @@
     "nagoya": "Nagoya",
     "kanazawa": "Kanazawa",
     "yokohama": "Yokohama",
-    "nikko": "Nikko"
+    "nikko": "Nikko",
+    "place": {
+      "tokyo": "Tokyo, Japan",
+      "kyoto": "Kyoto, Japan",
+      "osaka": "Osaka, Japan",
+      "hokkaido": "Hokkaido, Japan",
+      "okinawa": "Okinawa, Japan",
+      "nara": "Nara, Japan",
+      "nagoya": "Nagoya, Japan",
+      "kanazawa": "Kanazawa, Japan",
+      "yokohama": "Yokohama, Japan",
+      "nikko": "Nikko, Japan"
+    }
   }
 }
