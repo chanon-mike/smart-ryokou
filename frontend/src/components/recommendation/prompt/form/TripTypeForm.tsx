@@ -22,7 +22,7 @@ const TripTypeForm = ({ selectedTripTypes, handleSelectTripType }: Props) => {
   return (
     <>
       <Typography variant="h6">{t('trip-type-label')}</Typography>
-      <Select value={selectedTripTypes} onChange={handleSelectTripType}>
+      <Select value={selectedTripTypes} onChange={handleSelectTripType} size="small">
         {tripTypes.map((tripType) => (
           <MenuItem key={tripType.value} value={tripType.value}>
             {tripType.label}

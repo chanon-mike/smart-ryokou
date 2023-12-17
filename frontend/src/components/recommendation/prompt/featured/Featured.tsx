@@ -39,7 +39,9 @@ const Featured = () => {
           <Typography variant="subtitle2">{t('featured-subtitle')}</Typography>
         </Box>
       </Box>
-      <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1, overflow: 'auto' }}>
+      <Box
+        sx={{ display: 'flex', flexDirection: 'row', gap: 1, overflow: 'auto', marginBottom: 4 }}
+      >
         {featuredLocations.map((location) => (
           <FeaturedCard key={location} location={location} />
         ))}
