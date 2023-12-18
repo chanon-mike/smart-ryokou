@@ -10,7 +10,7 @@ export interface GetResultRequest {
   place: string;
   date_from: string;
   date_to: string;
-  people_num: number;
+  // people_num: number;
   trip_type: string | null;
   trip_pace: string | null;
   budget: string | null;

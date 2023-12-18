@@ -6,7 +6,9 @@ import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
 import { Box, Typography } from '@mui/material';
 import type { FC } from 'react';
 import { useContext } from 'react';
-import { ActiveLocationContext } from '../ActiveLocationContext';
+import { ActiveLocationContext } from '@/components/recommendation/ActiveLocationContext';
+import { SecondaryColorHoverIconButton } from '@/components/common/mui/SecondaryColorHoverIconButton';
+import PlaceIcon from '@mui/icons-material/Place';
 
 interface DroppableDateListProps {
   recIndex: number;
@@ -22,7 +24,8 @@ const DroppableDateList: FC<DroppableDateListProps> = ({
   onFindRestaurant,
 }) => {
   const activeLocationContext = useContext(ActiveLocationContext);
-  const { setActiveLocation, setActiveStep, setActiveDate, setMapCenter } = activeLocationContext;
+  const { setActiveLocation, setActiveStep, setActiveDate, setMapCenter, setZoom } =
+    activeLocationContext;
 
   const handleSelect = (index: number) => {
     setActiveLocation(recommendation.locations[index]);
@@ -32,16 +35,38 @@ const DroppableDateList: FC<DroppableDateListProps> = ({
       lat: recommendation.locations[index].lat,
       lng: recommendation.locations[index].lng,
     });
+    setZoom(16);
+  };
+
+  // Zoom and set center for each date plan
+  const handleSelectDate = () => {
+    // Get average lat lng of date locations
+    const dateLocations = recommendation.locations;
+    const averageLatLng = dateLocations.reduce(
+      (acc, loc) => ({ lat: acc.lat + loc.lat, lng: acc.lng + loc.lng }),
+      { lat: 0, lng: 0 },
+    );
+
+    averageLatLng.lat /= dateLocations.length;
+    averageLatLng.lng /= dateLocations.length;
+
+    setMapCenter(averageLatLng);
+    setZoom(12);
   };
 
   return (
     <SortableContext
-      items={recommendation.locations.map((loc) => loc.name)}
+      items={recommendation.locations.map((loc) => loc.id)}
       strategy={rectSortingStrategy}
     >
-      <Typography variant="h6" sx={{ marginTop: 1 }}>
-        {recommendation.date}
-      </Typography>
+      <Box sx={{ display: 'flex', flexDirection: 'row', marginTop: 1 }}>
+        <Typography variant="h6" sx={{ marginTop: 1 }}>
+          {recommendation.date}
+        </Typography>
+        <SecondaryColorHoverIconButton onClick={handleSelectDate} sx={{ paddingBottom: 0 }}>
+          <PlaceIcon />
+        </SecondaryColorHoverIconButton>
+      </Box>
 
       <Box sx={{ marginTop: 1 }}>
         {recommendation.locations.map((loc, index) => (

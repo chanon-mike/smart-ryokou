@@ -5,6 +5,7 @@ import Navbar from '@/components/common/Navbar';
 import ThemeRegistry from '@/components/theme/ThemeRegistry';
 import GoogleAnalytics from '@/components/common/GoogleAnalytics';
 import createTranslation from 'next-translate/useTranslation';
+import { SnackbarProvider } from '@/components/common/snackbar/SnackbarContext';
 
 export const metadata: Metadata = {
   title: 'Smart旅行',
@@ -22,12 +23,15 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       </head>
       <UserProvider>
         <body>
-          <ThemeRegistry options={{ key: 'mui' }}>
-            <div>
-              <Navbar />
-              {children}
-            </div>
-          </ThemeRegistry>
+          <SnackbarProvider>
+            <ThemeRegistry options={{ key: 'mui' }}>
+              <div>
+                <Navbar />
+
+                {children}
+              </div>
+            </ThemeRegistry>
+          </SnackbarProvider>
         </body>
       </UserProvider>
     </html>

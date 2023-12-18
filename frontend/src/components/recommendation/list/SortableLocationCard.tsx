@@ -4,32 +4,25 @@ import DiningIcon from '@mui/icons-material/Dining';
 import { Card, Grid, CardMedia, CardContent, Typography, IconButton, styled } from '@mui/material';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { SecondaryColorHoverIconButton } from '@/components/common/mui/SecondaryColorHoverIconButton';
 
 const HoverableCard = styled(Card)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'center',
   transition: 'transform 0.3s',
   '&:hover': {
-    transform: 'translateY(-5px)',
     boxShadow: theme.shadows[2],
     borderColor: theme.palette.primary.main,
-  },
-}));
-
-const SecondaryColorHoverIconButton = styled(IconButton)(({ theme }) => ({
-  '&:hover': {
-    color: theme.palette.secondary.main,
-    backgroundColor: 'transparent',
   },
 }));
 
 type SortableLocationCardProps = {
   location: Location;
   disabled?: boolean;
-  onSelect?: (index: number) => void;
-  onConfirmDelete?: (placeName: string) => void;
+  onSelect: (index: number) => void;
+  onConfirmDelete: (placeName: string) => void;
   onFindRestaurant?: (recIndex: number, dateIndex: number, location: Location) => void;
-  index?: number; // date index
+  index: number; // date index
   recIndex?: number;
 };
 
@@ -43,7 +36,7 @@ const SortableLocationCard = ({
   onFindRestaurant,
 }: SortableLocationCardProps) => {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
-    id: location.name,
+    id: location.id,
     disabled,
   });
 

@@ -1,6 +1,7 @@
 {
   "caption": "AIで旅行計画を立てよう！",
-  "input-message": "場所を検索する！",
+  "input-message": "日本、東京",
+  "input-button": "計画を立てる！",
   "dialog-title": "{{name}}での旅行計画",
   "dialog-content": "旅行の好みを選択してください",
   "date-label": "日程",
