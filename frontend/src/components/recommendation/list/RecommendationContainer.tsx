@@ -12,6 +12,12 @@ import { Box, Button, Dialog, DialogActions, DialogTitle } from '@mui/material';
 import { useContext, useState } from 'react';
 import _ from 'lodash';
 import createTranslation from 'next-translate/useTranslation';
+import { DialogContent } from '@mui/material';
+import type Session from '@/service/database/session/model';
+import { CircularProgress } from '@mui/material';
+import type { Location } from '@/types/recommendation';
+import getRestaurantData from '@/client/helper/getRestaurantData';
+import FindRestaurantCard from './find-restaurant/FindRestaurantCard';
 
 const RecommendationContainer = () => {
   const { session, setSession } = useContext(RecommendationContext);
@@ -19,6 +25,14 @@ const RecommendationContainer = () => {
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [placeToDelete, setPlaceToDelete] = useState('');
+  const [findRestaurantOpen, setFindRestaurantOpen] = useState(false);
+  const [restaurants, setRestaurants] = useState<Location[]>([]);
+  const [loadingRestaurants, setLoadingRestaurants] = useState(false);
+
+  const [allIndex, setAllIndex] = useState<{ recIndex: number; dateIndex: number }>({
+    recIndex: 0,
+    dateIndex: 0,
+  });
 
   const { sensors, handleDragStart, handleDragOver, handleDragCancel, handleDragEnd } = useDnd({
     session,
@@ -53,6 +67,41 @@ const RecommendationContainer = () => {
     setSession(updatedSession);
   };
 
+  const handleClose = () => {
+    setFindRestaurantOpen(false);
+  };
+
+  const handleSelectRestaurant = (restaurant: Location) => {
+    setRestaurants([]);
+
+    setSession((prev: Session) => {
+      const newRecommendations = [...prev.recommendations];
+      newRecommendations[allIndex.recIndex].locations.splice(allIndex.dateIndex + 1, 0, restaurant);
+      return { ...session, recommendations: newRecommendations };
+    });
+
+    setFindRestaurantOpen(false);
+    return;
+  };
+
+  const handleFindRestaurant = async (recIndex: number, dateIndex: number, location: Location) => {
+    setFindRestaurantOpen(true);
+    setAllIndex({ recIndex, dateIndex });
+
+    if (restaurants.length === 0) {
+      setLoadingRestaurants(true);
+      const res: Array<Location> = await getRestaurantData({
+        latitude: location.lat,
+        longitude: location.lng,
+      });
+
+      setRestaurants(res);
+      setLoadingRestaurants(false);
+    }
+
+    return;
+  };
+
   return (
     <>
       <DndContext
@@ -67,7 +116,12 @@ const RecommendationContainer = () => {
         <Box style={{ maxWidth: '400px', height: '75vh', overflowY: 'auto', paddingRight: '20px' }}>
           {session.recommendations.map((r, index) => (
             <Box key={`${r.date}-${index}`}>
-              <DroppableDateList recommendation={r} onConfirmDeleteCard={handleConfirmDeleteCard} />
+              <DroppableDateList
+                recIndex={index}
+                recommendation={r}
+                onConfirmDeleteCard={handleConfirmDeleteCard}
+                onFindRestaurant={handleFindRestaurant}
+              />
               <NewLocationButton dateIndex={index} />
             </Box>
           ))}
@@ -99,6 +153,29 @@ const RecommendationContainer = () => {
             {t('deleteCardModal.ok')}
           </Button>
         </DialogActions>
+      </Dialog>
+
+      <Dialog fullWidth={true} maxWidth={'lg'} open={findRestaurantOpen} onClose={handleClose}>
+        <DialogTitle>{t('input.title')}</DialogTitle>
+        <DialogContent>
+          {loadingRestaurants ? (
+            // Show a CircularProgress spinner while loading
+            <Box display="flex" justifyContent="center" my={2}>
+              <CircularProgress />
+            </Box>
+          ) : (
+            // Actual content with the list of restaurants
+            <Box display="flex" justifyContent="center" my={2} gap={2}>
+              {restaurants.map((restaurant, restaurantIndex) => (
+                <FindRestaurantCard
+                  key={`${restaurant.name}${restaurantIndex}`}
+                  location={restaurant}
+                  handleAddLocation={handleSelectRestaurant}
+                />
+              ))}
+            </Box>
+          )}
+        </DialogContent>
       </Dialog>
     </>
   );
