@@ -13,6 +13,7 @@ import { Box, Dialog, DialogContent, DialogTitle } from '@mui/material';
 import createTranslation from 'next-translate/useTranslation';
 import type { ChangeEvent, Dispatch, FormEvent, SetStateAction } from 'react';
 import { useContext, useState } from 'react';
+import NewLocationExampleChip from './NewLocationExampleChip';
 
 interface NewLocationInputProps {
   newLocations: Location[];
@@ -29,17 +30,23 @@ const NewLocationInput = ({
   open,
   handleClose,
 }: NewLocationInputProps) => {
+  const { openSnackbar } = useSnackbar();
+  const { session, setSession } = useContext(RecommendationContext);
   const [prompt, setPrompt] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { session, setSession } = useContext(RecommendationContext);
-
   const { t } = createTranslation('result');
+
+  const newLocationExamplePromptList = [
+    t('new-location.park'),
+    t('new-location.aquarium'),
+    t('new-location.museum'),
+    t('new-location.shrine'),
+    t('new-location.fun'),
+  ];
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPrompt(e.target.value);
   };
-
-  const { openSnackbar } = useSnackbar();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -100,6 +107,19 @@ const NewLocationInput = ({
           handleSubmit={handleSubmit}
           handleOnChange={handleOnChange}
         />
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'flex-start',
+            marginTop: 2,
+            gap: 1,
+            overflowX: 'auto',
+          }}
+        >
+          {newLocationExamplePromptList.map((prompt, index) => (
+            <NewLocationExampleChip key={`${prompt}${index}`} data={prompt} setPrompt={setPrompt} />
+          ))}
+        </Box>
         <Box display="flex" justifyContent="center" my={2} gap={2}>
           {newLocations.map((location, index) => (
             <NewLocationCard

@@ -9,5 +9,12 @@
     "title": "Delete this location?",
     "ok": "OK",
     "cancel": "Cancel"
+  },
+  "new-location": {
+    "park": "Find me a park",
+    "aquarium": "Find me an aquarium",
+    "museum": "Find me a museum",
+    "shrine": "Find me a shrine",
+    "fun": "Find me a fun place"
   }
 }
