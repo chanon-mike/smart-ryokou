@@ -59,7 +59,7 @@ const SortableLocationCard = ({
                 component="img"
                 height={'100%'}
                 width={'100%'}
-                image={location.imageUrl}
+                image={location.photo}
                 alt="Image"
                 onMouseDown={() => onSelect(index)}
               />

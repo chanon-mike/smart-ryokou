@@ -12,7 +12,7 @@ const getNewLocationMockCases: ReadonlyArray<{
         {
           name: 'Tokyo Tower',
           description: 'mock',
-          imageUrl:
+          photo:
             'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
           lat: 30,
           lng: 30,
@@ -20,7 +20,7 @@ const getNewLocationMockCases: ReadonlyArray<{
         {
           name: 'Tokyo Skytree',
           description: 'mock',
-          imageUrl:
+          photo:
             'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
           lat: 30,
           lng: 30,
@@ -28,7 +28,7 @@ const getNewLocationMockCases: ReadonlyArray<{
         {
           name: 'Asakusa Temple',
           description: 'mock',
-          imageUrl:
+          photo:
             'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
           lat: 30,
           lng: 30,
@@ -36,7 +36,7 @@ const getNewLocationMockCases: ReadonlyArray<{
         {
           name: 'Harajuku',
           description: 'mock',
-          imageUrl:
+          photo:
             'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
           lat: 30,
           lng: 30,
@@ -44,7 +44,7 @@ const getNewLocationMockCases: ReadonlyArray<{
         {
           name: 'Shibuya Crossing',
           description: 'mock',
-          imageUrl:
+          photo:
             'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
           lat: 30,
           lng: 30,
@@ -52,7 +52,7 @@ const getNewLocationMockCases: ReadonlyArray<{
         {
           name: 'Shinjuku',
           description: 'mock',
-          imageUrl:
+          photo:
             'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
           lat: 30,
           lng: 30,
