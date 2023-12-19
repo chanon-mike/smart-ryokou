@@ -13,5 +13,6 @@
     "title": "Delete this location?",
     "ok": "OK",
     "cancel": "Cancel"
-  }
+  },
+  "restaurant-title": "Restaurant results"
 }
