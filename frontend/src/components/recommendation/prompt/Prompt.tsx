@@ -5,11 +5,14 @@ import InputBar from '@/components/recommendation/prompt/InputBar';
 import PreferencesModal from '@/components/recommendation/prompt/PreferencesModal';
 import { Box, Button, LinearProgress } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import createTranslation from 'next-translate/useTranslation';
+import { useQueryState, parseAsString } from 'next-usequerystate';
 
 const Prompt = () => {
+  const [placeInput, setPlaceInput] = useQueryState('place', parseAsString.withDefault(''));
   const [openModal, setOpenModal] = useState(false);
-  const [placeInput, setPlaceInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const ifPlaceInputEmpty = placeInput === '';
@@ -33,8 +36,19 @@ const Prompt = () => {
         </Box>
       ) : (
         <>
-          <InputBar placeInput={placeInput} setPlaceInput={setPlaceInput} />
-          <InputButton handleOpenModal={handleOpenModal} ifPlaceInputEmpty={ifPlaceInputEmpty} />
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: 1,
+              marginTop: 3,
+            }}
+          >
+            <InputBar placeInput={placeInput} setPlaceInput={setPlaceInput} />
+            <InputButton handleOpenModal={handleOpenModal} ifPlaceInputEmpty={ifPlaceInputEmpty} />
+          </Box>
           <PreferencesModal
             placeInput={placeInput}
             openModal={openModal}
@@ -54,17 +68,21 @@ type InputButtonProps = {
 
 const InputButton = ({ handleOpenModal, ifPlaceInputEmpty }: InputButtonProps) => {
   const { t } = createTranslation('home');
+  const theme = useTheme();
+  const isResponsive = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+    <Box sx={{ display: 'flex' }}>
       <Button
         variant="contained"
         onClick={handleOpenModal}
         color="secondary"
         disabled={ifPlaceInputEmpty}
+        disableElevation={true}
+        sx={{ height: 40 }}
       >
-        {t('input-button')}
-        <SendIcon sx={{ marginLeft: 1 }} />
+        {!isResponsive && t('input-button')}
+        <SendIcon sx={{ marginLeft: { sm: 1 } }} />
       </Button>
     </Box>
   );

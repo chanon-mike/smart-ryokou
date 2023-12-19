@@ -51,5 +51,31 @@
     "zoo": "Zoo",
     "aquarium": "Aquarium",
     "amusement": "Amusement"
+  },
+  "featured-title": "Featured",
+  "featured-subtitle": "Most popular city for traveling",
+  "featured": {
+    "tokyo": "Tokyo",
+    "kyoto": "Kyoto",
+    "osaka": "Osaka",
+    "hokkaido": "Hokkaido",
+    "okinawa": "Okinawa",
+    "nara": "Nara",
+    "nagoya": "Nagoya",
+    "kanazawa": "Kanazawa",
+    "yokohama": "Yokohama",
+    "nikko": "Nikko",
+    "place": {
+      "tokyo": "Tokyo, Japan",
+      "kyoto": "Kyoto, Japan",
+      "osaka": "Osaka, Japan",
+      "hokkaido": "Hokkaido, Japan",
+      "okinawa": "Okinawa, Japan",
+      "nara": "Nara, Japan",
+      "nagoya": "Nagoya, Japan",
+      "kanazawa": "Kanazawa, Japan",
+      "yokohama": "Yokohama, Japan",
+      "nikko": "Nikko, Japan"
+    }
   }
 }

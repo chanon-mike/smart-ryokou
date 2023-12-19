@@ -19,7 +19,7 @@ const PaceForm = ({ selectedPace, handleSelectPace }: Props) => {
   return (
     <>
       <Typography variant="h6">{t('pace-label')}</Typography>
-      <Select value={selectedPace} onChange={handleSelectPace}>
+      <Select value={selectedPace} onChange={handleSelectPace} size="small">
         {paces.map((pace) => (
           <MenuItem key={pace.value} value={pace.value}>
             {pace.label}

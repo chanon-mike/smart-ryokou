@@ -19,7 +19,6 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Typography,
 } from '@mui/material';
 import createTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/navigation';
@@ -138,14 +137,10 @@ const PreferencesModal = ({
 
   return (
     <Dialog open={openModal} onClose={handleCloseModal}>
-      <DialogTitle>
-        <Typography variant="h3">{ht('dialog-title', { name: placeInput })}</Typography>
-      </DialogTitle>
+      <DialogTitle variant="h4">{ht('dialog-title', { name: placeInput })}</DialogTitle>
       <form onSubmit={handleSubmit}>
         <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 2, paddingTop: 0 }}>
-          <DialogContentText>
-            <Typography variant="body1">{ht('dialog-content')}</Typography>
-          </DialogContentText>
+          <DialogContentText variant="body1">{ht('dialog-content')}</DialogContentText>
           <DateRangeForm
             fromDate={fromDate}
             handleFromDateChange={handleFromDateChange}

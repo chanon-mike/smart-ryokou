@@ -19,7 +19,7 @@ const PaceForm = ({ selectedBudget, handleSelectBudget }: Props) => {
   return (
     <>
       <Typography variant="h6">{t('budget-label')}</Typography>
-      <Select value={selectedBudget} onChange={handleSelectBudget}>
+      <Select value={selectedBudget} onChange={handleSelectBudget} size="small">
         {budgets.map((budget) => (
           <MenuItem key={budget.value} value={budget.value}>
             {budget.label}
