@@ -30,7 +30,7 @@ const InputBar = ({ placeInput, setPlaceInput }: Props) => {
   useEffect(() => {
     const initAutocomplete = () => {
       const options = {
-        types: ['administrative_area_level_1', 'country'],
+        types: ['locality', 'administrative_area_level_1', 'country'],
       };
 
       if (isLoaded && window.google && inputRef.current) {
@@ -72,7 +72,8 @@ const InputBar = ({ placeInput, setPlaceInput }: Props) => {
       value={placeInput}
       inputRef={inputRef}
       onChange={handleChange}
-      style={{ padding: 20, width: '600px' }}
+      sx={{ width: '500px' }}
+      size="small"
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">
