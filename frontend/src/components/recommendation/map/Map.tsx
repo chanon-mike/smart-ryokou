@@ -8,6 +8,7 @@ import { GoogleMap, MarkerF, useJsApiLoader } from '@react-google-maps/api';
 import { useContext, useEffect, useMemo } from 'react';
 import { ActiveLocationContext } from '../ActiveLocationContext';
 import { RecommendationContext } from '../RecommendationContext';
+import { Box, useMediaQuery, useTheme } from '@mui/material';
 
 const fixedColors = [
   'red',
@@ -29,6 +30,8 @@ const Map = () => {
   const { session } = recommendationContext;
   const { mapCenter, setMapCenter, activeLocation, setActiveLocation, zoom, setZoom } =
     activeLocationContext;
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const allLocations = useMemo(
     () =>
@@ -56,7 +59,7 @@ const Map = () => {
   }, [allLocations, setMapCenter]);
 
   return (
-    <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+    <Box sx={{ height: { sm: '75dvh', xs: '50dvh' }, position: 'relative' }}>
       {isLoaded && (
         <GoogleMap
           mapContainerStyle={{ width: '100%', height: '100%' }}
@@ -66,6 +69,7 @@ const Map = () => {
             styles: mapStyles,
             keyboardShortcuts: false,
             zoom,
+            disableDefaultUI: isMobile,
           }}
         >
           {allLocations.map((location) => (
@@ -79,7 +83,7 @@ const Map = () => {
         </GoogleMap>
       )}
       {activeLocation && <LocationDetail activeLocation={activeLocation} />}
-    </div>
+    </Box>
   );
 };
 

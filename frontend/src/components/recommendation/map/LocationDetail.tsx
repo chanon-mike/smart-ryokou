@@ -24,9 +24,9 @@ const LocationDetail = ({ activeLocation }: LocationDetailProps) => {
   return (
     <Paper
       elevation={1}
-      style={{
+      sx={{
         position: 'absolute',
-        right: '10%',
+        right: { sm: '10%', xs: '5%' },
         bottom: '5%',
         width: '80%',
         padding: '16px',

@@ -5,6 +5,8 @@ import InputBar from '@/components/recommendation/prompt/InputBar';
 import PreferencesModal from '@/components/recommendation/prompt/PreferencesModal';
 import { Box, Button, LinearProgress } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import createTranslation from 'next-translate/useTranslation';
 import { useQueryState, parseAsString } from 'next-usequerystate';
 
@@ -66,6 +68,8 @@ type InputButtonProps = {
 
 const InputButton = ({ handleOpenModal, ifPlaceInputEmpty }: InputButtonProps) => {
   const { t } = createTranslation('home');
+  const theme = useTheme();
+  const isResponsive = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -77,8 +81,8 @@ const InputButton = ({ handleOpenModal, ifPlaceInputEmpty }: InputButtonProps) =
         disableElevation={true}
         sx={{ height: 40 }}
       >
-        {t('input-button')}
-        <SendIcon sx={{ marginLeft: 1 }} />
+        {!isResponsive && t('input-button')}
+        <SendIcon sx={{ marginLeft: { sm: 1 } }} />
       </Button>
     </Box>
   );

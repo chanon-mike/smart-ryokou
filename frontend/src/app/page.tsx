@@ -11,23 +11,30 @@ const Home = () => {
 
   return (
     <Container>
-      <Box display="flex" flexDirection="column" marginTop={15} maxWidth="100%">
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: 120,
+          marginTop: 15,
+        }}
+      >
         <Box
           sx={{
             display: 'flex',
-            flexDirection: 'row',
+            flexDirection: { sm: 'row', xs: 'column' },
             alignItems: 'center',
             justifyContent: 'center',
             minHeight: 120,
           }}
         >
-          <Typography variant="h1" sx={{ paddingBottom: 1.5 }}>
+          <Typography variant="h1" sx={{ paddingBottom: { sm: 1.5 } }}>
             Smart
           </Typography>
           <Typography
             variant="h1"
             sx={{
-              paddingLeft: 2,
+              paddingLeft: { sm: 2 },
               paddingBottom: 1.5,
               backgroundcolor: 'primary',
               backgroundImage: `linear-gradient(90deg, rgba(77,112,217,1) 10%, rgba(217,77,112,1) 100%)`,
