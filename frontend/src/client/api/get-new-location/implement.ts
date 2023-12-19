@@ -6,12 +6,11 @@ import type {
 } from './interface';
 import axios from 'axios';
 import type { Location } from '@/types/recommendation';
-import getLocationData from '@/client/helper/getLocationData';
 import cacheClient from '@/client/service/cache/implement';
-import { API_ENDPOINT, CX, GOOGLE_MAPS_API_KEY, GOOGLE_SEARCH_API_KEY } from '@/libs/envValues';
+import { API_ENDPOINT } from '@/libs/envValues';
 import getNewLocationMock from './mock';
-import { getImageData } from '@/client/helper/getImageData';
 import { generateObjectId } from '@/libs/helper';
+import mapPlaceService from '@/service/map/place/service';
 
 // eslint-disable-next-line complexity
 const getLocation: GetNewLocationInterface = async (
@@ -64,21 +63,19 @@ const mapLocation = async (recommendation: {
   place: string;
   description: string;
 }): Promise<Location | undefined> => {
-  const latLngData = await getLocationData(recommendation.place, GOOGLE_MAPS_API_KEY);
-  const imageData = await getImageData(recommendation.place, GOOGLE_SEARCH_API_KEY, CX);
+  const placeData = await mapPlaceService.getPlaceData(recommendation.place);
 
-  if (latLngData.lat !== undefined && latLngData.lng !== undefined) {
-    return {
-      id: generateObjectId(),
-      name: recommendation.place,
-      description: recommendation.description,
-      imageUrl: imageData,
-      lat: latLngData.lat,
-      lng: latLngData.lng,
-    };
-  }
-
-  return undefined;
+  return {
+    id: generateObjectId(),
+    placeId: placeData.placeId,
+    name: placeData.name,
+    description: recommendation.description,
+    rating: placeData.rating,
+    userRatingCount: placeData.userRatingCount,
+    photo: placeData.photo,
+    lat: placeData.location.lat,
+    lng: placeData.location.lng,
+  };
 };
 
 export default getLocation;
