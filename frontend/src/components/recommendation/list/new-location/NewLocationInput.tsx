@@ -37,11 +37,11 @@ const NewLocationInput = ({
   const { t } = createTranslation('result');
 
   const newLocationExamplePromptList = [
-    t('new-location.park'),
-    t('new-location.aquarium'),
-    t('new-location.museum'),
-    t('new-location.shrine'),
-    t('new-location.fun'),
+    { place: t('new-location.park'), prompt: t('new-location.park-prompt') },
+    { place: t('new-location.aquarium'), prompt: t('new-location.aquarium-prompt') },
+    { place: t('new-location.museum'), prompt: t('new-location.museum-prompt') },
+    { place: t('new-location.shrine'), prompt: t('new-location.shrine-prompt') },
+    { place: t('new-location.fun'), prompt: t('new-location.fun-prompt') },
   ];
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {

@@ -4,16 +4,21 @@ import { Chip } from '@mui/material';
 import type { Dispatch, SetStateAction } from 'react';
 
 type NewLocationExampleChipProps = {
-  data: string;
+  data: {
+    place: string;
+    prompt: string;
+  };
   setPrompt: Dispatch<SetStateAction<string>>;
 };
 
 const NewLocationExampleChip = ({ data, setPrompt }: NewLocationExampleChipProps) => {
   const handleOnClick = () => {
-    setPrompt(data);
+    setPrompt(data.prompt);
   };
 
-  return <Chip label={data} onClick={handleOnClick} color="primary" variant="outlined" clickable />;
+  return (
+    <Chip label={data.place} onClick={handleOnClick} color="primary" variant="outlined" clickable />
+  );
 };
 
 export default NewLocationExampleChip;

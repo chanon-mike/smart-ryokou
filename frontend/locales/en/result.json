@@ -11,10 +11,15 @@
     "cancel": "Cancel"
   },
   "new-location": {
-    "park": "Find me a park",
-    "aquarium": "Find me an aquarium",
-    "museum": "Find me a museum",
-    "shrine": "Find me a shrine",
-    "fun": "Find me a fun place"
+    "park": "Park",
+    "park-prompt": "Find me a park",
+    "aquarium": "Aquarium",
+    "aquarium-prompt": "Find me an aquarium",
+    "museum": "Museum",
+    "museum-prompt": "Find me a museum",
+    "shrine": "Shrine",
+    "shrine-prompt": "Find me a shrine",
+    "fun": "Fun",
+    "fun-prompt": "Find me something fun"
   }
 }
