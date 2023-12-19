@@ -1,7 +1,7 @@
 import type { Location } from '@/types/recommendation';
 import { Delete } from '@mui/icons-material';
 import DiningIcon from '@mui/icons-material/Dining';
-import { Card, Grid, CardMedia, CardContent, Typography, IconButton, styled } from '@mui/material';
+import { Card, Grid, CardMedia, CardContent, Typography, styled } from '@mui/material';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { SecondaryColorHoverIconButton } from '@/components/common/mui/SecondaryColorHoverIconButton';
@@ -95,7 +95,11 @@ const SortableLocationCard = ({
               </SecondaryColorHoverIconButton> */}
               <SecondaryColorHoverIconButton
                 aria-label="Find Restaurant"
-                onMouseDown={() => onFindRestaurant(recIndex ?? 0, index ?? 0, location)}
+                onMouseDown={() => {
+                  if (onFindRestaurant) {
+                    return onFindRestaurant(recIndex ?? 0, index ?? 0, location);
+                  }
+                }}
               >
                 <DiningIcon />
               </SecondaryColorHoverIconButton>

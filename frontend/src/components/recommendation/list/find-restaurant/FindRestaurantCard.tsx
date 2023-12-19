@@ -10,7 +10,7 @@ interface FindRestaurantCardProps {
 const FindRestaurantCard = ({ location, handleAddLocation }: FindRestaurantCardProps) => {
   return (
     <Card key={location.name} variant="elevation" sx={{ width: 1 / 6 }}>
-      <CardMedia component="img" height="100px" image={location.imageUrl} alt={location.name} />
+      <CardMedia component="img" height="100px" image={location.photo} alt={location.name} />
       <CardContent>
         <Typography gutterBottom variant="body1">
           {location.name}
