@@ -1,5 +1,5 @@
 import type { Location } from '@/types/recommendation';
-import { Box, Card, CardContent, CardMedia, IconButton, Typography } from '@mui/material';
+import { Box, Card, CardContent, CardMedia, IconButton, Rating, Typography } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 interface FindRestaurantCardProps {
@@ -15,6 +15,15 @@ const FindRestaurantCard = ({ location, handleAddLocation }: FindRestaurantCardP
         <Typography gutterBottom variant="body1">
           {location.name}
         </Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.25, flexWrap: 'wrap' }}>
+          <Typography variant="body2" color="text.secondary">
+            {location.rating}
+          </Typography>
+          <Rating value={location.rating} precision={0.1} size="small" readOnly />
+          <Typography variant="body2" color="text.secondary">
+            ({location.userRatingCount})
+          </Typography>
+        </Box>
         <Box
           sx={{
             display: 'flex',
