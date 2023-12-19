@@ -141,9 +141,11 @@ class DayRecommendation(BaseModel):
 
 
 class StructuredRecommendationResponse(BaseModel):
+    place: str
     title: str
     recommendation: list[DayRecommendation]
 
 
 class PromptRecommendationResponse(BaseModel):
+    place: str
     recommendations: list[Activity]

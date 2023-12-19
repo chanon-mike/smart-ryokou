@@ -45,6 +45,7 @@ const getResult: GetResultInterface = async (context: ApiContext, request: GetRe
   );
 
   return {
+    place: serverResponse.place,
     title: serverResponse.title,
     recommendations: mappedRecommendations,
   };

@@ -195,6 +195,7 @@ class StructuredRecommendationUseCase(RecommendationUseCase):
         response_json: StructuredRecommendationResponse = self.parse_response(response)
         response_json["title"] = f"{query.place}の旅行プラン"
         response_json = self._assign_date_to_response(query, response_json)
+        response_json["place"] = query.place
         return response_json
 
 
@@ -260,5 +261,6 @@ class PromptRecommendationUseCase(RecommendationUseCase):
             tools=self.functions,
         )
         response_json: PromptRecommendationResponse = self.parse_response(response)
+        response_json["place"] = query.trip_title.split("の")[0]
 
         return response_json
