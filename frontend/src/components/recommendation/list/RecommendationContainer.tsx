@@ -16,8 +16,8 @@ import { DialogContent } from '@mui/material';
 import type Session from '@/service/database/session/model';
 import { CircularProgress } from '@mui/material';
 import type { Location } from '@/types/recommendation';
-import getRestaurantData from '@/client/helper/getRestaurantData';
 import FindRestaurantCard from './find-restaurant/FindRestaurantCard';
+import Client from '@/client/Client';
 
 const RecommendationContainer = () => {
   const { session, setSession } = useContext(RecommendationContext);
@@ -90,11 +90,16 @@ const RecommendationContainer = () => {
 
     if (restaurants.length === 0) {
       setLoadingRestaurants(true);
-      const res: Array<Location> = await getRestaurantData({
-        latitude: location.lat,
-        longitude: location.lng,
-      });
-
+      const res: Location[] = await Client.getRestaurant(
+        {
+          useMock: false,
+          requireAuth: false,
+        },
+        {
+          latitude: location.lat,
+          longitude: location.lng,
+        },
+      );
       setRestaurants(res);
       setLoadingRestaurants(false);
     }
