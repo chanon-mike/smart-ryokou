@@ -4,7 +4,7 @@ import SessionClient from '@/client/service/session/implement';
 import { RecommendationProvider } from '@/components/recommendation/RecommendationContext';
 import RecommendationResult from '@/components/recommendation/RecommendationResult';
 import type Session from '@/service/database/session/model';
-import { Box, CircularProgress } from '@mui/material';
+import { Box, CircularProgress, Container } from '@mui/material';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -57,18 +57,13 @@ const SessionResult = () => {
     }
 
     return (
-      <Box
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="center"
-        height="100dvh"
-        maxWidth="100%"
-      >
-        <RecommendationProvider ses={data}>
-          <RecommendationResult />
-        </RecommendationProvider>
-      </Box>
+      <Container>
+        <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center">
+          <RecommendationProvider ses={data}>
+            <RecommendationResult />
+          </RecommendationProvider>
+        </Box>
+      </Container>
     );
   };
 

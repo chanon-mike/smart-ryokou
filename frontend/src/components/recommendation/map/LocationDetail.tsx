@@ -13,9 +13,9 @@ const LocationDetail = ({ activeLocation }: LocationDetailProps) => {
   return (
     <Paper
       elevation={1}
-      style={{
+      sx={{
         position: 'absolute',
-        right: '10%',
+        right: { sm: '10%', xs: '5%' },
         bottom: '5%',
         width: '80%',
         padding: '16px',
@@ -31,11 +31,11 @@ const LocationDetail = ({ activeLocation }: LocationDetailProps) => {
             width="100px"
             image={activeLocation.imageUrl}
             alt="Image"
-            style={{ flex: '0 0 30%' }}
+            sx={{ flex: '0 0 30%' }}
           />
         </Grid>
         <Grid item xs={7}>
-          <Box style={{ flex: '0 0 70%', paddingLeft: '16px' }}>
+          <Box sx={{ flex: '0 0 70%', paddingLeft: '16px' }}>
             <Typography variant="h6">{activeLocation.name}</Typography>
             <Typography variant="body2" color="text.secondary">
               {activeLocation.description}
