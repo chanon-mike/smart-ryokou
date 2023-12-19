@@ -14,5 +14,17 @@
     "ok": "はい",
     "cancel": "キャンセル"
   },
-  "restaurant-title": "レストランの結果"
+  "restaurant-title": "レストランの結果",
+  "new-location": {
+    "park": "公園",
+    "park-prompt": "公園探して",
+    "aquarium": "水族館",
+    "aquarium-prompt": "水族館探して",
+    "museum": "博物館",
+    "museum-prompt": "博物館探して",
+    "shrine": "神社",
+    "shrine-prompt": "神社探して",
+    "fun": "遊ぶところ",
+    "fun-prompt": "遊ぶところ探して"
+  }
 }
