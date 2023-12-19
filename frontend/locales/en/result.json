@@ -13,5 +13,17 @@
     "title": "Delete this location?",
     "ok": "OK",
     "cancel": "Cancel"
+  },
+  "new-location": {
+    "park": "Park",
+    "park-prompt": "Find me a park",
+    "aquarium": "Aquarium",
+    "aquarium-prompt": "Find me an aquarium",
+    "museum": "Museum",
+    "museum-prompt": "Find me a museum",
+    "shrine": "Shrine",
+    "shrine-prompt": "Find me a shrine",
+    "fun": "Fun",
+    "fun-prompt": "Find me something fun"
   }
 }
