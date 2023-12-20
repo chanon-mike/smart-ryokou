@@ -12,6 +12,8 @@ import { Box, Button, Dialog, DialogActions, DialogTitle } from '@mui/material';
 import { useContext, useState } from 'react';
 import _ from 'lodash';
 import createTranslation from 'next-translate/useTranslation';
+import { useFindRestaurant } from './find-restaurant/useFindRestaurant';
+import FindRestaurantDialog from './find-restaurant/FindRestaurantDialog';
 
 const RecommendationContainer = () => {
   const { session, setSession } = useContext(RecommendationContext);
@@ -19,6 +21,14 @@ const RecommendationContainer = () => {
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [placeToDelete, setPlaceToDelete] = useState('');
+  const {
+    findRestaurantOpen,
+    restaurants,
+    loadingRestaurants,
+    handleFindRestaurant,
+    handleCloseDialog,
+    handleSelectRestaurant,
+  } = useFindRestaurant({ session, setSession });
 
   const { sensors, handleDragStart, handleDragOver, handleDragCancel, handleDragEnd } = useDnd({
     session,
@@ -67,7 +77,12 @@ const RecommendationContainer = () => {
         <Box style={{ maxWidth: '400px', height: '75vh', overflowY: 'auto', paddingRight: '20px' }}>
           {session.recommendations.map((r, index) => (
             <Box key={`${r.date}-${index}`}>
-              <DroppableDateList recommendation={r} onConfirmDeleteCard={handleConfirmDeleteCard} />
+              <DroppableDateList
+                recIndex={index}
+                recommendation={r}
+                onConfirmDeleteCard={handleConfirmDeleteCard}
+                onFindRestaurant={handleFindRestaurant}
+              />
               <NewLocationButton dateIndex={index} />
             </Box>
           ))}
@@ -103,6 +118,14 @@ const RecommendationContainer = () => {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <FindRestaurantDialog
+        findRestaurantOpen={findRestaurantOpen}
+        restaurants={restaurants}
+        loadingRestaurants={loadingRestaurants}
+        handleCloseDialog={handleCloseDialog}
+        handleSelectRestaurant={handleSelectRestaurant}
+      />
     </>
   );
 };

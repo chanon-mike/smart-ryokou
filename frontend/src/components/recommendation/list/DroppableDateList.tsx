@@ -1,7 +1,7 @@
 'use client';
 
 import SortableLocationCard from '@/components/recommendation/list/SortableLocationCard';
-import type { Recommendation } from '@/types/recommendation';
+import type { Location, Recommendation } from '@/types/recommendation';
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
 import { Box, Typography } from '@mui/material';
 import type { FC } from 'react';
@@ -10,11 +10,18 @@ import { ActiveLocationContext } from '@/components/recommendation/ActiveLocatio
 import { SecondaryColorHoverIconButton } from '@/components/common/mui/SecondaryColorHoverIconButton';
 import PinDropIcon from '@mui/icons-material/PinDrop';
 interface DroppableDateListProps {
+  recIndex: number;
   recommendation: Recommendation;
   onConfirmDeleteCard: (placeName: string) => void;
+  onFindRestaurant: (recIndex: number, dateIndex: number, location: Location) => void;
 }
 
-const DroppableDateList: FC<DroppableDateListProps> = ({ recommendation, onConfirmDeleteCard }) => {
+const DroppableDateList: FC<DroppableDateListProps> = ({
+  recIndex,
+  recommendation,
+  onConfirmDeleteCard,
+  onFindRestaurant,
+}) => {
   const activeLocationContext = useContext(ActiveLocationContext);
   const { setActiveLocation, setActiveStep, setActiveDate, setMapCenter, setZoom } =
     activeLocationContext;
@@ -68,15 +75,19 @@ const DroppableDateList: FC<DroppableDateListProps> = ({ recommendation, onConfi
                 location={loc}
                 disabled={true}
                 index={index}
+                recIndex={recIndex}
                 onSelect={handleSelect}
                 onConfirmDelete={onConfirmDeleteCard}
+                onFindRestaurant={onFindRestaurant}
               />
             ) : (
               <SortableLocationCard
                 location={loc}
                 index={index}
+                recIndex={recIndex}
                 onSelect={handleSelect}
                 onConfirmDelete={onConfirmDeleteCard}
+                onFindRestaurant={onFindRestaurant}
               />
             )}
           </div>

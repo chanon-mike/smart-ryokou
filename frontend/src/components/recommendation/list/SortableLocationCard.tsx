@@ -1,5 +1,6 @@
 import type { Location } from '@/types/recommendation';
 import { Delete } from '@mui/icons-material';
+import DiningIcon from '@mui/icons-material/Dining';
 import { Card, Grid, CardMedia, CardContent, Typography, styled } from '@mui/material';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -20,7 +21,9 @@ type SortableLocationCardProps = {
   disabled?: boolean;
   onSelect: (index: number) => void;
   onConfirmDelete: (placeName: string) => void;
-  index: number;
+  onFindRestaurant?: (recIndex: number, dateIndex: number, location: Location) => void;
+  index: number; // date index
+  recIndex?: number;
 };
 
 const SortableLocationCard = ({
@@ -28,7 +31,9 @@ const SortableLocationCard = ({
   disabled = false,
   onSelect,
   index,
+  recIndex,
   onConfirmDelete,
+  onFindRestaurant,
 }: SortableLocationCardProps) => {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: location.id,
@@ -88,6 +93,16 @@ const SortableLocationCard = ({
               {/* <SecondaryColorHoverIconButton aria-label="Edit">
                 <Edit />
               </SecondaryColorHoverIconButton> */}
+              <SecondaryColorHoverIconButton
+                aria-label="Find Restaurant"
+                onMouseDown={() => {
+                  if (onFindRestaurant) {
+                    return onFindRestaurant(recIndex ?? 0, index ?? 0, location);
+                  }
+                }}
+              >
+                <DiningIcon />
+              </SecondaryColorHoverIconButton>
               <SecondaryColorHoverIconButton
                 aria-label="Delete"
                 onMouseDown={() => onConfirmDelete(location.name)}
