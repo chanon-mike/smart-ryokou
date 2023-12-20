@@ -12,11 +12,11 @@ const Navbar = async () => {
       sx={{ backgroundColor: 'transparent', backdropFilter: 'blur(5px)', position: 'fixed' }}
     >
       <Toolbar>
-        <a href="/" style={{ display: 'flex', flexDirection: 'row', flexGrow: 1 }}>
-          <IconButton size="large" edge="start" color="primary" aria-label="menu">
+        <Box sx={{ display: 'flex', flexDirection: 'row', flexGrow: 1 }}>
+          <IconButton href="/" size="large" edge="start" color="primary" aria-label="menu">
             <HomeIcon />
           </IconButton>
-          <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+          <a href="/" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
             <Typography variant="h6" color="primary">
               Smart
             </Typography>
@@ -34,8 +34,8 @@ const Navbar = async () => {
             >
               旅行
             </Typography>
-          </Box>
-        </a>
+          </a>
+        </Box>
 
         <LanguageMenu />
         {/* {!session ? (
