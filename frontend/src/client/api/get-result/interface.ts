@@ -18,11 +18,13 @@ export interface GetResultRequest {
 }
 
 export interface GetResultResponse {
+  place: string;
   title: string;
   recommendations: Recommendation[];
 }
 
 export interface GetResultServerResponse {
+  place: string;
   title: string;
   recommendation: {
     date: string;

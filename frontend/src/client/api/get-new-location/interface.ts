@@ -13,10 +13,12 @@ export interface GetNewLocationRequest {
 }
 
 export interface GetNewLocationResponse {
+  place: string;
   locations: Location[];
 }
 
 export interface GetNewLocationServerResponse {
+  place: string;
   recommendations: {
     place: string;
     description: string;
