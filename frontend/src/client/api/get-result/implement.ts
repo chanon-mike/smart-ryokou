@@ -1,17 +1,12 @@
 import type { ApiContext } from '@/client/ApiContext';
 import getResultMock from './mock';
-import type {
-  GetResultInterface,
-  GetResultRequest,
-  GetResultResponse,
-  GetResultServerResponse,
-} from './interface';
+import type { GetResultInterface, GetResultRequest, GetResultServerResponse } from './interface';
 import axios from 'axios';
 import type { Recommendation, Location } from '@/types/recommendation';
-import getLocationData from '@/client/helper/getLocationData';
 import cacheClient from '@/client/service/cache/implement';
-import { API_ENDPOINT, CX, GOOGLE_MAPS_API_KEY, GOOGLE_SEARCH_API_KEY } from '@/libs/envValues';
-import { getImageData } from '@/client/helper/getImageData';
+import { API_ENDPOINT } from '@/libs/envValues';
+import { generateObjectId } from '@/libs/helper';
+import mapPlaceService from '@/service/map/place/service';
 
 // eslint-disable-next-line complexity
 const getResult: GetResultInterface = async (context: ApiContext, request: GetResultRequest) => {
@@ -44,45 +39,45 @@ const getResult: GetResultInterface = async (context: ApiContext, request: GetRe
     serverResponse = JSON.parse(cachedResult);
   }
 
-  const result = await adapter(serverResponse);
-  return result;
-};
+  const mappedRecommendations = await Promise.all(
+    serverResponse.recommendation.map(mapRecommendation),
+  );
 
-// TODO: Refactor
-const adapter = async (serverResponse: GetResultServerResponse) => {
   return {
     title: serverResponse.title,
-    recommendations: await Promise.all(
-      serverResponse.recommendation.map(
-        async (r: {
-          date: string;
-          activities: {
-            place: string;
-            description: string;
-          }[];
-        }) => {
-          return {
-            date: r.date,
-            locations: await Promise.all(
-              r.activities.map(async (a: { place: string; description: string }) => {
-                // Fetch location data from google places api and image data from pexels api
-                const latLngData = await getLocationData(a.place, GOOGLE_MAPS_API_KEY);
-                const imageData = await getImageData(a.place, GOOGLE_SEARCH_API_KEY, CX);
+    recommendations: mappedRecommendations,
+  };
+};
 
-                return {
-                  name: a.place,
-                  description: a.description,
-                  imageUrl: imageData,
-                  lat: latLngData?.lat,
-                  lng: latLngData?.lng,
-                } as Location;
-              }),
-            ),
-          } as Recommendation;
-        },
-      ),
-    ),
-  } as GetResultResponse;
+const generateLocation = async (activity: {
+  place: string;
+  description: string;
+}): Promise<Location> => {
+  const placeData = await mapPlaceService.getPlaceData(activity.place);
+
+  return {
+    id: generateObjectId(),
+    placeId: placeData.placeId,
+    name: placeData.name,
+    description: activity.description,
+    rating: placeData.rating,
+    userRatingCount: placeData.userRatingCount,
+    photo: placeData.photo,
+    lat: placeData.location.lat,
+    lng: placeData.location.lng,
+  };
+};
+
+const mapRecommendation = async (recommendation: {
+  date: string;
+  activities: { place: string; description: string }[];
+}): Promise<Recommendation> => {
+  const locations = await Promise.all(recommendation.activities.map(generateLocation));
+
+  return {
+    date: recommendation.date,
+    locations,
+  };
 };
 
 export default getResult;

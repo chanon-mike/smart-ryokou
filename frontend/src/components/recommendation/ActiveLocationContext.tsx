@@ -11,6 +11,8 @@ interface ActiveLocationProps {
   setActiveDate: Dispatch<SetStateAction<string>>;
   mapCenter: { lat: number; lng: number };
   setMapCenter: Dispatch<SetStateAction<{ lat: number; lng: number }>>;
+  zoom: number;
+  setZoom: Dispatch<SetStateAction<number>>;
 }
 
 export const ActiveLocationContext = createContext<ActiveLocationProps>({
@@ -22,6 +24,8 @@ export const ActiveLocationContext = createContext<ActiveLocationProps>({
   setActiveDate: () => {},
   mapCenter: { lat: 0, lng: 0 },
   setMapCenter: () => {},
+  zoom: 12,
+  setZoom: () => {},
 });
 
 interface ActiveLocationProviderProps {
@@ -33,6 +37,7 @@ export const ActiveLocationProvider = ({ children }: ActiveLocationProviderProps
   const [activeStep, setActiveStep] = useState<number>(0);
   const [activeDate, setActiveDate] = useState<string>('');
   const [mapCenter, setMapCenter] = useState<{ lat: number; lng: number }>({ lat: 0, lng: 0 });
+  const [zoom, setZoom] = useState<number>(12);
 
   return (
     <ActiveLocationContext.Provider
@@ -45,6 +50,8 @@ export const ActiveLocationProvider = ({ children }: ActiveLocationProviderProps
         setActiveDate,
         mapCenter,
         setMapCenter,
+        zoom,
+        setZoom,
       }}
     >
       {children}

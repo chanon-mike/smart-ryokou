@@ -3,6 +3,7 @@ import type {
   GetNewLocationRequest,
   GetNewLocationResponse,
 } from '@/client/api/get-new-location/interface';
+import { useSnackbar } from '@/components/common/snackbar/SnackbarContext';
 import { RecommendationContext } from '@/components/recommendation/RecommendationContext';
 import NewLocationCard from '@/components/recommendation/list/new-location/NewLocationCard';
 import NewLocationPrompt from '@/components/recommendation/list/new-location/NewLocationPrompt';
@@ -12,6 +13,7 @@ import { Box, Dialog, DialogContent, DialogTitle } from '@mui/material';
 import createTranslation from 'next-translate/useTranslation';
 import type { ChangeEvent, Dispatch, FormEvent, SetStateAction } from 'react';
 import { useContext, useState } from 'react';
+import NewLocationExampleChip from './NewLocationExampleChip';
 
 interface NewLocationInputProps {
   newLocations: Location[];
@@ -28,11 +30,19 @@ const NewLocationInput = ({
   open,
   handleClose,
 }: NewLocationInputProps) => {
+  const { openSnackbar } = useSnackbar();
+  const { session, setSession } = useContext(RecommendationContext);
   const [prompt, setPrompt] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { session, setSession } = useContext(RecommendationContext);
-
   const { t } = createTranslation('result');
+
+  const newLocationExamplePromptList = [
+    { place: t('new-location.park'), prompt: t('new-location.park-prompt') },
+    { place: t('new-location.aquarium'), prompt: t('new-location.aquarium-prompt') },
+    { place: t('new-location.museum'), prompt: t('new-location.museum-prompt') },
+    { place: t('new-location.shrine'), prompt: t('new-location.shrine-prompt') },
+    { place: t('new-location.fun'), prompt: t('new-location.fun-prompt') },
+  ];
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPrompt(e.target.value);
@@ -62,8 +72,9 @@ const NewLocationInput = ({
       );
     } catch (error) {
       if (error instanceof Error) {
-        alert(error.message);
+        openSnackbar(error.message, 'error');
       }
+      setIsLoading(false);
       return;
     } finally {
       setIsLoading(false);
@@ -75,7 +86,7 @@ const NewLocationInput = ({
   const handleAddLocation = (location: Location) => {
     // When add location, remove that location from newLocations
     setNewLocations((prev: Location[]) => {
-      const newLocations = prev.filter((loc) => loc.name !== location.name);
+      const newLocations = prev.filter((loc) => loc.id !== location.name);
       return newLocations;
     });
     setSession((prev: Session) => {
@@ -96,6 +107,19 @@ const NewLocationInput = ({
           handleSubmit={handleSubmit}
           handleOnChange={handleOnChange}
         />
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'flex-start',
+            marginTop: 2,
+            gap: 1,
+            overflowX: 'auto',
+          }}
+        >
+          {newLocationExamplePromptList.map((prompt, index) => (
+            <NewLocationExampleChip key={`${prompt}${index}`} data={prompt} setPrompt={setPrompt} />
+          ))}
+        </Box>
         <Box display="flex" justifyContent="center" my={2} gap={2}>
           {newLocations.map((location, index) => (
             <NewLocationCard

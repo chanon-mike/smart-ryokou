@@ -15,7 +15,7 @@ const getResultMockCases: ReadonlyArray<{
             {
               name: '東京',
               description: 'mock',
-              imageUrl:
+              photo:
                 'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
               lat: 30,
               lng: 30,
@@ -23,7 +23,7 @@ const getResultMockCases: ReadonlyArray<{
             {
               name: '大阪',
               description: 'mock',
-              imageUrl:
+              photo:
                 'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
               lat: 30,
               lng: 30,
@@ -31,7 +31,7 @@ const getResultMockCases: ReadonlyArray<{
             {
               name: '広島',
               description: 'mock',
-              imageUrl:
+              photo:
                 'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
               lat: 30,
               lng: 30,
@@ -44,7 +44,7 @@ const getResultMockCases: ReadonlyArray<{
             {
               name: '京都',
               description: 'mock',
-              imageUrl:
+              photo:
                 'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
               lat: 30,
               lng: 30,
@@ -52,7 +52,7 @@ const getResultMockCases: ReadonlyArray<{
             {
               name: '奈良',
               description: 'mock',
-              imageUrl:
+              photo:
                 'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
               lat: 30,
               lng: 30,
@@ -65,7 +65,7 @@ const getResultMockCases: ReadonlyArray<{
             {
               name: '名古屋',
               description: 'mock',
-              imageUrl:
+              photo:
                 'https://fastly.picsum.photos/id/43/100/100.jpg?hmac=QWvBJMVtL0V3YvT4uaJ4stLVLJ0Nx053a7i4F2UXGYk',
               lat: 30,
               lng: 30,

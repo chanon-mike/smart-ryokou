@@ -1,33 +1,26 @@
 import type { Location } from '@/types/recommendation';
 import { Delete } from '@mui/icons-material';
-import { Card, Grid, CardMedia, CardContent, Typography, IconButton, styled } from '@mui/material';
+import { Card, Grid, CardMedia, CardContent, Typography, styled } from '@mui/material';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { SecondaryColorHoverIconButton } from '@/components/common/mui/SecondaryColorHoverIconButton';
 
 const HoverableCard = styled(Card)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'center',
   transition: 'transform 0.3s',
   '&:hover': {
-    transform: 'translateY(-5px)',
     boxShadow: theme.shadows[2],
     borderColor: theme.palette.primary.main,
-  },
-}));
-
-const SecondaryColorHoverIconButton = styled(IconButton)(({ theme }) => ({
-  '&:hover': {
-    color: theme.palette.secondary.main,
-    backgroundColor: 'transparent',
   },
 }));
 
 type SortableLocationCardProps = {
   location: Location;
   disabled?: boolean;
-  onSelect?: (index: number) => void;
-  onConfirmDelete?: (placeName: string) => void;
-  index?: number;
+  onSelect: (index: number) => void;
+  onConfirmDelete: (placeName: string) => void;
+  index: number;
 };
 
 const SortableLocationCard = ({
@@ -38,7 +31,7 @@ const SortableLocationCard = ({
   onConfirmDelete,
 }: SortableLocationCardProps) => {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
-    id: location.name,
+    id: location.id,
     disabled,
   });
 
@@ -66,7 +59,7 @@ const SortableLocationCard = ({
                 component="img"
                 height={'100%'}
                 width={'100%'}
-                image={location.imageUrl}
+                image={location.photo}
                 alt="Image"
                 onMouseDown={() => onSelect(index)}
               />

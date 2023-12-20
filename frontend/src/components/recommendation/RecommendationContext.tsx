@@ -1,5 +1,4 @@
 import type Session from '@/service/database/session/model';
-import type { Recommendation } from '@/types/recommendation';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import { createContext, useState } from 'react';
 
@@ -21,8 +20,6 @@ export const RecommendationContext = createContext<RecommendationProps>({
 
 interface RecommendationProviderProps {
   children: ReactNode;
-  rec: Recommendation[];
-  title: string;
   ses: Session;
 }
 

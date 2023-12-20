@@ -4,9 +4,13 @@ export interface Recommendation {
 }
 
 export interface Location {
+  id: string;
+  placeId: string;
   name: string;
   description: string;
-  imageUrl: string;
+  rating?: number;
+  userRatingCount?: number;
+  photo: string;
   lat: number;
   lng: number;
 }

@@ -1,27 +1,22 @@
-import { Box, AppBar, Toolbar, IconButton, Typography, Button } from '@mui/material';
-import { getSession } from '@auth0/nextjs-auth0';
+import { Box, AppBar, Toolbar, IconButton, Typography } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import LanguageMenu from '@/components/common/LanguageMenu';
 
 const Navbar = async () => {
-  const session = await getSession();
+  // const session = await getSession();
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar
-        elevation={0}
-        position="fixed"
-        color="inherit"
-        sx={{ backgroundColor: 'transparent', backdropFilter: 'blur(5px)' }}
-      >
-        <Toolbar>
-          <a href="/">
-            <IconButton size="large" edge="start" color="primary" aria-label="menu">
-              <HomeIcon />
-            </IconButton>
-          </a>
-
-          <Box sx={{ display: 'flex', flexDirection: 'row', flexGrow: 1 }}>
+    <AppBar
+      elevation={0}
+      color="inherit"
+      sx={{ backgroundColor: 'transparent', backdropFilter: 'blur(5px)', position: 'fixed' }}
+    >
+      <Toolbar>
+        <a href="/" style={{ display: 'flex', flexDirection: 'row', flexGrow: 1 }}>
+          <IconButton size="large" edge="start" color="primary" aria-label="menu">
+            <HomeIcon />
+          </IconButton>
+          <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
             <Typography variant="h6" color="primary">
               Smart
             </Typography>
@@ -40,8 +35,10 @@ const Navbar = async () => {
               旅行
             </Typography>
           </Box>
-          <LanguageMenu />
-          {!session ? (
+        </a>
+
+        <LanguageMenu />
+        {/* {!session ? (
             <a href="/api/auth/login">
               <Button color="primary">Login</Button>
             </a>
@@ -49,10 +46,9 @@ const Navbar = async () => {
             <a href="/api/auth/logout">
               <Button color="primary">Logout</Button>
             </a>
-          )}
-        </Toolbar>
-      </AppBar>
-    </Box>
+          )} */}
+      </Toolbar>
+    </AppBar>
   );
 };
 

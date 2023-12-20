@@ -1,69 +1,87 @@
 'use client';
 
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
-import SearchIcon from '@mui/icons-material/Search';
+import './Autocomplete.css';
+import type { ChangeEvent, Dispatch, SetStateAction } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { InputAdornment, TextField } from '@mui/material';
-import useTranslation from 'next-translate/useTranslation';
-import type { Dispatch, SetStateAction } from 'react';
+import SearchIcon from '@mui/icons-material/Search';
+import { GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
+import type { Libraries } from '@react-google-maps/api';
+import { useLoadScript } from '@react-google-maps/api';
+import createTranslation from 'next-translate/useTranslation';
 
 type Props = {
   placeInput: string;
   setPlaceInput: Dispatch<SetStateAction<string>>;
-  handleOpenModal: () => void;
 };
-// ... (other imports)
 
-const InputBar = ({ placeInput, setPlaceInput, handleOpenModal }: Props) => {
-  const { t } = useTranslation('home');
+const InputBar = ({ placeInput, setPlaceInput }: Props) => {
+  const { t, lang } = createTranslation('home');
+  const [libraries] = useState<Libraries>(['places']);
+  const autoCompleteRef = useRef<google.maps.places.Autocomplete>();
+  const inputRef = useRef(null);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: GOOGLE_MAPS_API_KEY,
+    libraries,
+    language: lang,
+  });
+
+  useEffect(() => {
+    const initAutocomplete = () => {
+      const options = {
+        types: ['locality', 'administrative_area_level_1', 'country'],
+      };
+
+      if (isLoaded && window.google && inputRef.current) {
+        autoCompleteRef.current = new window.google.maps.places.Autocomplete(
+          inputRef.current,
+          options,
+        );
+
+        autoCompleteRef.current.addListener('place_changed', async () => {
+          const place = await autoCompleteRef.current?.getPlace();
+          if (place && place.formatted_address !== undefined) {
+            setPlaceInput(place.formatted_address);
+          }
+        });
+      }
+    };
+
+    initAutocomplete();
+
+    return () => {
+      if (autoCompleteRef.current) {
+        window.google.maps.event.clearInstanceListeners(autoCompleteRef.current);
+      }
+    };
+  }, [isLoaded, setPlaceInput]);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPlaceInput(event.target.value);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    handleOpenModal();
-  };
-
-  const handleSearchIconClick = () => {
-    if (placeInput.trim() !== '') {
-      handleOpenModal();
-    }
-  };
-
   return (
-    <form
-      style={{
-        padding: 20,
-        width: '600px',
+    <TextField
+      fullWidth
+      required
+      id="autocomplete"
+      type="text"
+      autoComplete="off"
+      placeholder={t('input-message')}
+      value={placeInput}
+      inputRef={inputRef}
+      onChange={handleChange}
+      sx={{ width: '500px' }}
+      size="small"
+      InputProps={{
+        startAdornment: (
+          <InputAdornment position="start">
+            <SearchIcon color="primary" />
+          </InputAdornment>
+        ),
       }}
-      onSubmit={handleSubmit}
-    >
-      <TextField
-        fullWidth
-        required
-        id="search"
-        placeholder={t('input-message')}
-        value={placeInput}
-        onChange={handleChange}
-        autoComplete="off"
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <AutoAwesomeIcon color="primary" />
-            </InputAdornment>
-          ),
-          endAdornment: (
-            <InputAdornment
-              position="end"
-              style={{ cursor: placeInput.trim() !== '' ? 'pointer' : 'default' }}
-            >
-              <SearchIcon onClick={handleSearchIconClick} color="secondary" />
-            </InputAdornment>
-          ),
-        }}
-      />
-    </form>
+    />
   );
 };
 

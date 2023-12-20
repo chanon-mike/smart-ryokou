@@ -1,6 +1,7 @@
 {
-  "caption": "AIで旅行計画を立てよう！",
-  "input-message": "場所を検索する！",
+  "caption": "AIで旅行計画を立てよう!",
+  "input-message": "日本、東京",
+  "input-button": "計画を立てる!",
   "dialog-title": "{{name}}での旅行計画",
   "dialog-content": "旅行の好みを選択してください",
   "date-label": "日程",
@@ -50,5 +51,31 @@
     "zoo": "動物園",
     "aquarium": "水族館",
     "amusement": "遊園地"
+  },
+  "featured-title": "人気",
+  "featured-subtitle": "人気の都市",
+  "featured": {
+    "tokyo": "東京",
+    "kyoto": "京都",
+    "osaka": "大阪",
+    "hokkaido": "北海道",
+    "okinawa": "沖縄",
+    "nara": "奈良",
+    "nagoya": "名古屋",
+    "kanazawa": "金沢",
+    "yokohama": "横浜",
+    "nikko": "日光",
+    "place": {
+      "tokyo": "日本、東京都",
+      "kyoto": "日本、京都府",
+      "osaka": "日本、大阪府",
+      "hokkaido": "日本、北海道",
+      "okinawa": "日本、沖縄県",
+      "nara": "日本、奈良県",
+      "nagoya": "日本、愛知県、名古屋市",
+      "kanazawa": "日本、石川県、金沢市",
+      "yokohama": "日本、神奈川県、横浜市",
+      "nikko": "日本、栃木県、日光市"
+    }
   }
 }

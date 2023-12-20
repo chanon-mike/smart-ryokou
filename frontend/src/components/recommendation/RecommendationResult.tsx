@@ -2,29 +2,44 @@
 
 import RecommendationContainer from './list/RecommendationContainer';
 import Map from '@/components/recommendation/map/Map';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { ActiveLocationProvider } from './ActiveLocationContext';
 import { useContext } from 'react';
 import { RecommendationContext } from '@/components/recommendation/RecommendationContext';
 
 const RecommendationResult = () => {
   const { session } = useContext(RecommendationContext);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <Box sx={{ marginTop: 10 }}>
-      <Typography variant="h3" component="h3">
+    <Box sx={{ marginTop: 8 }}>
+      <Typography
+        variant="h3"
+        component="h3"
+        sx={{ fontSize: { sm: '3rem', xs: '2.25rem' }, marginBottom: 1.5 }}
+      >
         {session.tripTitle}
       </Typography>
       <ActiveLocationProvider>
-        <div style={{ height: '80vh', width: '80vw' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '4fr 8fr' }}>
-            {/* Left side: Recommendation container */}
-            <RecommendationContainer />
-
-            {/* Right side: Map */}
-            <Map />
-          </div>
-        </div>
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: { sm: '4fr 8fr', xs: '1fr' },
+          }}
+        >
+          {isMobile ? (
+            <>
+              <Map />
+              <RecommendationContainer />
+            </>
+          ) : (
+            <>
+              <RecommendationContainer />
+              <Map />
+            </>
+          )}
+        </Box>
       </ActiveLocationProvider>
     </Box>
   );
