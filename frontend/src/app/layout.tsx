@@ -20,8 +20,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: 'https://smart-ryokou.vercel.app/website.png',
-        width: 800,
-        height: 600,
+        width: 1850,
+        height: 1000,
         alt: 'Smart旅行',
       },
     ],
