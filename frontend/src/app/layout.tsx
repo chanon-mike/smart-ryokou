@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     type: 'website',
     title: 'Smart旅行 - AIによる旅行プランナー',
     description:
-      'このアプリは、ユーザーの入力に基づいて最適な旅行プランを提案するアプリです。smart旅行で、あなただけの特別な旅行体験を。',
+      'このアプリは、ユーザーの入力に基づいて最適な旅行プランを提案するアプリです。Smart旅行で、あなただけの特別な旅行体験を。',
     url: 'https://smart-ryokou.vercel.app',
     images: [
       {
