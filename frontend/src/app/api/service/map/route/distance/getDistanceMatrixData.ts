@@ -19,8 +19,8 @@ export const getDistanceMatrixData = async (
       await axios.get('https://maps.googleapis.com/maps/api/distancematrix/json', {
         params: {
           key: apiKey,
-          destination: `place_id:${destinationPlaceId}`,
-          origin: `place_id:${originPlaceId}`,
+          destinations: `place_id:${destinationPlaceId}`,
+          origins: `place_id:${originPlaceId}`,
           mode: 'driving',
           language: 'ja',
         },
