@@ -25,8 +25,7 @@ const TotalDuration = ({ isLoadingDistanceMatrix, totalDistanceMatrix }: TotalDu
           flexDirection: 'row',
           marginLeft: 'auto',
           alignItems: 'center',
-          marginTop: 1,
-          gap: 1,
+          gap: 0.5,
         }}
       >
         <TimerIcon fontSize="small" color="action" />

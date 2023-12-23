@@ -74,7 +74,7 @@ const RecommendationContainer = () => {
         collisionDetection={closestCorners}
         modifiers={[restrictToVerticalAxis]}
       >
-        <Box style={{ maxWidth: '400px', height: '75vh', overflowY: 'auto', paddingRight: '20px' }}>
+        <Box style={{ height: '75vh', overflowY: 'auto', paddingRight: '20px' }}>
           {session.recommendations.map((r, index) => (
             <Box key={`${r.date}-${index}`}>
               <DroppableDateList

@@ -3,7 +3,7 @@
 import SortableLocationCard from '@/components/recommendation/list/SortableLocationCard';
 import type { Location, Recommendation } from '@/types/recommendation';
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
-import { Box, Skeleton, Typography } from '@mui/material';
+import { Box, Paper, Skeleton, Typography } from '@mui/material';
 import type { FC } from 'react';
 import { useContext } from 'react';
 import { ActiveLocationContext } from '@/components/recommendation/ActiveLocationContext';
@@ -64,18 +64,25 @@ const DroppableDateList: FC<DroppableDateListProps> = ({
       items={recommendation.locations.map((loc) => loc.id)}
       strategy={rectSortingStrategy}
     >
-      <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', flexGrow: 1 }}>
-        <Typography variant="h6" sx={{ marginTop: 1 }}>
-          {recommendation.date}
-        </Typography>
-        <SecondaryColorHoverIconButton onClick={handleSelectDate} sx={{ paddingBottom: 0 }}>
+      <Paper
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          p: 1,
+          marginTop: { sm: 0, xs: 1 },
+        }}
+        variant="outlined"
+      >
+        <Typography variant="subtitle1">{recommendation.date}</Typography>
+        <SecondaryColorHoverIconButton onClick={handleSelectDate} sx={{ alignItems: 'center' }}>
           <PinDropIcon />
         </SecondaryColorHoverIconButton>
         <TotalDuration
           isLoadingDistanceMatrix={isLoadingDistanceMatrix}
           totalDistanceMatrix={totalDistanceMatrix}
         />
-      </Box>
+      </Paper>
 
       <Box sx={{ marginTop: 1 }}>
         {recommendation.locations.map((loc, index) => {
