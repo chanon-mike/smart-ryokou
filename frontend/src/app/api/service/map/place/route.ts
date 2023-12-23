@@ -4,9 +4,11 @@ import { getPlaceId } from './getPlaceId';
 import type { PlaceDetails } from '@/types/place-details';
 import { getPlaceDetails } from './getPlaceDetails';
 import { getPlacePhoto } from './getPlacePhoto';
+import { GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
 
 export async function POST(req: NextRequest) {
-  const { placeName, apiKey } = await req.json();
+  const { placeName } = await req.json();
+  const apiKey = GOOGLE_MAPS_API_KEY;
 
   try {
     const placeId: string = await getPlaceId(placeName, apiKey);

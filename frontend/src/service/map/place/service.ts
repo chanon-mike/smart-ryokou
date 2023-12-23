@@ -1,21 +1,13 @@
 import type { PlaceDetails } from '@/types/place-details';
 import type { MapPlaceServiceInterface } from './interface';
-import { GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
 import type { Location } from '@/types/recommendation';
 
 class MapPlaceService implements MapPlaceServiceInterface {
-  private apiKey: string;
-
-  constructor(apiKey: string) {
-    this.apiKey = apiKey;
-  }
-
   async getPlaceData(placeName: string): Promise<PlaceDetails> {
     const placeData = await fetch(encodeURI(`/api/service/map/place/`), {
       method: 'POST',
       body: JSON.stringify({
         placeName,
-        apiKey: this.apiKey,
       }),
     }).then((response) => response.json());
 
@@ -28,7 +20,6 @@ class MapPlaceService implements MapPlaceServiceInterface {
       body: JSON.stringify({
         latitude,
         longitude,
-        apiKey: this.apiKey,
       }),
     }).then((response) => response.json());
     console.log(restaurantData);
@@ -37,6 +28,6 @@ class MapPlaceService implements MapPlaceServiceInterface {
   }
 }
 
-const mapPlaceService = new MapPlaceService(GOOGLE_MAPS_API_KEY);
+const mapPlaceService = new MapPlaceService();
 
 export default mapPlaceService;
