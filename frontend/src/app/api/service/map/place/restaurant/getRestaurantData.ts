@@ -79,7 +79,6 @@ const getRestaurantData = async (
     const places: Array<SearchNearbyResponse> = response.data.places;
     const restaurants: Array<Location> = await Promise.all(
       places.map(async (p) => {
-        console.log('Restaurant:', p.displayName.text, p.location.latitude, p.location.longitude);
         return {
           id: generateObjectId(),
           placeId: p.id,
