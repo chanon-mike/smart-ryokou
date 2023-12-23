@@ -23,6 +23,6 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(response);
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error: `Error: ${error}` }, { status: 400 });
+    return NextResponse.json({ error }, { status: 400 });
   }
 }

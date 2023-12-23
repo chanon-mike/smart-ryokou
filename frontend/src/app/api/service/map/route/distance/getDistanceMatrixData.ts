@@ -7,14 +7,41 @@ export const getDistanceMatrixData = async (
   destinationPlaceId: string,
   apiKey: string,
 ): Promise<DistanceMatrix> => {
+  const cacheKey = `distance:origin${originPlaceId},destination${destinationPlaceId}`;
+  const cachedResult = await cacheService.getKey(cacheKey);
+
+  if (cachedResult !== null) {
+    return JSON.parse(cachedResult);
+  }
+
+  const response = await getDistanceMatrixFromGoogleMaps(originPlaceId, destinationPlaceId, apiKey);
+
   try {
-    const cacheKey = `distance:origin${originPlaceId},destination${destinationPlaceId}`;
-    const cachedResult = await cacheService.getKey(cacheKey);
+    const elements = response.rows[0].elements[0];
+    const data: DistanceMatrix = {
+      distance: {
+        text: elements.distance.text,
+        value: elements.distance.value,
+      },
+      duration: {
+        text: elements.duration.text,
+        value: elements.duration.value,
+      },
+    };
+    await cacheService.setKey(cacheKey, JSON.stringify(data));
 
-    if (cachedResult !== null) {
-      return JSON.parse(cachedResult);
-    }
+    return data;
+  } catch (error) {
+    throw new Error('Invalid response from Google Maps API');
+  }
+};
 
+const getDistanceMatrixFromGoogleMaps = async (
+  originPlaceId: string,
+  destinationPlaceId: string,
+  apiKey: string,
+) => {
+  try {
     const response = (
       await axios.get('https://maps.googleapis.com/maps/api/distancematrix/json', {
         params: {
@@ -27,19 +54,7 @@ export const getDistanceMatrixData = async (
       })
     ).data;
 
-    const data: DistanceMatrix = {
-      distance: {
-        text: response.rows[0].elements[0].distance.text,
-        value: response.rows[0].elements[0].distance.value,
-      },
-      duration: {
-        text: response.rows[0].elements[0].duration.text,
-        value: response.rows[0].elements[0].duration.value,
-      },
-    };
-    await cacheService.setKey(cacheKey, JSON.stringify(data));
-
-    return data;
+    return response;
   } catch (error) {
     throw new Error(`An unexpected error occurred while fetching distance matrix: ${error}`);
   }
