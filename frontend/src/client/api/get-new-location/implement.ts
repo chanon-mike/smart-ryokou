@@ -30,7 +30,6 @@ const getLocation: GetNewLocationInterface = async (
   // TODO: hash instead stringify
   const cacheKey = JSON.stringify(request);
   const cachedResult = await cacheClient.getKey(cacheKey);
-  console.log('request', request);
 
   if (cachedResult === null) {
     try {
@@ -51,8 +50,6 @@ const getLocation: GetNewLocationInterface = async (
   const locations: Location[] = locationResults.filter(
     (location) => location !== undefined,
   ) as Location[];
-
-  console.log('locations', locations);
 
   return { locations };
 };
