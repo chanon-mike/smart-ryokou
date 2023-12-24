@@ -2,7 +2,7 @@ import Client from '@/client/Client';
 import { useSnackbar } from '@/components/common/snackbar/SnackbarContext';
 import type { DistanceMatrix } from '@/types/distance';
 import type { Recommendation } from '@/types/recommendation';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 
 export const useDistanceMatrix = (recommendation: Recommendation) => {
   const [distanceMatrix, setDistanceMatrix] = useState<DistanceMatrix[]>([]);
@@ -52,17 +52,5 @@ export const useDistanceMatrix = (recommendation: Recommendation) => {
     // So we need to stringify the object to make it work
   }, [openSnackbar, recommendation.locations, stringifiedRecommendation]);
 
-  const totalDistanceMatrix = useMemo(
-    () => ({
-      distance: distanceMatrix.reduce((acc, curr) => {
-        return acc + curr.distance.value;
-      }, 0),
-      duration: distanceMatrix.reduce((acc, curr) => {
-        return acc + curr.duration.value;
-      }, 0),
-    }),
-    [distanceMatrix],
-  );
-
-  return { distanceMatrix, isLoadingDistanceMatrix, totalDistanceMatrix };
+  return { distanceMatrix, isLoadingDistanceMatrix };
 };

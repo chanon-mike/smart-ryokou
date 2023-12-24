@@ -29,8 +29,7 @@ const DroppableDateList: FC<DroppableDateListProps> = ({
   const activeLocationContext = useContext(ActiveLocationContext);
   const { setActiveLocation, setActiveStep, setActiveDate, setMapCenter, setZoom } =
     activeLocationContext;
-  const { distanceMatrix, isLoadingDistanceMatrix, totalDistanceMatrix } =
-    useDistanceMatrix(recommendation);
+  const { distanceMatrix, isLoadingDistanceMatrix } = useDistanceMatrix(recommendation);
 
   const handleSelect = (index: number) => {
     setActiveLocation(recommendation.locations[index]);
@@ -80,7 +79,7 @@ const DroppableDateList: FC<DroppableDateListProps> = ({
         </SecondaryColorHoverIconButton>
         <TotalDuration
           isLoadingDistanceMatrix={isLoadingDistanceMatrix}
-          totalDistanceMatrix={totalDistanceMatrix}
+          distanceMatrix={distanceMatrix}
         />
       </Paper>
 
@@ -115,8 +114,8 @@ const DroppableDateList: FC<DroppableDateListProps> = ({
                     (!isLoadingDistanceMatrix ? (
                       <DistanceMatrixStep
                         key={recommendation.locations[index].id}
-                        distance={distanceMatrix[index]?.distance.text}
-                        duration={distanceMatrix[index]?.duration.text}
+                        distance={distanceMatrix[index]?.distance?.text}
+                        duration={distanceMatrix[index]?.duration?.text}
                       />
                     ) : (
                       <Skeleton variant="text" sx={{ fontSize: '1rem' }} />

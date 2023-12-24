@@ -48,11 +48,32 @@ const getDistanceMatrixFromGoogleMaps = async (
           key: apiKey,
           destinations: `place_id:${destinationPlaceId}`,
           origins: `place_id:${originPlaceId}`,
-          mode: 'driving',
           language: 'ja',
         },
       })
     ).data;
+
+    // In case of place without calculation result (e.g. Shiretoko Peninsula -> Asahikawa)
+    if (response.rows.elements === undefined) {
+      return {
+        rows: [
+          {
+            elements: [
+              {
+                distance: {
+                  text: '不明',
+                  value: 0,
+                },
+                duration: {
+                  text: '不明',
+                  value: 0,
+                },
+              },
+            ],
+          },
+        ],
+      };
+    }
 
     return response;
   } catch (error) {
