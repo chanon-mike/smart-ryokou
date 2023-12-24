@@ -15,6 +15,7 @@ export interface GetResultRequest {
   trip_pace: string | null;
   budget: string | null;
   interests: string[] | null;
+  optional_prompt: string | null;
 }
 
 export interface GetResultResponse {

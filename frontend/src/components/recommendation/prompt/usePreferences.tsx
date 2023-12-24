@@ -10,6 +10,7 @@ export const usePreferences = () => {
   const [selectedPace, setSelectedPace] = useState('');
   const [selectedBudget, setSelectedBudget] = useState('');
   const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
+  const [inputtedOptionalPrompt, setInputtedOptionalPromp] = useState('');
 
   const handleFromDateChange = (date: Moment | null) => {
     setFromDate(date);
@@ -53,6 +54,10 @@ export const usePreferences = () => {
     }
   };
 
+  const handleChangeInputtedOptionalPrompt = (newInput: string) => {
+    setInputtedOptionalPromp(newInput);
+  };
+
   return {
     fromDate,
     handleFromDateChange,
@@ -68,5 +73,7 @@ export const usePreferences = () => {
     handleSelectBudget,
     selectedInterests,
     handleSelectInterest,
+    inputtedOptionalPrompt,
+    handleChangeInputtedOptionalPrompt,
   };
 };

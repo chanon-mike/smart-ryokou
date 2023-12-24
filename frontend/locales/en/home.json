@@ -52,6 +52,8 @@
     "aquarium": "Aquarium",
     "amusement": "Amusement"
   },
+  "optional-prompt-label": "Additional request",
+  "optional-prompt-placeholder": "Additional request?",
   "featured-title": "Featured",
   "featured-subtitle": "Most popular city for traveling",
   "featured": {
