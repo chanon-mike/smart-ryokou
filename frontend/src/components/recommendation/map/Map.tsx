@@ -14,13 +14,13 @@ const fixedColors = [
   'red',
   'blue',
   'green',
-  'yellow',
   'purple',
-  'orange',
   'pink',
   'brown',
   'gray',
   'cyan',
+  'yellow',
+  'orange',
 ];
 
 const Map = () => {
