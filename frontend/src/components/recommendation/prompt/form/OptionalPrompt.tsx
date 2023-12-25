@@ -16,6 +16,7 @@ const OptionalPrompt = ({ handleChangeInputtedOptionalPrompt }: Props) => {
     <>
       <Typography variant="h6">{t('optional-prompt-label')}</Typography>
       <TextField
+        size="small"
         fullWidth
         placeholder={t('optional-prompt-placeholder')}
         id="fullWidth"
