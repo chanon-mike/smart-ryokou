@@ -3,12 +3,16 @@
 import SortableLocationCard from '@/components/recommendation/list/SortableLocationCard';
 import type { Location, Recommendation } from '@/types/recommendation';
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
-import { Box, Typography } from '@mui/material';
+import { Box, Paper, Skeleton, Typography } from '@mui/material';
 import type { FC } from 'react';
 import { useContext } from 'react';
 import { ActiveLocationContext } from '@/components/recommendation/ActiveLocationContext';
 import { SecondaryColorHoverIconButton } from '@/components/common/mui/SecondaryColorHoverIconButton';
 import PinDropIcon from '@mui/icons-material/PinDrop';
+import { useDistanceMatrix } from '@/components/recommendation/list/useDistanceMatrix';
+import DistanceMatrixStep from '@/components/recommendation/list/distance-matrix/DistanceMatrixStep';
+import TotalDuration from '@/components/recommendation/list/distance-matrix/TotalDuration';
+
 interface DroppableDateListProps {
   recIndex: number;
   recommendation: Recommendation;
@@ -25,6 +29,7 @@ const DroppableDateList: FC<DroppableDateListProps> = ({
   const activeLocationContext = useContext(ActiveLocationContext);
   const { setActiveLocation, setActiveStep, setActiveDate, setMapCenter, setZoom } =
     activeLocationContext;
+  const { distanceMatrix, isLoadingDistanceMatrix } = useDistanceMatrix(recommendation);
 
   const handleSelect = (index: number) => {
     setActiveLocation(recommendation.locations[index]);
@@ -58,78 +63,69 @@ const DroppableDateList: FC<DroppableDateListProps> = ({
       items={recommendation.locations.map((loc) => loc.id)}
       strategy={rectSortingStrategy}
     >
-      <Box sx={{ display: 'flex', flexDirection: 'row', marginTop: 1 }}>
-        <Typography variant="h6" sx={{ marginTop: 1 }}>
-          {recommendation.date}
-        </Typography>
-        <SecondaryColorHoverIconButton onClick={handleSelectDate} sx={{ paddingBottom: 0 }}>
+      <Paper
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          p: 1,
+          marginTop: { sm: 0, xs: 1 },
+        }}
+        variant="outlined"
+      >
+        <Typography variant="subtitle1">{recommendation.date}</Typography>
+        <SecondaryColorHoverIconButton onClick={handleSelectDate} sx={{ alignItems: 'center' }}>
           <PinDropIcon />
         </SecondaryColorHoverIconButton>
-      </Box>
+        <TotalDuration
+          isLoadingDistanceMatrix={isLoadingDistanceMatrix}
+          distanceMatrix={distanceMatrix}
+        />
+      </Paper>
 
       <Box sx={{ marginTop: 1 }}>
-        {recommendation.locations.map((loc, index) => (
-          <div key={`${loc}${index}`}>
-            {recommendation.locations.length === 1 ? (
-              <SortableLocationCard
-                location={loc}
-                disabled={true}
-                index={index}
-                recIndex={recIndex}
-                onSelect={handleSelect}
-                onConfirmDelete={onConfirmDeleteCard}
-                onFindRestaurant={onFindRestaurant}
-              />
-            ) : (
-              <SortableLocationCard
-                location={loc}
-                index={index}
-                recIndex={recIndex}
-                onSelect={handleSelect}
-                onConfirmDelete={onConfirmDeleteCard}
-                onFindRestaurant={onFindRestaurant}
-              />
-            )}
-          </div>
-        ))}
-      </Box>
-      {/* TODO: Refactor stepper when implement the travel duration */}
-      {/* <Stepper activeStep={activeStep} orientation="vertical" style={{ minHeight: '100px' }}>
-        {recommendation.locations.map((step, index) => (
-          <Step key={step.name} active={true}>
-            <StepLabel
-              StepIconComponent={(props) => (
-                <StepIcon
-                  {...props}
-                  icon={props.icon}
-                  active={props.active || props.completed}
-                  completed={false}
-                />
-              )}
-            >
-              <Typography variant="body1">{step.name}</Typography>
-            </StepLabel>
-            <StepContent>
-              {recommendation.locations.length === 1 ? (
+        {recommendation.locations.map((loc, index) => {
+          const locationsLength = recommendation.locations.length;
+
+          return (
+            <div key={`${loc}${index}`}>
+              {locationsLength === 1 ? (
                 <SortableLocationCard
-                  step={step}
+                  location={loc}
                   disabled={true}
                   index={index}
+                  recIndex={recIndex}
                   onSelect={handleSelect}
                   onConfirmDelete={onConfirmDeleteCard}
+                  onFindRestaurant={onFindRestaurant}
                 />
               ) : (
-                <SortableLocationCard
-                  step={step}
-                  index={index}
-                  onSelect={handleSelect}
-                  onConfirmDelete={onConfirmDeleteCard}
-                />
+                <>
+                  <SortableLocationCard
+                    location={loc}
+                    index={index}
+                    recIndex={recIndex}
+                    onSelect={handleSelect}
+                    onConfirmDelete={onConfirmDeleteCard}
+                    onFindRestaurant={onFindRestaurant}
+                  />
+                  {/* Distance and Duration with loading skeleton */}
+                  {index < locationsLength - 1 &&
+                    (!isLoadingDistanceMatrix ? (
+                      <DistanceMatrixStep
+                        key={recommendation.locations[index].id}
+                        distance={distanceMatrix[index]?.distance?.text}
+                        duration={distanceMatrix[index]?.duration?.text}
+                      />
+                    ) : (
+                      <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
+                    ))}
+                </>
               )}
-            </StepContent>
-          </Step>
-        ))}
-      </Stepper> */}
+            </div>
+          );
+        })}
+      </Box>
     </SortableContext>
   );
 };
