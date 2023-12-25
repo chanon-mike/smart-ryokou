@@ -24,6 +24,7 @@ import createTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/navigation';
 import type { FormEvent } from 'react';
 import { type Dispatch, type SetStateAction } from 'react';
+import OptionalPrompt from './form/OptionalPrompt';
 
 type PreferencesModalProps = {
   placeInput: string;
@@ -53,6 +54,8 @@ const PreferencesModal = ({
     handleSelectBudget,
     selectedInterests,
     handleSelectInterest,
+    inputtedOptionalPrompt,
+    handleChangeInputtedOptionalPrompt,
   } = usePreferences();
 
   const router = useRouter();
@@ -73,7 +76,7 @@ const PreferencesModal = ({
 
     return `${year}-${month}-${day}`;
   };
-
+  // eslint-disable-next-line complexity
   const buildRequestParams = (): GetResultRequest => {
     return {
       place: placeInput,
@@ -84,6 +87,7 @@ const PreferencesModal = ({
       trip_pace: selectedPace.length ? selectedPace : null,
       interests: selectedInterests.length ? selectedInterests : null,
       trip_type: selectedTripType.length ? selectedTripType : null,
+      optional_prompt: inputtedOptionalPrompt.length ? inputtedOptionalPrompt : null,
     };
   };
 
@@ -159,6 +163,7 @@ const PreferencesModal = ({
             selectedInterests={selectedInterests}
             handleSelectInterest={handleSelectInterest}
           />
+          <OptionalPrompt handleChangeInputtedOptionalPrompt={handleChangeInputtedOptionalPrompt} />
         </DialogContent>
         <DialogActions sx={{ margin: 3 }}>
           <Button onClick={handleCloseModal}>{ct('cancel')}</Button>

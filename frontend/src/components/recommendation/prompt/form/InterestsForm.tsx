@@ -10,7 +10,7 @@ const InterestsForm = ({ selectedInterests, handleSelectInterest }: Props) => {
   const { t } = createTranslation('home');
 
   const interests = [
-    { label: t('interests.food'), value: 'food' },
+    // { label: t('interests.food'), value: 'food' },
     { label: t('interests.nature'), value: 'nature' },
     // { label: t('interests.shopping'), value: 'shopping' },
     // { label: t('interests.sports'), value: 'sports' },

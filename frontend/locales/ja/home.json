@@ -52,6 +52,8 @@
     "aquarium": "水族館",
     "amusement": "遊園地"
   },
+  "optional-prompt-label": "追加要求",
+  "optional-prompt-placeholder": "追加要求を入力してください",
   "featured-title": "人気",
   "featured-subtitle": "人気の都市",
   "featured": {
