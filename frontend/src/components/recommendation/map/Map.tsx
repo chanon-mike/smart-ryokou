@@ -99,11 +99,11 @@ const Map = () => {
                 icons: [
                   {
                     icon: {
-                      path: 'M 0,0 5,15 -5,15 0,0 z', // 0,0 is the tip of the arrow
+                      path: 'M 0,0 3,9 -3,9 0,0 z', // 0,0 is the tip of the arrow
                       fillColor: color,
                       fillOpacity: 1.0,
                       strokeColor: color,
-                      strokeWeight: 1,
+                      strokeWeight: 1.5,
                     },
                     offset: '100%',
                   },
