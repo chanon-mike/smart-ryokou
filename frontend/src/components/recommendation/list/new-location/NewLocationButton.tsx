@@ -1,8 +1,9 @@
-import NewLocationInput from '@/components/recommendation/list/new-location/NewLocationInput';
-import type { Location } from '@/types/recommendation';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Box, IconButton } from '@mui/material';
 import { useState } from 'react';
+
+import NewLocationInput from '@/components/recommendation/list/new-location/NewLocationInput';
+import type { Location } from '@/types/recommendation';
 
 interface NewLocationButtonProps {
   dateIndex: number;

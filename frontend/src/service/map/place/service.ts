@@ -1,6 +1,6 @@
-import type { PlaceDetails } from '@/types/place-details';
-import type { MapPlaceServiceInterface } from './interface';
 import { GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
+import type { MapPlaceServiceInterface } from '@/service/map/place/interface';
+import type { PlaceDetails } from '@/types/place-details';
 import type { Location } from '@/types/recommendation';
 
 class MapPlaceService implements MapPlaceServiceInterface {

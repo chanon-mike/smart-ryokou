@@ -1,5 +1,5 @@
+import type { ApiContext } from '@/client/ApiContext';
 import type { Recommendation } from '@/types/recommendation';
-import type { ApiContext } from '../../ApiContext';
 
 export type GetResultInterface = (
   context: ApiContext,

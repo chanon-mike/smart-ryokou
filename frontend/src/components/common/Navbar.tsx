@@ -1,5 +1,6 @@
-import { Box, AppBar, Toolbar, IconButton, Typography } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
+import { AppBar, Box, IconButton, Toolbar, Typography } from '@mui/material';
+
 import LanguageMenu from '@/components/common/LanguageMenu';
 
 const Navbar = async () => {

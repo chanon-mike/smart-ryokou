@@ -1,12 +1,13 @@
 'use client';
 
+import { Box, CircularProgress, Container } from '@mui/material';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
 import SessionClient from '@/client/service/session/implement';
 import { RecommendationProvider } from '@/components/recommendation/RecommendationContext';
 import RecommendationResult from '@/components/recommendation/RecommendationResult';
 import type Session from '@/service/database/session/model';
-import { Box, CircularProgress, Container } from '@mui/material';
-import { useSearchParams, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
 
 const SessionResult = () => {
   const searchParams = useSearchParams();

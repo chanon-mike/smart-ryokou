@@ -1,17 +1,18 @@
 'use client';
 
-import SortableLocationCard from '@/components/recommendation/list/SortableLocationCard';
-import type { Location, Recommendation } from '@/types/recommendation';
-import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
+import { rectSortingStrategy, SortableContext } from '@dnd-kit/sortable';
+import PinDropIcon from '@mui/icons-material/PinDrop';
 import { Box, Paper, Skeleton, Typography } from '@mui/material';
 import type { FC } from 'react';
 import { useContext } from 'react';
-import { ActiveLocationContext } from '@/components/recommendation/ActiveLocationContext';
+
 import { SecondaryColorHoverIconButton } from '@/components/common/mui/SecondaryColorHoverIconButton';
-import PinDropIcon from '@mui/icons-material/PinDrop';
-import { useDistanceMatrix } from '@/components/recommendation/list/useDistanceMatrix';
+import { ActiveLocationContext } from '@/components/recommendation/ActiveLocationContext';
 import DistanceMatrixStep from '@/components/recommendation/list/distance-matrix/DistanceMatrixStep';
 import TotalDuration from '@/components/recommendation/list/distance-matrix/TotalDuration';
+import SortableLocationCard from '@/components/recommendation/list/SortableLocationCard';
+import { useDistanceMatrix } from '@/components/recommendation/list/useDistanceMatrix';
+import type { Location, Recommendation } from '@/types/recommendation';
 
 interface DroppableDateListProps {
   recIndex: number;

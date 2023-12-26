@@ -1,5 +1,5 @@
+import type { GetResultRequest, GetResultResponse } from '@/client/api/get-result/interface';
 import createApiMock from '@/client/helper/createApiMock';
-import type { GetResultRequest, GetResultResponse } from './interface';
 
 const getResultMockCases: ReadonlyArray<{
   request: GetResultRequest;

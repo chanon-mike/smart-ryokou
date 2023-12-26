@@ -1,8 +1,8 @@
 'use client';
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 import type { ReactNode } from 'react';
 import React, { createContext, useContext, useState } from 'react';
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
 
 type Severity = 'info' | 'warning' | 'error' | undefined;
 

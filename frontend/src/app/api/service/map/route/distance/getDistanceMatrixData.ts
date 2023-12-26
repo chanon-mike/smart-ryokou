@@ -1,6 +1,7 @@
+import axios from 'axios';
+
 import cacheService from '@/service/cache/service';
 import type { DistanceMatrix } from '@/types/distance';
-import axios from 'axios';
 
 export const getDistanceMatrixData = async (
   originPlaceId: string,

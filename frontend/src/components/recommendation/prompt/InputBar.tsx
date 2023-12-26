@@ -1,14 +1,16 @@
 'use client';
 
 import './Autocomplete.css';
-import type { ChangeEvent, Dispatch, SetStateAction } from 'react';
-import React, { useEffect, useRef, useState } from 'react';
-import { InputAdornment, TextField } from '@mui/material';
+
 import SearchIcon from '@mui/icons-material/Search';
-import { GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
+import { InputAdornment, TextField } from '@mui/material';
 import type { Libraries } from '@react-google-maps/api';
 import { useLoadScript } from '@react-google-maps/api';
 import createTranslation from 'next-translate/useTranslation';
+import type { ChangeEvent, Dispatch, SetStateAction } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+
+import { GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
 
 type Props = {
   placeInput: string;

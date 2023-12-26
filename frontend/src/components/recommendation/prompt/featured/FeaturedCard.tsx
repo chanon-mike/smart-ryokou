@@ -1,8 +1,9 @@
-import { Box, Card, CardMedia, Skeleton, Typography } from '@mui/material';
 import PlaceIcon from '@mui/icons-material/Place';
+import { Box, Card, CardMedia, Skeleton, Typography } from '@mui/material';
 import createTranslation from 'next-translate/useTranslation';
 import { Suspense } from 'react';
-import FeaturedCardImage from './FeaturedCardImage';
+
+import FeaturedCardImage from '@/components/recommendation/prompt/featured/FeaturedCardImage';
 
 type FeaturedCardProps = {
   location: string;

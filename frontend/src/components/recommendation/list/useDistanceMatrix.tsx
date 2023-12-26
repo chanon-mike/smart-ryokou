@@ -1,8 +1,9 @@
+import { useEffect, useState } from 'react';
+
 import Client from '@/client/Client';
 import { useSnackbar } from '@/components/common/snackbar/SnackbarContext';
 import type { DistanceMatrix } from '@/types/distance';
 import type { Recommendation } from '@/types/recommendation';
-import { useState, useEffect } from 'react';
 
 export const useDistanceMatrix = (recommendation: Recommendation) => {
   const [distanceMatrix, setDistanceMatrix] = useState<DistanceMatrix[]>([]);

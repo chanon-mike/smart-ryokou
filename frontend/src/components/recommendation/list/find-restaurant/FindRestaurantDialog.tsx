@@ -1,7 +1,8 @@
-import { Dialog, DialogTitle, DialogContent, Box, CircularProgress } from '@mui/material';
-import FindRestaurantCard from './FindRestaurantCard';
-import type { Location } from '@/types/recommendation';
+import { Box, CircularProgress, Dialog, DialogContent, DialogTitle } from '@mui/material';
 import createTranslation from 'next-translate/useTranslation';
+
+import FindRestaurantCard from '@/components/recommendation/list/find-restaurant/FindRestaurantCard';
+import type { Location } from '@/types/recommendation';
 
 type FindRestaurantDialogProps = {
   findRestaurantOpen: boolean;

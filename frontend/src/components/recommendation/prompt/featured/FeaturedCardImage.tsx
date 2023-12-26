@@ -1,10 +1,10 @@
 'use client';
 
-import Image from 'next/image';
-import { useState } from 'react';
 import { Skeleton } from '@mui/material';
-import { useQueryState, parseAsString } from 'next-usequerystate';
+import Image from 'next/image';
 import createTranslation from 'next-translate/useTranslation';
+import { parseAsString, useQueryState } from 'next-usequerystate';
+import { useState } from 'react';
 
 const FeaturedCardImage = ({ location }: { location: string }) => {
   const { t } = createTranslation('home');
