@@ -1,4 +1,4 @@
-import { Typography, Box, Chip } from '@mui/material';
+import { Box, Chip, Typography } from '@mui/material';
 import createTranslation from 'next-translate/useTranslation';
 
 type Props = {

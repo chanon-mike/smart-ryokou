@@ -1,4 +1,4 @@
-import type { MapRouteServiceInterface } from './interface';
+import type { MapRouteServiceInterface } from '@/service/map/route/interface';
 import type { DistanceMatrix } from '@/types/distance';
 
 class MapRouteService implements MapRouteServiceInterface {

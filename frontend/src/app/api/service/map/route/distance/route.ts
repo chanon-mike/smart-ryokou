@@ -1,8 +1,10 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-import type { DistanceMatrix } from '@/types/distance';
-import { getDistanceMatrixData } from './getDistanceMatrixData';
+
 import { GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
+import type { DistanceMatrix } from '@/types/distance';
+
+import { getDistanceMatrixData } from './getDistanceMatrixData';
 
 export async function GET(req: NextRequest) {
   const originPlaceId = req.nextUrl.searchParams.get('originPlaceId');

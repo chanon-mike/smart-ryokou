@@ -5,9 +5,9 @@ import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
 import { ThemeProvider } from '@mui/material/styles';
 import { useServerInsertedHTML } from 'next/navigation';
-
 import React from 'react';
-import theme from './theme';
+
+import theme from '@/components/theme/theme';
 
 type ThemeRegistryProps = {
   options: Options; // This is a general type, you might want to refine it if you know the shape of the options

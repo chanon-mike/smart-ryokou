@@ -1,17 +1,5 @@
 'use client';
 
-import type { ApiContext } from '@/client/ApiContext';
-import Client from '@/client/Client';
-import type { GetResultRequest, GetResultResponse } from '@/client/api/get-result/interface';
-import SessionClient from '@/client/service/session/implement';
-import { useSnackbar } from '@/components/common/snackbar/SnackbarContext';
-import BudgetForm from '@/components/recommendation/prompt/form/BudgetForm';
-import DateRangeForm from '@/components/recommendation/prompt/form/DateRangeForm';
-import InterestsForm from '@/components/recommendation/prompt/form/InterestsForm';
-import PaceForm from '@/components/recommendation/prompt/form/PaceForm';
-import TripTypeForm from '@/components/recommendation/prompt/form/TripTypeForm';
-import { usePreferences } from '@/components/recommendation/prompt/usePreferences';
-import { generateObjectId } from '@/libs/helper';
 import {
   Button,
   Dialog,
@@ -20,11 +8,24 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@mui/material';
-import createTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/navigation';
+import createTranslation from 'next-translate/useTranslation';
 import type { FormEvent } from 'react';
 import { type Dispatch, type SetStateAction } from 'react';
-import OptionalPrompt from './form/OptionalPrompt';
+
+import type { GetResultRequest, GetResultResponse } from '@/client/api/get-result/interface';
+import type { ApiContext } from '@/client/ApiContext';
+import Client from '@/client/Client';
+import SessionClient from '@/client/service/session/implement';
+import { useSnackbar } from '@/components/common/snackbar/SnackbarContext';
+import BudgetForm from '@/components/recommendation/prompt/form/BudgetForm';
+import DateRangeForm from '@/components/recommendation/prompt/form/DateRangeForm';
+import InterestsForm from '@/components/recommendation/prompt/form/InterestsForm';
+import OptionalPrompt from '@/components/recommendation/prompt/form/OptionalPrompt';
+import PaceForm from '@/components/recommendation/prompt/form/PaceForm';
+import TripTypeForm from '@/components/recommendation/prompt/form/TripTypeForm';
+import { usePreferences } from '@/components/recommendation/prompt/usePreferences';
+import { generateObjectId } from '@/libs/helper';
 
 type PreferencesModalProps = {
   placeInput: string;

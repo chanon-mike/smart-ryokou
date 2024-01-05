@@ -1,4 +1,3 @@
-import type { Location } from '@/types/recommendation';
 import DirectionsIcon from '@mui/icons-material/Directions';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import {
@@ -13,6 +12,8 @@ import {
   Typography,
 } from '@mui/material';
 import createTranslation from 'next-translate/useTranslation';
+
+import type { Location } from '@/types/recommendation';
 
 interface LocationDetailProps {
   activeLocation: Location;

@@ -1,4 +1,4 @@
-import type BaseModel from './model';
+import type BaseModel from '@/service/database/base/model';
 
 // TODO: Define DataAccessorQueriable
 interface DataAccessor<T extends BaseModel> {

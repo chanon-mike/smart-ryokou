@@ -1,6 +1,7 @@
-import type { Location } from '@/types/recommendation';
-import { Box, Card, CardContent, CardMedia, IconButton, Rating, Typography } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { Box, Card, CardContent, CardMedia, IconButton, Rating, Typography } from '@mui/material';
+
+import type { Location } from '@/types/recommendation';
 
 interface NewLocationCardProps {
   location: Location;

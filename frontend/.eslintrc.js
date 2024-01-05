@@ -8,7 +8,7 @@ module.exports = {
     'plugin:@typescript-eslint/eslint-recommended',
     'prettier',
   ],
-  plugins: ['@typescript-eslint', 'react'],
+  plugins: ['@typescript-eslint', 'react', 'simple-import-sort'],
   parser: '@typescript-eslint/parser',
   env: {
     browser: true,
@@ -31,6 +31,7 @@ module.exports = {
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'error',
     eqeqeq: 'error',
+    'simple-import-sort/imports': ['error'],
     'object-shorthand': ['error', 'always'],
     'prefer-template': 'error',
     '@typescript-eslint/consistent-type-imports': 'error',

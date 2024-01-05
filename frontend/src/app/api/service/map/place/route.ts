@@ -1,8 +1,10 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-import { getPlaceId } from './getPlaceId';
+
 import type { PlaceDetails } from '@/types/place-details';
+
 import { getPlaceDetails } from './getPlaceDetails';
+import { getPlaceId } from './getPlaceId';
 import { getPlacePhoto } from './getPlacePhoto';
 
 export async function POST(req: NextRequest) {

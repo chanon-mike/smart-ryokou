@@ -1,8 +1,8 @@
-import type { ApiContext } from '@/client/ApiContext';
 import type {
   GetRestaurantRequest,
   GetRestaurantResponse,
 } from '@/client/api/get-restaurant/interface';
+import type { ApiContext } from '@/client/ApiContext';
 import mapPlaceService from '@/service/map/place/service';
 
 export const getRestaurant = async (context: ApiContext, request: GetRestaurantRequest) => {

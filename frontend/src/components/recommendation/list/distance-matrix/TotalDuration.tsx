@@ -1,7 +1,8 @@
-import type { DistanceMatrix } from '@/types/distance';
 import TimerIcon from '@mui/icons-material/Timer';
 import { Box, Skeleton, Tooltip, Typography } from '@mui/material';
 import moment from 'moment';
+
+import type { DistanceMatrix } from '@/types/distance';
 
 type TotalDurationProps = {
   distanceMatrix: DistanceMatrix[];
