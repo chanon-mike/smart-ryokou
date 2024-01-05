@@ -26,5 +26,6 @@
     "shrine-prompt": "神社探して",
     "fun": "遊ぶところ",
     "fun-prompt": "遊ぶところ探して"
-  }
+  },
+  "total-duration": "移動時間"
 }

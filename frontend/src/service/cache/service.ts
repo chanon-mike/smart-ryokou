@@ -1,6 +1,7 @@
 import { Redis } from 'ioredis';
-import type CacheServiceInterface from './interface';
+
 import { REDIS_CONNECTION_URL } from '@/libs/envValues';
+import type CacheServiceInterface from '@/service/cache/interface';
 
 const redisClient: Redis = new Redis(REDIS_CONNECTION_URL);
 

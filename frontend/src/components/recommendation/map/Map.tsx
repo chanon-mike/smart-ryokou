@@ -1,14 +1,15 @@
 'use client';
 
+import { Box, useMediaQuery, useTheme } from '@mui/material';
+import { GoogleMap, MarkerF, useJsApiLoader } from '@react-google-maps/api';
+import { useContext, useEffect, useMemo } from 'react';
+
+import { ActiveLocationContext } from '@/components/recommendation/ActiveLocationContext';
 import LocationDetail from '@/components/recommendation/map/LocationDetail';
+import { RecommendationContext } from '@/components/recommendation/RecommendationContext';
 import { GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
 import { mapStyles } from '@/libs/mapStyles';
 import type { Location } from '@/types/recommendation';
-import { GoogleMap, MarkerF, useJsApiLoader } from '@react-google-maps/api';
-import { useContext, useEffect, useMemo } from 'react';
-import { ActiveLocationContext } from '../ActiveLocationContext';
-import { RecommendationContext } from '../RecommendationContext';
-import { Box, useMediaQuery, useTheme } from '@mui/material';
 
 const fixedColors = [
   'red',

@@ -1,5 +1,3 @@
-'use client';
-
 import type DataAccessor from '@/service/database/base/interface';
 import type Session from '@/service/database/session/model';
 

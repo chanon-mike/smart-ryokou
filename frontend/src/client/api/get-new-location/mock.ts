@@ -1,5 +1,8 @@
+import type {
+  GetNewLocationRequest,
+  GetNewLocationResponse,
+} from '@/client/api/get-new-location/interface';
 import createApiMock from '@/client/helper/createApiMock';
-import type { GetNewLocationRequest, GetNewLocationResponse } from './interface';
 
 const getNewLocationMockCases: ReadonlyArray<{
   request: GetNewLocationRequest;

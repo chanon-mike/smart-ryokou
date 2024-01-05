@@ -1,11 +1,13 @@
 import './globals.css';
+
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import type { Metadata } from 'next';
-import Navbar from '@/components/common/Navbar';
-import ThemeRegistry from '@/components/theme/ThemeRegistry';
-import GoogleAnalytics from '@/components/common/GoogleAnalytics';
 import createTranslation from 'next-translate/useTranslation';
+
+import GoogleAnalytics from '@/components/common/GoogleAnalytics';
+import Navbar from '@/components/common/Navbar';
 import { SnackbarProvider } from '@/components/common/snackbar/SnackbarContext';
+import ThemeRegistry from '@/components/theme/ThemeRegistry';
 
 export const metadata: Metadata = {
   title: 'Smart旅行',

@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import type { Moment } from 'moment';
 import createTranslation from 'next-translate/useTranslation';

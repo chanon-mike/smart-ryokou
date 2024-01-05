@@ -1,4 +1,4 @@
-import { styled, IconButton } from '@mui/material';
+import { IconButton, styled } from '@mui/material';
 
 export const SecondaryColorHoverIconButton = styled(IconButton)(({ theme }) => ({
   '&:hover': {

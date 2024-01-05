@@ -1,5 +1,6 @@
-import s3Service from '@/service/s3/service';
 import axios from 'axios';
+
+import s3Service from '@/service/s3/service';
 
 export const getPlacePhoto = async (photoId: string, apiKey: string): Promise<string> => {
   try {

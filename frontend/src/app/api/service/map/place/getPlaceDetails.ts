@@ -1,6 +1,7 @@
+import axios from 'axios';
+
 import cacheService from '@/service/cache/service';
 import type { PlaceDetails } from '@/types/place-details';
-import axios from 'axios';
 
 export const getPlaceDetails = async (
   placeId: string,
