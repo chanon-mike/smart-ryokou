@@ -122,6 +122,7 @@ class StructuredRecommendationQuery(BaseModel):
     trip_pace: Optional[TripPace] = None
     interests: Optional[list[Interest]] = None
     trip_type: Optional[TripType] = None
+    optional_prompt: Optional[str] = None
 
 
 class PromptRecommendationQuery(BaseModel):

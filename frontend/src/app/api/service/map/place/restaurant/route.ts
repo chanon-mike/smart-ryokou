@@ -1,5 +1,6 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
+
 import getRestaurantData from './getRestaurantData';
 import { GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
 

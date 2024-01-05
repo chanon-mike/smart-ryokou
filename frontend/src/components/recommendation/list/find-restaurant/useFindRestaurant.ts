@@ -1,8 +1,9 @@
+import type { Dispatch, SetStateAction } from 'react';
+import { useState } from 'react';
+
 import Client from '@/client/Client';
 import type Session from '@/service/database/session/model';
 import type { Location } from '@/types/recommendation';
-import type { Dispatch, SetStateAction } from 'react';
-import { useState } from 'react';
 
 type Props = {
   session: Session;

@@ -1,5 +1,5 @@
+import type { ApiContext } from '@/client/ApiContext';
 import type { Recommendation } from '@/types/recommendation';
-import type { ApiContext } from '../../ApiContext';
 
 export type GetResultInterface = (
   context: ApiContext,
@@ -15,6 +15,7 @@ export interface GetResultRequest {
   trip_pace: string | null;
   budget: string | null;
   interests: string[] | null;
+  optional_prompt: string | null;
 }
 
 export interface GetResultResponse {

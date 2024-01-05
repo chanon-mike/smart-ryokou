@@ -1,10 +1,11 @@
 'use client';
 
-import RecommendationContainer from './list/RecommendationContainer';
-import Map from '@/components/recommendation/map/Map';
 import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
-import { ActiveLocationProvider } from './ActiveLocationContext';
 import { useContext } from 'react';
+
+import { ActiveLocationProvider } from '@/components/recommendation/ActiveLocationContext';
+import RecommendationContainer from '@/components/recommendation/list/RecommendationContainer';
+import Map from '@/components/recommendation/map/Map';
 import { RecommendationContext } from '@/components/recommendation/RecommendationContext';
 
 const RecommendationResult = () => {

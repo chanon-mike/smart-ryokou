@@ -1,19 +1,20 @@
-import type { ApiContext } from '@/client/ApiContext';
+import axios from 'axios';
+
 import type {
   GetNewLocationInterface,
   GetNewLocationRequest,
   GetNewLocationServerResponse,
-} from './interface';
-import axios from 'axios';
-import type { Location } from '@/types/recommendation';
+} from '@/client/api/get-new-location/interface';
+import getNewLocationMock from '@/client/api/get-new-location/mock';
+import type { ApiContext } from '@/client/ApiContext';
 import cacheClient from '@/client/service/cache/implement';
 import { API_ENDPOINT } from '@/libs/envValues';
-import getNewLocationMock from './mock';
 import { generateObjectId } from '@/libs/helper';
 import mapPlaceService from '@/service/map/place/service';
+import type { Location } from '@/types/recommendation';
 
 // eslint-disable-next-line complexity
-const getLocation: GetNewLocationInterface = async (
+export const getLocation: GetNewLocationInterface = async (
   context: ApiContext,
   request: GetNewLocationRequest,
 ) => {
@@ -30,7 +31,6 @@ const getLocation: GetNewLocationInterface = async (
   // TODO: hash instead stringify
   const cacheKey = JSON.stringify(request);
   const cachedResult = await cacheClient.getKey(cacheKey);
-  console.log('request', request);
 
   if (cachedResult === null) {
     try {
@@ -51,8 +51,6 @@ const getLocation: GetNewLocationInterface = async (
   const locations: Location[] = locationResults.filter(
     (location) => location !== undefined,
   ) as Location[];
-
-  console.log('locations', locations);
 
   return { locations };
 };
@@ -77,5 +75,3 @@ const mapLocation = async (recommendation: {
     lng: placeData.location.lng,
   };
 };
-
-export default getLocation;

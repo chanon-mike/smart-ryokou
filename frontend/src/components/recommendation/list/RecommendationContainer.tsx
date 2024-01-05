@@ -1,19 +1,20 @@
 'use client';
 
-import { RecommendationContext } from '@/components/recommendation/RecommendationContext';
-import DroppableDateList from '@/components/recommendation/list/DroppableDateList';
-import SortableLocationCard from '@/components/recommendation/list/SortableLocationCard';
-import NewLocationButton from '@/components/recommendation/list/new-location/NewLocationButton';
-import { useDnd } from '@/components/recommendation/list/useDnd';
 import type { UniqueIdentifier } from '@dnd-kit/core';
-import { DndContext, DragOverlay, closestCorners } from '@dnd-kit/core';
+import { closestCorners, DndContext, DragOverlay } from '@dnd-kit/core';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { Box, Button, Dialog, DialogActions, DialogTitle } from '@mui/material';
-import { useContext, useState } from 'react';
 import _ from 'lodash';
 import createTranslation from 'next-translate/useTranslation';
-import { useFindRestaurant } from './find-restaurant/useFindRestaurant';
-import FindRestaurantDialog from './find-restaurant/FindRestaurantDialog';
+import { useContext, useState } from 'react';
+
+import DroppableDateList from '@/components/recommendation/list/DroppableDateList';
+import FindRestaurantDialog from '@/components/recommendation/list/find-restaurant/FindRestaurantDialog';
+import { useFindRestaurant } from '@/components/recommendation/list/find-restaurant/useFindRestaurant';
+import NewLocationButton from '@/components/recommendation/list/new-location/NewLocationButton';
+import SortableLocationCard from '@/components/recommendation/list/SortableLocationCard';
+import { useDnd } from '@/components/recommendation/list/useDnd';
+import { RecommendationContext } from '@/components/recommendation/RecommendationContext';
 
 const RecommendationContainer = () => {
   const { session, setSession } = useContext(RecommendationContext);
@@ -74,7 +75,7 @@ const RecommendationContainer = () => {
         collisionDetection={closestCorners}
         modifiers={[restrictToVerticalAxis]}
       >
-        <Box style={{ maxWidth: '400px', height: '75vh', overflowY: 'auto', paddingRight: '20px' }}>
+        <Box style={{ height: '75vh', overflowY: 'auto', paddingRight: '20px' }}>
           {session.recommendations.map((r, index) => (
             <Box key={`${r.date}-${index}`}>
               <DroppableDateList

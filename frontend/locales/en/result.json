@@ -26,5 +26,6 @@
     "shrine-prompt": "Find me a shrine",
     "fun": "Fun",
     "fun-prompt": "Find me something fun"
-  }
+  },
+  "total-duration": "Travel time"
 }
