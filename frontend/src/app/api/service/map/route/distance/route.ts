@@ -2,9 +2,8 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 import { GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
+import mapRouteService from '@/service/map/route/service';
 import type { DistanceMatrix } from '@/types/distance';
-
-import { getDistanceMatrixData } from './getDistanceMatrixData';
 
 const defaultDistanceMatrix: DistanceMatrix = {
   distance: {
@@ -27,7 +26,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const response: DistanceMatrix = await getDistanceMatrixData(
+    const response: DistanceMatrix = await mapRouteService.getDistanceMatrixData(
       originPlaceId,
       destinationPlaceId,
       apiKey,

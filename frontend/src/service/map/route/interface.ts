@@ -1,5 +1,9 @@
 import type { DistanceMatrix } from '@/types/distance';
 
 export interface MapRouteServiceInterface {
-  getDistanceMatrix: (originPlaceId: string, destinationPlaceId: string) => Promise<DistanceMatrix>;
+  getDistanceMatrixData(
+    originPlaceId: string,
+    destinationPlaceId: string,
+    apiKey: string,
+  ): Promise<DistanceMatrix>;
 }

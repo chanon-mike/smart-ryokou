@@ -1,9 +1,11 @@
+import axios from 'axios';
+
 import type {
   GetRestaurantRequest,
   GetRestaurantResponse,
 } from '@/client/api/get-restaurant/interface';
 import type { ApiContext } from '@/client/ApiContext';
-import mapPlaceService from '@/service/map/place/service';
+import type { Location } from '@/types/recommendation';
 
 export const getRestaurant = async (context: ApiContext, request: GetRestaurantRequest) => {
   if (context.requireAuth && !context.isAuth) {
@@ -11,14 +13,14 @@ export const getRestaurant = async (context: ApiContext, request: GetRestaurantR
   }
 
   try {
-    const serverResponse: GetRestaurantResponse = await mapPlaceService.getRestaurantData(
-      request.latitude,
-      request.longitude,
-    );
-
-    return serverResponse;
+    const response = await axios.post<GetRestaurantResponse>('/api/service/map/place/restaurant', {
+      latitude: request.latitude,
+      longitude: request.longitude,
+    });
+    const restaurantData: Location[] = response.data;
+    return restaurantData;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     throw error;
   }
 };
