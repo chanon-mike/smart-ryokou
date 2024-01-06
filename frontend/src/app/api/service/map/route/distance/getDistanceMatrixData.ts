@@ -3,6 +3,18 @@ import axios from 'axios';
 import cacheService from '@/service/cache/service';
 import type { DistanceMatrix } from '@/types/distance';
 
+type GoogleRouteDistanceMatrixResponse = {
+  destination_addresses: string[];
+  origin_addresses: string[];
+  rows: [
+    {
+      elements?: [DistanceMatrix];
+    },
+  ];
+  error_message?: string;
+  status: string;
+};
+
 export const getDistanceMatrixData = async (
   originPlaceId: string,
   destinationPlaceId: string,
@@ -18,7 +30,12 @@ export const getDistanceMatrixData = async (
   const response = await getDistanceMatrixFromGoogleMaps(originPlaceId, destinationPlaceId, apiKey);
 
   try {
-    const elements = response.rows[0].elements[0];
+    // Error if place without calculation result (e.g. Shiretoko Peninsula -> Asahikawa)
+    const elements = response.rows[0].elements?.[0];
+    if (elements === undefined) {
+      throw new Error('Google Maps API returned undefined distance');
+    }
+
     const data: DistanceMatrix = {
       distance: {
         text: elements.distance.text,
@@ -41,9 +58,9 @@ const getDistanceMatrixFromGoogleMaps = async (
   originPlaceId: string,
   destinationPlaceId: string,
   apiKey: string,
-) => {
+): Promise<GoogleRouteDistanceMatrixResponse> => {
   try {
-    const response = (
+    const response: GoogleRouteDistanceMatrixResponse = (
       await axios.get('https://maps.googleapis.com/maps/api/distancematrix/json', {
         params: {
           key: apiKey,
@@ -53,28 +70,6 @@ const getDistanceMatrixFromGoogleMaps = async (
         },
       })
     ).data;
-
-    // In case of place without calculation result (e.g. Shiretoko Peninsula -> Asahikawa)
-    if (response.rows[0].elements === undefined) {
-      return {
-        rows: [
-          {
-            elements: [
-              {
-                distance: {
-                  text: '不明',
-                  value: 0,
-                },
-                duration: {
-                  text: '不明',
-                  value: 0,
-                },
-              },
-            ],
-          },
-        ],
-      };
-    }
 
     return response;
   } catch (error) {

@@ -6,6 +6,17 @@ import type { DistanceMatrix } from '@/types/distance';
 
 import { getDistanceMatrixData } from './getDistanceMatrixData';
 
+const defaultDistanceMatrix: DistanceMatrix = {
+  distance: {
+    text: '不明',
+    value: 0,
+  },
+  duration: {
+    text: '不明',
+    value: 0,
+  },
+};
+
 export async function GET(req: NextRequest) {
   const originPlaceId = req.nextUrl.searchParams.get('originPlaceId');
   const destinationPlaceId = req.nextUrl.searchParams.get('destinationPlaceId');
@@ -25,6 +36,8 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(response);
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error }, { status: 400 });
+    // return NextResponse.json({ error }, { status: 400 });
+    // Return default value instead of error
+    return NextResponse.json(defaultDistanceMatrix);
   }
 }
