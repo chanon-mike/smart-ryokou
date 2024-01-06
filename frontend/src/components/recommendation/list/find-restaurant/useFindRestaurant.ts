@@ -2,6 +2,7 @@ import type { Dispatch, SetStateAction } from 'react';
 import { useState } from 'react';
 
 import Client from '@/client/Client';
+import { saveNewSessionData } from '@/libs/helper';
 import type Session from '@/service/database/session/model';
 import type { Location } from '@/types/recommendation';
 
@@ -56,6 +57,7 @@ export const useFindRestaurant = ({ session, setSession }: Props) => {
       newRecommendations[allIndex.recIndex].locations.splice(allIndex.dateIndex + 1, 0, restaurant);
       return { ...session, recommendations: newRecommendations };
     });
+    saveNewSessionData(session);
 
     setFindRestaurantOpen(false);
     return;
