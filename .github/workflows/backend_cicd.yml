@@ -10,18 +10,21 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     steps:
-      - name: Install NodeJS for serverless framework
-        uses: actions/setup-node@v1
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js for serverless framework
+        uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
-          
-      - name: Checkout code
-        uses: actions/checkout@v2
+          node-version: "20"
+          cache: npm
+
+      - run: node --version
       
       - name: Setup python 3.9
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.9
+          python-version: '3.9'
 
       - name: Install and configure Poetry
         uses: snok/install-poetry@v1
