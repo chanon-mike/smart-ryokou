@@ -1,8 +1,9 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-import getRestaurantData from './getRestaurantData';
 import { GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
+
+import getRestaurantData from './getRestaurantData';
 
 export async function POST(req: NextRequest) {
   const { latitude, longitude } = await req.json();
