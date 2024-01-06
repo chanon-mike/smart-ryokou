@@ -1,5 +1,6 @@
+import axios from 'axios';
+
 import type { ApiContext } from '@/client/ApiContext';
-import mapRouteService from '@/service/map/route/service';
 
 import type { GetDistanceMatrixRequest, GetDistanceMatrixResponse } from './interface';
 
@@ -9,12 +10,15 @@ export const getDistanceMatrix = async (context: ApiContext, request: GetDistanc
   }
 
   try {
-    const response: GetDistanceMatrixResponse = await mapRouteService.getDistanceMatrix(
-      request.originPlaceId,
-      request.destinationPlaceId,
-    );
+    const response = await axios.get('/api/service/map/route/distance', {
+      params: {
+        destinationPlaceId: request.destinationPlaceId,
+        originPlaceId: request.originPlaceId,
+      },
+    });
+    const distanceMatrixData: GetDistanceMatrixResponse = response.data;
 
-    return response;
+    return distanceMatrixData;
   } catch (error) {
     console.log(error);
     throw error;
