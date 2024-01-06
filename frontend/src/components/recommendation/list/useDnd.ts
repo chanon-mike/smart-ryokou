@@ -3,7 +3,7 @@ import { KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/c
 import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import type { Dispatch, SetStateAction } from 'react';
 
-import SessionClient from '@/client/service/session/implement';
+import { saveNewSessionData } from '@/libs/helper';
 import type Session from '@/service/database/session/model';
 
 type Props = {
@@ -133,9 +133,4 @@ export const useDnd = ({
     handleDragOver,
     handleDragEnd,
   };
-};
-
-const saveNewSessionData = (session: Session) => {
-  const client = new SessionClient();
-  client.update(session);
 };

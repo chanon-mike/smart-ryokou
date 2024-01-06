@@ -13,6 +13,7 @@ import NewLocationCard from '@/components/recommendation/list/new-location/NewLo
 import NewLocationExampleChip from '@/components/recommendation/list/new-location/NewLocationExampleChip';
 import NewLocationPrompt from '@/components/recommendation/list/new-location/NewLocationPrompt';
 import { RecommendationContext } from '@/components/recommendation/RecommendationContext';
+import { saveNewSessionData } from '@/libs/helper';
 import type Session from '@/service/database/session/model';
 import type { Location } from '@/types/recommendation';
 
@@ -95,7 +96,7 @@ const NewLocationInput = ({
       newRecommendations[dateIndex].locations.push(location);
       return { ...session, recommendations: newRecommendations };
     });
-    return;
+    saveNewSessionData(session);
   };
 
   return (

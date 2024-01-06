@@ -15,6 +15,7 @@ import NewLocationButton from '@/components/recommendation/list/new-location/New
 import SortableLocationCard from '@/components/recommendation/list/SortableLocationCard';
 import { useDnd } from '@/components/recommendation/list/useDnd';
 import { RecommendationContext } from '@/components/recommendation/RecommendationContext';
+import { saveNewSessionData } from '@/libs/helper';
 
 const RecommendationContainer = () => {
   const { session, setSession } = useContext(RecommendationContext);
@@ -62,6 +63,7 @@ const RecommendationContainer = () => {
     updatedSession.recommendations = updatedRecommendations;
     closeConfirmationModal();
     setSession(updatedSession);
+    saveNewSessionData(updatedSession);
   };
 
   return (
