@@ -55,7 +55,7 @@ const getDistanceMatrixFromGoogleMaps = async (
     ).data;
 
     // In case of place without calculation result (e.g. Shiretoko Peninsula -> Asahikawa)
-    if (response.rows.elements === undefined) {
+    if (response.rows[0].elements === undefined) {
       return {
         rows: [
           {
