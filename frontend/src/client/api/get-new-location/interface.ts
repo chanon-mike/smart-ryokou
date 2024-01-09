@@ -1,4 +1,4 @@
-import type { ApiContext } from '@/client/ApiContext';
+import type { ApiContext } from '@/client/apiContext';
 import type { Location } from '@/types/recommendation';
 
 export type GetNewLocationInterface = (

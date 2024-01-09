@@ -6,11 +6,11 @@ import type {
   GetResultServerResponse,
 } from '@/client/api/get-result/interface';
 import getResultMock from '@/client/api/get-result/mock';
-import type { ApiContext } from '@/client/ApiContext';
+import type { ApiContext } from '@/client/apiContext';
 import cacheClient from '@/client/service/cache/implement';
+import { mapPlaceClient } from '@/client/service/map/place/implement';
 import { API_ENDPOINT } from '@/libs/envValues';
 import { generateObjectId } from '@/libs/helper';
-import type { PlaceDetails } from '@/types/place-details';
 import type { Location, Recommendation } from '@/types/recommendation';
 
 // eslint-disable-next-line complexity
@@ -61,10 +61,7 @@ const generateLocation = async (activity: {
   place: string;
   description: string;
 }): Promise<Location> => {
-  const response = await axios.post(`/api/service/map/place/`, {
-    placeName: activity.place,
-  });
-  const placeData: PlaceDetails = response.data;
+  const placeData = await mapPlaceClient.getPlaceData(activity.place);
 
   return {
     id: generateObjectId(),
