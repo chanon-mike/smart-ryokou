@@ -2,9 +2,19 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 import { GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
+import mapRouteService from '@/service/map/route/service';
 import type { DistanceMatrix } from '@/types/distance';
 
-import { getDistanceMatrixData } from './getDistanceMatrixData';
+const defaultDistanceMatrix: DistanceMatrix = {
+  distance: {
+    text: '不明',
+    value: 0,
+  },
+  duration: {
+    text: '不明',
+    value: 0,
+  },
+};
 
 export async function GET(req: NextRequest) {
   const originPlaceId = req.nextUrl.searchParams.get('originPlaceId');
@@ -16,7 +26,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const response: DistanceMatrix = await getDistanceMatrixData(
+    const response: DistanceMatrix = await mapRouteService.getDistanceMatrixData(
       originPlaceId,
       destinationPlaceId,
       apiKey,
@@ -25,6 +35,8 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(response);
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error }, { status: 400 });
+    // return NextResponse.json({ error }, { status: 400 });
+    // Return default value instead of error
+    return NextResponse.json(defaultDistanceMatrix);
   }
 }

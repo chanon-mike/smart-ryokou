@@ -7,12 +7,13 @@ import type {
   GetNewLocationRequest,
   GetNewLocationResponse,
 } from '@/client/api/get-new-location/interface';
-import Client from '@/client/Client';
+import client from '@/client/client';
 import { useSnackbar } from '@/components/common/snackbar/SnackbarContext';
 import NewLocationCard from '@/components/recommendation/list/new-location/NewLocationCard';
 import NewLocationExampleChip from '@/components/recommendation/list/new-location/NewLocationExampleChip';
 import NewLocationPrompt from '@/components/recommendation/list/new-location/NewLocationPrompt';
 import { RecommendationContext } from '@/components/recommendation/RecommendationContext';
+import { saveNewSessionData } from '@/libs/helper';
 import type Session from '@/service/database/session/model';
 import type { Location } from '@/types/recommendation';
 
@@ -67,7 +68,7 @@ const NewLocationInput = ({
     let serverResponse: GetNewLocationResponse;
     try {
       const requestParams = buildRequestParams();
-      serverResponse = await Client.getLocation(
+      serverResponse = await client.getLocation(
         { useMock: false, requireAuth: false },
         requestParams,
       );
@@ -95,7 +96,7 @@ const NewLocationInput = ({
       newRecommendations[dateIndex].locations.push(location);
       return { ...session, recommendations: newRecommendations };
     });
-    return;
+    saveNewSessionData(session);
   };
 
   return (

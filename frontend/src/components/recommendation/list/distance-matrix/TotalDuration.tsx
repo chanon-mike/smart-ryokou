@@ -1,6 +1,7 @@
 import TimerIcon from '@mui/icons-material/Timer';
 import { Box, Skeleton, Tooltip, Typography } from '@mui/material';
 import moment from 'moment';
+import createTranslation from 'next-translate/useTranslation';
 
 import type { DistanceMatrix } from '@/types/distance';
 
@@ -14,7 +15,7 @@ const TotalDuration = ({ isLoadingDistanceMatrix, distanceMatrix }: TotalDuratio
     return <Skeleton variant="text" sx={{ marginLeft: 'auto', width: '10%' }} />;
   }
 
-  // const totalDuration = moment.utc(1000 * totalDistanceMatrix.duration).format('H[h] mm[m]');
+  const { t } = createTranslation('result');
   const totalDuration = moment
     .utc(
       distanceMatrix.reduce((acc, curr) => {
@@ -24,7 +25,7 @@ const TotalDuration = ({ isLoadingDistanceMatrix, distanceMatrix }: TotalDuratio
     .format('H[h] mm[m]');
 
   return (
-    <Tooltip disableFocusListener disableTouchListener title="移動時間" placement="top">
+    <Tooltip disableFocusListener disableTouchListener title={t('total-duration')} placement="top">
       <Box
         sx={{
           display: 'flex',

@@ -6,11 +6,11 @@ import type {
   GetNewLocationServerResponse,
 } from '@/client/api/get-new-location/interface';
 import getNewLocationMock from '@/client/api/get-new-location/mock';
-import type { ApiContext } from '@/client/ApiContext';
+import type { ApiContext } from '@/client/apiContext';
 import cacheClient from '@/client/service/cache/implement';
+import { mapPlaceClient } from '@/client/service/map/place/implement';
 import { API_ENDPOINT } from '@/libs/envValues';
 import { generateObjectId } from '@/libs/helper';
-import mapPlaceService from '@/service/map/place/service';
 import type { Location } from '@/types/recommendation';
 
 // eslint-disable-next-line complexity
@@ -61,7 +61,7 @@ const mapLocation = async (recommendation: {
   place: string;
   description: string;
 }): Promise<Location | undefined> => {
-  const placeData = await mapPlaceService.getPlaceData(recommendation.place);
+  const placeData = await mapPlaceClient.getPlaceData(recommendation.place);
 
   return {
     id: generateObjectId(),

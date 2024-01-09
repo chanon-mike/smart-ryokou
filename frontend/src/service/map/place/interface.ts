@@ -1,7 +1,11 @@
 import type { PlaceDetails } from '@/types/place-details';
-import type { Location } from '@/types/recommendation';
 
 export interface MapPlaceServiceInterface {
-  getPlaceData(placeName: string): Promise<PlaceDetails>;
-  getRestaurantData(latitude: number, longitude: number): Promise<Location[]>;
+  getPlaceId(placeName: string, apiKey: string): Promise<string>;
+  getPlaceDetails(
+    placeId: string,
+    apiKey: string,
+    languageCode: 'en' | 'ja',
+  ): Promise<PlaceDetails>;
+  getPlacePhoto(photoReference: string, apiKey: string): Promise<string>;
 }

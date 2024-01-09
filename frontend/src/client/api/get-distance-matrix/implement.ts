@@ -1,20 +1,23 @@
-import type { ApiContext } from '@/client/ApiContext';
-import mapRouteService from '@/service/map/route/service';
+import type { ApiContext } from '@/client/apiContext';
+import { mapRouteClient } from '@/client/service/map/route/implement';
 
 import type { GetDistanceMatrixRequest, GetDistanceMatrixResponse } from './interface';
 
-export const getDistanceMatrix = async (context: ApiContext, request: GetDistanceMatrixRequest) => {
+export const getDistanceMatrix = async (
+  context: ApiContext,
+  request: GetDistanceMatrixRequest,
+): Promise<GetDistanceMatrixResponse> => {
   if (context.requireAuth && !context.isAuth) {
     throw new Error('User unauthorized');
   }
 
   try {
-    const response: GetDistanceMatrixResponse = await mapRouteService.getDistanceMatrix(
-      request.originPlaceId,
+    const distanceMatrixData = await mapRouteClient.getDistanceMatrixData(
       request.destinationPlaceId,
+      request.originPlaceId,
     );
 
-    return response;
+    return distanceMatrixData;
   } catch (error) {
     console.log(error);
     throw error;
