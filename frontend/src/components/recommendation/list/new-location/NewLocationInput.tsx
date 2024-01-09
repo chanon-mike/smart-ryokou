@@ -119,7 +119,12 @@ const NewLocationInput = ({
           }}
         >
           {newLocationExamplePromptList.map((prompt, index) => (
-            <NewLocationExampleChip key={`${prompt}${index}`} data={prompt} setPrompt={setPrompt} />
+            <NewLocationExampleChip
+              key={`${prompt}${index}`}
+              data={prompt}
+              setPrompt={setPrompt}
+              isLoading={isLoading}
+            />
           ))}
         </Box>
         <Box display="flex" justifyContent="center" my={2} gap={2}>

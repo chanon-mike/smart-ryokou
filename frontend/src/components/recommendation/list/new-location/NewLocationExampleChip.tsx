@@ -9,15 +9,23 @@ type NewLocationExampleChipProps = {
     prompt: string;
   };
   setPrompt: Dispatch<SetStateAction<string>>;
+  isLoading: boolean;
 };
 
-const NewLocationExampleChip = ({ data, setPrompt }: NewLocationExampleChipProps) => {
+const NewLocationExampleChip = ({ data, setPrompt, isLoading }: NewLocationExampleChipProps) => {
   const handleOnClick = () => {
     setPrompt(data.prompt);
   };
 
   return (
-    <Chip label={data.place} onClick={handleOnClick} color="primary" variant="outlined" clickable />
+    <Chip
+      label={data.place}
+      onClick={handleOnClick}
+      color="primary"
+      variant="outlined"
+      clickable
+      disabled={isLoading}
+    />
   );
 };
 
