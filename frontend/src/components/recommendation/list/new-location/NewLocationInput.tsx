@@ -88,7 +88,7 @@ const NewLocationInput = ({
   const handleAddLocation = (location: Location) => {
     // When add location, remove that location from newLocations
     setNewLocations((prev: Location[]) => {
-      const newLocations = prev.filter((loc) => loc.id !== location.name);
+      const newLocations = prev.filter((loc) => loc.id !== location.id);
       return newLocations;
     });
     setSession((prev: Session) => {
