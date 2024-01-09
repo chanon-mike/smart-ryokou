@@ -1,4 +1,4 @@
-import type { ApiContext } from '@/client/ApiContext';
+import type { ApiContext } from '@/client/apiContext';
 import type { DistanceMatrix } from '@/types/distance';
 
 export type GetDistanceMatrixInterface = (

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import Client from '@/client/Client';
+import client from '@/client/client';
 import { useSnackbar } from '@/components/common/snackbar/SnackbarContext';
 import type { DistanceMatrix } from '@/types/distance';
 import type { Recommendation } from '@/types/recommendation';
@@ -23,7 +23,7 @@ export const useDistanceMatrix = (recommendation: Recommendation) => {
           return;
         }
 
-        const promise = Client.getDistanceMatrix(
+        const promise = client.getDistanceMatrix(
           {
             useMock: false,
             requireAuth: false,

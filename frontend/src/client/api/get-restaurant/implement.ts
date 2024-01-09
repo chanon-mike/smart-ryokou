@@ -2,7 +2,7 @@ import type {
   GetRestaurantRequest,
   GetRestaurantResponse,
 } from '@/client/api/get-restaurant/interface';
-import type { ApiContext } from '@/client/ApiContext';
+import type { ApiContext } from '@/client/apiContext';
 import { mapPlaceRestaurantClient } from '@/client/service/map/place/restaurant/implement';
 
 export const getRestaurant = async (

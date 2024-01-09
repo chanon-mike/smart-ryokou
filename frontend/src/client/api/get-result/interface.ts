@@ -1,4 +1,4 @@
-import type { ApiContext } from '@/client/ApiContext';
+import type { ApiContext } from '@/client/apiContext';
 import type { Recommendation } from '@/types/recommendation';
 
 export type GetResultInterface = (

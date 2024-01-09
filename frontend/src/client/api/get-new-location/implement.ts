@@ -6,7 +6,7 @@ import type {
   GetNewLocationServerResponse,
 } from '@/client/api/get-new-location/interface';
 import getNewLocationMock from '@/client/api/get-new-location/mock';
-import type { ApiContext } from '@/client/ApiContext';
+import type { ApiContext } from '@/client/apiContext';
 import cacheClient from '@/client/service/cache/implement';
 import { mapPlaceClient } from '@/client/service/map/place/implement';
 import { API_ENDPOINT } from '@/libs/envValues';

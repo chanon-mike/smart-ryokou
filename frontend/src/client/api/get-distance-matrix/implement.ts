@@ -1,4 +1,4 @@
-import type { ApiContext } from '@/client/ApiContext';
+import type { ApiContext } from '@/client/apiContext';
 import { mapRouteClient } from '@/client/service/map/route/implement';
 
 import type { GetDistanceMatrixRequest, GetDistanceMatrixResponse } from './interface';

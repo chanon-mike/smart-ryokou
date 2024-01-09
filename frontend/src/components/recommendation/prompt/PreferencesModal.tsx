@@ -14,8 +14,8 @@ import type { FormEvent } from 'react';
 import { type Dispatch, type SetStateAction } from 'react';
 
 import type { GetResultRequest, GetResultResponse } from '@/client/api/get-result/interface';
-import type { ApiContext } from '@/client/ApiContext';
-import Client from '@/client/Client';
+import type { ApiContext } from '@/client/apiContext';
+import client from '@/client/client';
 import SessionClient from '@/client/service/session/implement';
 import { useSnackbar } from '@/components/common/snackbar/SnackbarContext';
 import BudgetForm from '@/components/recommendation/prompt/form/BudgetForm';
@@ -96,7 +96,7 @@ const PreferencesModal = ({
     apiContext: ApiContext,
     requestParams: GetResultRequest,
   ) => {
-    return await Client.getResult(apiContext, requestParams);
+    return await client.getResult(apiContext, requestParams);
   };
 
   const { openSnackbar } = useSnackbar();

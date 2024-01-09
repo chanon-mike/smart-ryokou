@@ -6,7 +6,7 @@ import type {
   GetResultServerResponse,
 } from '@/client/api/get-result/interface';
 import getResultMock from '@/client/api/get-result/mock';
-import type { ApiContext } from '@/client/ApiContext';
+import type { ApiContext } from '@/client/apiContext';
 import cacheClient from '@/client/service/cache/implement';
 import { mapPlaceClient } from '@/client/service/map/place/implement';
 import { API_ENDPOINT } from '@/libs/envValues';
