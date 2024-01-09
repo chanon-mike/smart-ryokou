@@ -1,23 +1,24 @@
-import axios from 'axios';
-
 import type {
   GetRestaurantRequest,
   GetRestaurantResponse,
 } from '@/client/api/get-restaurant/interface';
 import type { ApiContext } from '@/client/ApiContext';
-import type { Location } from '@/types/recommendation';
+import { mapPlaceRestaurantClient } from '@/client/service/map/place/restaurant/implement';
 
-export const getRestaurant = async (context: ApiContext, request: GetRestaurantRequest) => {
+export const getRestaurant = async (
+  context: ApiContext,
+  request: GetRestaurantRequest,
+): Promise<GetRestaurantResponse> => {
   if (context.requireAuth && !context.isAuth) {
     throw new Error('User unauthorized');
   }
 
   try {
-    const response = await axios.post<GetRestaurantResponse>('/api/service/map/place/restaurant', {
-      latitude: request.latitude,
-      longitude: request.longitude,
-    });
-    const restaurantData: Location[] = response.data;
+    const restaurantData = await mapPlaceRestaurantClient.getRestaurantData(
+      request.latitude,
+      request.longitude,
+    );
+
     return restaurantData;
   } catch (error) {
     console.error(error);
