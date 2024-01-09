@@ -22,7 +22,8 @@ const RecommendationContainer = () => {
   const [activeContainerIndex, setActiveContainerIndex] = useState<number | null>(null);
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [placeToDelete, setPlaceToDelete] = useState('');
+  const [locationIdToDelete, setLocationIdToDelete] = useState('');
+
   const {
     findRestaurantOpen,
     restaurants,
@@ -46,17 +47,17 @@ const RecommendationContainer = () => {
     setDeleteModalOpen(false);
   };
 
-  const handleConfirmDeleteCard = (placeName: string) => {
-    setPlaceToDelete(placeName);
+  const handleConfirmDeleteCard = (locationId: string) => {
+    setLocationIdToDelete(locationId);
     setDeleteModalOpen(true);
   };
 
-  const handleDelete = (placeName: string) => {
+  const handleDelete = (locationId: string) => {
     const updatedSession = _.cloneDeep(session);
     const updatedRecommendations = _.cloneDeep(session.recommendations);
     for (const group of updatedRecommendations) {
       const updatedLocations = group.locations.filter((location) => {
-        return location.name !== placeName;
+        return location.id !== locationId;
       });
       group.locations = updatedLocations;
     }
@@ -116,7 +117,7 @@ const RecommendationContainer = () => {
         <DialogTitle id="alert-dialog-title">{t('deleteCardModal.title')}</DialogTitle>
         <DialogActions>
           <Button onMouseDown={closeConfirmationModal}>{t('deleteCardModal.cancel')}</Button>
-          <Button onMouseDown={() => handleDelete(placeToDelete)} autoFocus>
+          <Button onMouseDown={() => handleDelete(locationIdToDelete)} autoFocus>
             {t('deleteCardModal.ok')}
           </Button>
         </DialogActions>
