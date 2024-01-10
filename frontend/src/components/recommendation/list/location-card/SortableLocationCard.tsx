@@ -2,8 +2,8 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Card, CardContent, CardMedia, Grid, styled, Typography } from '@mui/material';
 
-import DeleteLocationButton from '@/components/recommendation/list/date/card/DeleteLocationButton';
-import FindRestaurantButton from '@/components/recommendation/list/date/card/FindRestaurantButton';
+import DeleteLocationButton from '@/components/recommendation/list/location-card/DeleteLocationButton';
+import FindRestaurantButton from '@/components/recommendation/list/location-card/FindRestaurantButton';
 import type { Location } from '@/types/recommendation';
 
 const HoverableCard = styled(Card)(({ theme }) => ({

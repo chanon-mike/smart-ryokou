@@ -11,7 +11,7 @@ type TotalDurationProps = {
 };
 
 const TotalDuration = ({ isLoadingDistanceMatrix, distanceMatrix }: TotalDurationProps) => {
-  const t = useScopedI18n('result');
+  const t = useScopedI18n('result.tooltip');
 
   if (isLoadingDistanceMatrix) {
     return <Skeleton variant="text" sx={{ marginLeft: 'auto', width: '10%' }} />;
