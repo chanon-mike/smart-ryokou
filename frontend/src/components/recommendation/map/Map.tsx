@@ -142,7 +142,7 @@ const Map = () => {
               color="primary"
             />
           }
-          label="Display Polylines"
+          label="Directions"
         />
       </Box>
     </Box>
