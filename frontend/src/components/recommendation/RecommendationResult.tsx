@@ -9,6 +9,8 @@ import RecommendationContainer from '@/components/recommendation/list/Recommenda
 import Map from '@/components/recommendation/map/Map';
 import { RecommendationContext } from '@/components/recommendation/RecommendationContext';
 
+import ShareSocial from './share/ShareSocial';
+
 const RecommendationResult = () => {
   const { session } = useContext(RecommendationContext);
   const theme = useTheme();
@@ -34,13 +36,23 @@ const RecommendationResult = () => {
 
   return (
     <Box sx={{ marginTop: 8 }}>
-      <Typography
-        variant="h3"
-        component="h3"
-        sx={{ fontSize: { sm: '3rem', xs: '2.25rem' }, marginBottom: 1.5 }}
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: { sm: 'row', xs: 'column' },
+          justifyContent: 'space-between',
+          marginBottom: 1.5,
+        }}
       >
-        {session.tripTitle}
-      </Typography>
+        <Typography
+          variant="h3"
+          component="h3"
+          sx={{ fontSize: { sm: '3rem', xs: '2.25rem' }, marginBottom: { sm: 0, xs: 1.5 } }}
+        >
+          {session.tripTitle}
+        </Typography>
+        <ShareSocial />
+      </Box>
       <ActiveLocationProvider>
         <DisplayRoutesProvider>
           <Box
