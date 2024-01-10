@@ -20,7 +20,8 @@ interface LocationDetailProps {
 }
 
 const LocationDetail = ({ activeLocation }: LocationDetailProps) => {
-  const t = useScopedI18n('result');
+  const rt = useScopedI18n('result');
+  const tt = useScopedI18n('result.tooltip');
 
   return (
     <Paper
@@ -81,11 +82,11 @@ const LocationDetail = ({ activeLocation }: LocationDetailProps) => {
           >
             <OpenInNewIcon />
             <Typography variant="caption" sx={{ ml: 0.5 }} fontSize={10}>
-              {t('open-in-google-maps')}
+              {rt('open-in-google-maps')}
             </Typography>
           </Button>
         </Box>
-        <Tooltip title={t('get-directions')}>
+        <Tooltip title={tt('search-destination')}>
           <IconButton
             aria-label="directions"
             href={`https://www.google.com/maps?saddr=My+Location&daddr=${activeLocation.lat},${activeLocation.lng}&travelmode=walk`}

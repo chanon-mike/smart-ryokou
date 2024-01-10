@@ -96,10 +96,6 @@ export default {
       placeholder: 'Try AI: find me a museum',
     },
     'open-in-google-maps': 'Open in Google Maps',
-    'get-directions': 'Get directions',
-    'get-walk-directions': 'Get walking directions',
-    'get-drive-directions': 'Get driving directions',
-    'get-transit-directions': 'Get transit directions',
     deleteCardModal: {
       title: 'Delete this location?',
       ok: 'OK',
@@ -118,7 +114,15 @@ export default {
       fun: 'Fun',
       'fun-prompt': 'Find me something fun',
     },
-    'total-duration': 'Travel time',
     'display-routes': 'Display Routes',
+    tooltip: {
+      restaurant: 'Restaurant',
+      delete: 'Delete',
+      zoomout: 'Zoom out',
+      'search-destination': 'Search destination',
+      'total-duration': 'Travel time',
+      'copy-url': 'Copy URL',
+      'new-location-button': 'Add new travel location',
+    },
   },
 } as const;
