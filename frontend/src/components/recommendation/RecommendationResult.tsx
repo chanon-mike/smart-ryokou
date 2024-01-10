@@ -25,7 +25,11 @@ const RecommendationResult = () => {
           marginBottom: 1.5,
         }}
       >
-        <Typography variant="h3" component="h3" sx={{ fontSize: { sm: '3rem', xs: '2.25rem' } }}>
+        <Typography
+          variant="h3"
+          component="h3"
+          sx={{ fontSize: { sm: '3rem', xs: '2.25rem' }, marginBottom: { sm: 0, xs: 1.5 } }}
+        >
           {session.tripTitle}
         </Typography>
         <ShareSocial />
