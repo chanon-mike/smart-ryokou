@@ -153,17 +153,24 @@ class StructuredRecommendationUseCase(RecommendationUseCase):
         date_difference = date_to - date_from
         trip_days_num = date_difference.days
 
+        data_num = 1
         if query.interests:
-            num = 1
             for interest in query.interests:
                 prompts.append(
-                    f"Recommend places to visit in {query.place} which are suitable for {interest.value} and save results as variable data{num}"
+                    f"Recommend places to visit in {query.place} which are suitable for {interest.value} and save results as variable data{data_num}"
                 )
-                num += 1
+                data_num += 1
         else:
             prompts.append(
-                f"Recommend places to visit in {query.place} and save results as variable data1"
+                f"Recommend places to visit in {query.place} and save results as variable data{data_num}"
             )
+            data_num += 1
+
+        if query.optional_prompt:
+            prompts.append(
+                f"Recommend places to visit in {query.place} which are suitable for '{query.optional_prompt}' and save results as variable data{data_num}"
+            )
+            data_num += 1
 
         prompt_num = len(prompts)
         intermediate_data_vars = [f"data{i}" for i in range(1, prompt_num + 1)]
