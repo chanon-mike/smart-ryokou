@@ -1,8 +1,8 @@
 import TimerIcon from '@mui/icons-material/Timer';
 import { Box, Skeleton, Tooltip, Typography } from '@mui/material';
 import moment from 'moment';
-import createTranslation from 'next-translate/useTranslation';
 
+import { useScopedI18n } from '@/locales/client';
 import type { DistanceMatrix } from '@/types/distance';
 
 type TotalDurationProps = {
@@ -11,11 +11,12 @@ type TotalDurationProps = {
 };
 
 const TotalDuration = ({ isLoadingDistanceMatrix, distanceMatrix }: TotalDurationProps) => {
+  const t = useScopedI18n('result');
+
   if (isLoadingDistanceMatrix) {
     return <Skeleton variant="text" sx={{ marginLeft: 'auto', width: '10%' }} />;
   }
 
-  const { t } = createTranslation('result');
   const totalDuration = moment
     .utc(
       distanceMatrix.reduce((acc, curr) => {

@@ -11,8 +11,8 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import createTranslation from 'next-translate/useTranslation';
 
+import { useScopedI18n } from '@/locales/client';
 import type { Location } from '@/types/recommendation';
 
 interface LocationDetailProps {
@@ -20,7 +20,7 @@ interface LocationDetailProps {
 }
 
 const LocationDetail = ({ activeLocation }: LocationDetailProps) => {
-  const { t } = createTranslation('result');
+  const t = useScopedI18n('result');
 
   return (
     <Paper

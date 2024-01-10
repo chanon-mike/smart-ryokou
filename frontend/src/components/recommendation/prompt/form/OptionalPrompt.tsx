@@ -1,13 +1,14 @@
 import { TextField, Typography } from '@mui/material';
-import createTranslation from 'next-translate/useTranslation';
 import type { ChangeEvent } from 'react';
+
+import { useScopedI18n } from '@/locales/client';
 
 type Props = {
   handleChangeInputtedOptionalPrompt: (newInput: string) => void;
 };
 
 const OptionalPrompt = ({ handleChangeInputtedOptionalPrompt }: Props) => {
-  const { t } = createTranslation('home');
+  const t = useScopedI18n('home');
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     handleChangeInputtedOptionalPrompt(event.target.value);

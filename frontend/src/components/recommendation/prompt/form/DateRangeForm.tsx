@@ -2,7 +2,8 @@ import { Box, Typography } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import type { Moment } from 'moment';
-import createTranslation from 'next-translate/useTranslation';
+
+import { useScopedI18n } from '@/locales/client';
 
 type Props = {
   fromDate: Moment | null;
@@ -12,7 +13,7 @@ type Props = {
 };
 
 const DateRangeForm = ({ fromDate, handleFromDateChange, toDate, handleToDateChange }: Props) => {
-  const { t } = createTranslation('home');
+  const t = useScopedI18n('home');
 
   return (
     <LocalizationProvider dateAdapter={AdapterMoment}>

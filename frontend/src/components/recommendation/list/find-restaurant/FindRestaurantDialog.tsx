@@ -1,7 +1,7 @@
 import { Box, CircularProgress, Dialog, DialogContent, DialogTitle } from '@mui/material';
-import createTranslation from 'next-translate/useTranslation';
 
 import FindRestaurantCard from '@/components/recommendation/list/find-restaurant/FindRestaurantCard';
+import { useScopedI18n } from '@/locales/client';
 import type { Location } from '@/types/recommendation';
 
 type FindRestaurantDialogProps = {
@@ -19,7 +19,7 @@ const FindRestaurantDialog = ({
   handleCloseDialog,
   handleSelectRestaurant,
 }: FindRestaurantDialogProps) => {
-  const { t } = createTranslation('result');
+  const t = useScopedI18n('result');
 
   return (
     <Dialog fullWidth={true} maxWidth={'lg'} open={findRestaurantOpen} onClose={handleCloseDialog}>

@@ -2,10 +2,12 @@
 
 import LanguageIcon from '@mui/icons-material/Language';
 import { IconButton, Menu, MenuItem, Typography } from '@mui/material';
-import Link from 'next/link';
 import { useState } from 'react';
 
+import { useChangeLocale } from '@/locales/client';
+
 const LanguageMenu = () => {
+  const changeLocale = useChangeLocale({ preserveSearchParams: true });
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleClose = () => {
@@ -14,6 +16,11 @@ const LanguageMenu = () => {
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleLanguageChange = (locale: 'en' | 'ja') => {
+    changeLocale(locale);
+    handleClose();
   };
 
   return (
@@ -43,20 +50,16 @@ const LanguageMenu = () => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={() => handleLanguageChange('ja')}>
           {/* TODO: changing language while not reloading site not trigger change in loading google map autocomplete script */}
-          <Link href="/?lang=ja" as="/ja">
-            <Typography variant="body1" component="div" color="primary">
-              日本語
-            </Typography>
-          </Link>
+          <Typography variant="body1" component="div" color="primary">
+            日本語
+          </Typography>
         </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Link href="/?lang=en" as="/en">
-            <Typography variant="body1" component="div" color="primary">
-              English
-            </Typography>
-          </Link>
+        <MenuItem onClick={() => handleLanguageChange('en')}>
+          <Typography variant="body1" component="div" color="primary">
+            English
+          </Typography>
         </MenuItem>
       </Menu>
     </>

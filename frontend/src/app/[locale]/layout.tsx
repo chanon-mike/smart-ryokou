@@ -2,7 +2,6 @@ import './globals.css';
 
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import type { Metadata } from 'next';
-import createTranslation from 'next-translate/useTranslation';
 
 import GoogleAnalytics from '@/components/common/GoogleAnalytics';
 import Navbar from '@/components/common/Navbar';
@@ -32,27 +31,25 @@ export const metadata: Metadata = {
 };
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
-  const { lang } = createTranslation('common');
-
   return (
-    <html lang={lang}>
+    <html lang="ja">
       <head>
         <GoogleAnalytics />
         <link href="https://fonts.googleapis.com/css?family=Sawarabi+Gothic" rel="stylesheet" />
       </head>
-      <UserProvider>
-        <body>
-          <SnackbarProvider>
-            <ThemeRegistry options={{ key: 'mui' }}>
+      <body>
+        <UserProvider>
+          <ThemeRegistry options={{ key: 'mui' }}>
+            <SnackbarProvider>
               <div>
                 <Navbar />
 
                 {children}
               </div>
-            </ThemeRegistry>
-          </SnackbarProvider>
-        </body>
-      </UserProvider>
+            </SnackbarProvider>
+          </ThemeRegistry>
+        </UserProvider>
+      </body>
     </html>
   );
 };

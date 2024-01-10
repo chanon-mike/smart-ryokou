@@ -1,6 +1,7 @@
 import { TextField, Typography } from '@mui/material';
-import createTranslation from 'next-translate/useTranslation';
 import type { ChangeEvent } from 'react';
+
+import { useScopedI18n } from '@/locales/client';
 
 type Props = {
   peopleNumber: number;
@@ -8,7 +9,7 @@ type Props = {
 };
 
 const PeopleNumberForm = ({ peopleNumber, handlePeopleNumberChange }: Props) => {
-  const { t } = createTranslation('home');
+  const t = useScopedI18n('home');
 
   return (
     <>
