@@ -1,5 +1,5 @@
 import type { SelectChangeEvent } from '@mui/material';
-import { Select, MenuItem, Typography } from '@mui/material';
+import { MenuItem, Select, Typography } from '@mui/material';
 import createTranslation from 'next-translate/useTranslation';
 
 type Props = {

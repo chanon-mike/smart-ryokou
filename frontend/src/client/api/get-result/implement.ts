@@ -1,15 +1,23 @@
-import type { ApiContext } from '@/client/ApiContext';
-import getResultMock from './mock';
-import type { GetResultInterface, GetResultRequest, GetResultServerResponse } from './interface';
 import axios from 'axios';
-import type { Recommendation, Location } from '@/types/recommendation';
+
+import type {
+  GetResultInterface,
+  GetResultRequest,
+  GetResultServerResponse,
+} from '@/client/api/get-result/interface';
+import getResultMock from '@/client/api/get-result/mock';
+import type { ApiContext } from '@/client/apiContext';
 import cacheClient from '@/client/service/cache/implement';
+import { mapPlaceClient } from '@/client/service/map/place/implement';
 import { API_ENDPOINT } from '@/libs/envValues';
 import { generateObjectId } from '@/libs/helper';
-import mapPlaceService from '@/service/map/place/service';
+import type { Location, Recommendation } from '@/types/recommendation';
 
 // eslint-disable-next-line complexity
-const getResult: GetResultInterface = async (context: ApiContext, request: GetResultRequest) => {
+export const getResult: GetResultInterface = async (
+  context: ApiContext,
+  request: GetResultRequest,
+) => {
   if (context.requireAuth && !context.isAuth) {
     throw new Error('User unauthorized');
   }
@@ -53,7 +61,7 @@ const generateLocation = async (activity: {
   place: string;
   description: string;
 }): Promise<Location> => {
-  const placeData = await mapPlaceService.getPlaceData(activity.place);
+  const placeData = await mapPlaceClient.getPlaceData(activity.place);
 
   return {
     id: generateObjectId(),
@@ -79,5 +87,3 @@ const mapRecommendation = async (recommendation: {
     locations,
   };
 };
-
-export default getResult;

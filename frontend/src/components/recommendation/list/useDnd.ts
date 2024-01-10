@@ -1,9 +1,10 @@
-import SessionClient from '@/client/service/session/implement';
-import type Session from '@/service/database/session/model';
-import type { DragStartEvent, DragOverEvent, DragEndEvent, UniqueIdentifier } from '@dnd-kit/core';
-import { useSensors, useSensor, PointerSensor, KeyboardSensor } from '@dnd-kit/core';
+import type { DragEndEvent, DragOverEvent, DragStartEvent, UniqueIdentifier } from '@dnd-kit/core';
+import { KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import type { Dispatch, SetStateAction } from 'react';
+
+import { saveNewSessionData } from '@/libs/helper';
+import type Session from '@/service/database/session/model';
 
 type Props = {
   setActiveId: Dispatch<SetStateAction<UniqueIdentifier | null>>;
@@ -132,9 +133,4 @@ export const useDnd = ({
     handleDragOver,
     handleDragEnd,
   };
-};
-
-const saveNewSessionData = (session: Session) => {
-  const client = new SessionClient();
-  client.update(session);
 };

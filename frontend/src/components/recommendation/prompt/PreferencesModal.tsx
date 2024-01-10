@@ -1,17 +1,5 @@
 'use client';
 
-import type { ApiContext } from '@/client/ApiContext';
-import Client from '@/client/Client';
-import type { GetResultRequest, GetResultResponse } from '@/client/api/get-result/interface';
-import SessionClient from '@/client/service/session/implement';
-import { useSnackbar } from '@/components/common/snackbar/SnackbarContext';
-import BudgetForm from '@/components/recommendation/prompt/form/BudgetForm';
-import DateRangeForm from '@/components/recommendation/prompt/form/DateRangeForm';
-import InterestsForm from '@/components/recommendation/prompt/form/InterestsForm';
-import PaceForm from '@/components/recommendation/prompt/form/PaceForm';
-import TripTypeForm from '@/components/recommendation/prompt/form/TripTypeForm';
-import { usePreferences } from '@/components/recommendation/prompt/usePreferences';
-import { generateObjectId } from '@/libs/helper';
 import {
   Button,
   Dialog,
@@ -20,10 +8,24 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@mui/material';
-import createTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/navigation';
+import createTranslation from 'next-translate/useTranslation';
 import type { FormEvent } from 'react';
 import { type Dispatch, type SetStateAction } from 'react';
+
+import type { GetResultRequest, GetResultResponse } from '@/client/api/get-result/interface';
+import type { ApiContext } from '@/client/apiContext';
+import client from '@/client/client';
+import SessionClient from '@/client/service/session/implement';
+import { useSnackbar } from '@/components/common/snackbar/SnackbarContext';
+import BudgetForm from '@/components/recommendation/prompt/form/BudgetForm';
+import DateRangeForm from '@/components/recommendation/prompt/form/DateRangeForm';
+import InterestsForm from '@/components/recommendation/prompt/form/InterestsForm';
+import OptionalPrompt from '@/components/recommendation/prompt/form/OptionalPrompt';
+import PaceForm from '@/components/recommendation/prompt/form/PaceForm';
+import TripTypeForm from '@/components/recommendation/prompt/form/TripTypeForm';
+import { usePreferences } from '@/components/recommendation/prompt/usePreferences';
+import { generateObjectId } from '@/libs/helper';
 
 type PreferencesModalProps = {
   placeInput: string;
@@ -53,6 +55,8 @@ const PreferencesModal = ({
     handleSelectBudget,
     selectedInterests,
     handleSelectInterest,
+    inputtedOptionalPrompt,
+    handleChangeInputtedOptionalPrompt,
   } = usePreferences();
 
   const router = useRouter();
@@ -73,7 +77,7 @@ const PreferencesModal = ({
 
     return `${year}-${month}-${day}`;
   };
-
+  // eslint-disable-next-line complexity
   const buildRequestParams = (): GetResultRequest => {
     return {
       place: placeInput,
@@ -84,6 +88,7 @@ const PreferencesModal = ({
       trip_pace: selectedPace.length ? selectedPace : null,
       interests: selectedInterests.length ? selectedInterests : null,
       trip_type: selectedTripType.length ? selectedTripType : null,
+      optional_prompt: inputtedOptionalPrompt.length ? inputtedOptionalPrompt : null,
     };
   };
 
@@ -91,7 +96,7 @@ const PreferencesModal = ({
     apiContext: ApiContext,
     requestParams: GetResultRequest,
   ) => {
-    return await Client.getResult(apiContext, requestParams);
+    return await client.getResult(apiContext, requestParams);
   };
 
   const { openSnackbar } = useSnackbar();
@@ -159,6 +164,7 @@ const PreferencesModal = ({
             selectedInterests={selectedInterests}
             handleSelectInterest={handleSelectInterest}
           />
+          <OptionalPrompt handleChangeInputtedOptionalPrompt={handleChangeInputtedOptionalPrompt} />
         </DialogContent>
         <DialogActions sx={{ margin: 3 }}>
           <Button onClick={handleCloseModal}>{ct('cancel')}</Button>

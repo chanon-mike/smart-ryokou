@@ -1,8 +1,10 @@
-import Client from '@/client/Client';
-import type Session from '@/service/database/session/model';
-import type { Location } from '@/types/recommendation';
 import type { Dispatch, SetStateAction } from 'react';
 import { useState } from 'react';
+
+import client from '@/client/client';
+import { saveNewSessionData } from '@/libs/helper';
+import type Session from '@/service/database/session/model';
+import type { Location } from '@/types/recommendation';
 
 type Props = {
   session: Session;
@@ -25,7 +27,7 @@ export const useFindRestaurant = ({ session, setSession }: Props) => {
 
     if (restaurants.length === 0) {
       setLoadingRestaurants(true);
-      const res: Location[] = await Client.getRestaurant(
+      const res: Location[] = await client.getRestaurant(
         {
           useMock: false,
           requireAuth: false,
@@ -55,6 +57,7 @@ export const useFindRestaurant = ({ session, setSession }: Props) => {
       newRecommendations[allIndex.recIndex].locations.splice(allIndex.dateIndex + 1, 0, restaurant);
       return { ...session, recommendations: newRecommendations };
     });
+    saveNewSessionData(session);
 
     setFindRestaurantOpen(false);
     return;

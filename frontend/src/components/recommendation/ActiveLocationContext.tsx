@@ -1,6 +1,7 @@
-import type { Location } from '@/types/recommendation';
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import { createContext, useState } from 'react';
+
+import type { Location } from '@/types/recommendation';
 
 interface ActiveLocationProps {
   activeLocation: Location | null;

@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
-import { IconButton, Menu, MenuItem, Typography } from '@mui/material';
 import LanguageIcon from '@mui/icons-material/Language';
+import { IconButton, Menu, MenuItem, Typography } from '@mui/material';
 import Link from 'next/link';
+import { useState } from 'react';
 
 const LanguageMenu = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

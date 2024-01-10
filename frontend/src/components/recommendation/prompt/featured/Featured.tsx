@@ -1,7 +1,8 @@
-import { Box, Typography } from '@mui/material';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import { Box, Typography } from '@mui/material';
 import createTranslation from 'next-translate/useTranslation';
-import FeaturedCard from './FeaturedCard';
+
+import FeaturedCard from '@/components/recommendation/prompt/featured/FeaturedCard';
 
 const featuredLocations = [
   'tokyo',

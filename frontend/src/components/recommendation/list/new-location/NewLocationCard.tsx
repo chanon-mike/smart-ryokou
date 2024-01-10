@@ -1,6 +1,7 @@
-import type { Location } from '@/types/recommendation';
-import { Box, Card, CardContent, CardMedia, IconButton, Rating, Typography } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { Box, Card, CardContent, CardMedia, IconButton, Rating, Typography } from '@mui/material';
+
+import type { Location } from '@/types/recommendation';
 
 interface NewLocationCardProps {
   location: Location;
@@ -10,12 +11,7 @@ interface NewLocationCardProps {
 const NewLocationCard = ({ location, handleAddLocation }: NewLocationCardProps) => {
   return (
     <Card key={location.name} variant="elevation" sx={{ width: 1 / 6 }}>
-      <CardMedia
-        component="img"
-        height="100px"
-        image={`data:image/jpeg;base64,${location.photo}`}
-        alt={location.name}
-      />
+      <CardMedia component="img" height="100px" image={location.photo} alt={location.name} />
       <CardContent>
         <Typography gutterBottom variant="body1">
           {location.name}

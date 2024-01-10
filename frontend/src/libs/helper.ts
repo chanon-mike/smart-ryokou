@@ -1,6 +1,14 @@
 import { randomBytes } from 'crypto';
 
-const generateObjectId = () => {
+import SessionClient from '@/client/service/session/implement';
+import type Session from '@/service/database/session/model';
+
+/**
+ * Generates a unique ObjectId.
+ *
+ * @returns {string} The generated ObjectId.
+ */
+export const generateObjectId = () => {
   // Generate a 4-byte timestamp
   const timestamp = Math.floor(new Date().getTime() / 1000)
     .toString(16)
@@ -14,10 +22,16 @@ const generateObjectId = () => {
     .toString(16)
     .padStart(6, '0');
 
-  // Combine all the parts to create the ObjectId
   const objectId = `${timestamp}${random}${counter}`;
 
   return objectId;
 };
 
-export { generateObjectId };
+/**
+ * Saves new session data.
+ * @param session The session object to be saved.
+ */
+export const saveNewSessionData = (session: Session) => {
+  const client = new SessionClient();
+  client.update(session);
+};

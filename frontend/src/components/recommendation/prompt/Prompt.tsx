@@ -1,14 +1,15 @@
 'use client';
 
-import { useState } from 'react';
-import InputBar from '@/components/recommendation/prompt/InputBar';
-import PreferencesModal from '@/components/recommendation/prompt/PreferencesModal';
-import { Box, Button, LinearProgress } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
+import { Box, Button, LinearProgress } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import createTranslation from 'next-translate/useTranslation';
-import { useQueryState, parseAsString } from 'next-usequerystate';
+import { parseAsString, useQueryState } from 'next-usequerystate';
+import { useState } from 'react';
+
+import InputBar from '@/components/recommendation/prompt/InputBar';
+import PreferencesModal from '@/components/recommendation/prompt/PreferencesModal';
 
 const Prompt = () => {
   const [placeInput, setPlaceInput] = useQueryState('place', parseAsString.withDefault(''));

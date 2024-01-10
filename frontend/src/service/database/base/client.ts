@@ -1,5 +1,6 @@
-import { MONGODB_URI } from '@/libs/envValues';
 import { MongoClient } from 'mongodb';
+
+import { MONGODB_URI } from '@/libs/envValues';
 
 if (MONGODB_URI === '') {
   throw new Error('Invalid/Missing environment variable: "MONGODB_URI"');

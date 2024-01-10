@@ -1,10 +1,11 @@
-import type { Location } from '@/types/recommendation';
-import { Delete } from '@mui/icons-material';
-import DiningIcon from '@mui/icons-material/Dining';
-import { Card, Grid, CardMedia, CardContent, Typography, styled } from '@mui/material';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { Delete } from '@mui/icons-material';
+import DiningIcon from '@mui/icons-material/Dining';
+import { Card, CardContent, CardMedia, Grid, styled, Typography } from '@mui/material';
+
 import { SecondaryColorHoverIconButton } from '@/components/common/mui/SecondaryColorHoverIconButton';
+import type { Location } from '@/types/recommendation';
 
 const HoverableCard = styled(Card)(({ theme }) => ({
   display: 'flex',
@@ -105,7 +106,7 @@ const SortableLocationCard = ({
               </SecondaryColorHoverIconButton>
               <SecondaryColorHoverIconButton
                 aria-label="Delete"
-                onMouseDown={() => onConfirmDelete(location.name)}
+                onMouseDown={() => onConfirmDelete(location.id)}
               >
                 <Delete />
               </SecondaryColorHoverIconButton>
