@@ -1,11 +1,11 @@
 import { FormControlLabel, Switch, Typography } from '@mui/material';
-import createTranslation from 'next-translate/useTranslation';
 import { useContext } from 'react';
 
 import { DisplayRoutesContext } from '@/components/recommendation/DisplayRoutesContext';
+import { useScopedI18n } from '@/locales/client';
 
 const RouteDirectionArrowToggleButton = () => {
-  const { t } = createTranslation('result');
+  const t = useScopedI18n('result');
   const { displayRoutes, setDisplayRoutes } = useContext(DisplayRoutesContext);
 
   return (

@@ -1,6 +1,7 @@
 import type { SelectChangeEvent } from '@mui/material';
 import { MenuItem, Select, Typography } from '@mui/material';
-import createTranslation from 'next-translate/useTranslation';
+
+import { useScopedI18n } from '@/locales/client';
 
 type Props = {
   selectedPace: string;
@@ -8,7 +9,7 @@ type Props = {
 };
 
 const PaceForm = ({ selectedPace, handleSelectPace }: Props) => {
-  const { t } = createTranslation('home');
+  const t = useScopedI18n('home');
 
   const paces = [
     { label: t('pace.relaxed'), value: 'relaxed' },

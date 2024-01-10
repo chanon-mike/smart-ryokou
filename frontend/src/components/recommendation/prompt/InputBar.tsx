@@ -6,11 +6,11 @@ import SearchIcon from '@mui/icons-material/Search';
 import { InputAdornment, TextField } from '@mui/material';
 import type { Libraries } from '@react-google-maps/api';
 import { useLoadScript } from '@react-google-maps/api';
-import createTranslation from 'next-translate/useTranslation';
 import type { ChangeEvent, Dispatch, SetStateAction } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
 
 import { GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
+import { useCurrentLocale, useScopedI18n } from '@/locales/client';
 
 type Props = {
   placeInput: string;
@@ -18,7 +18,8 @@ type Props = {
 };
 
 const InputBar = ({ placeInput, setPlaceInput }: Props) => {
-  const { t, lang } = createTranslation('home');
+  const t = useScopedI18n('home');
+  const lang = useCurrentLocale();
   const [libraries] = useState<Libraries>(['places']);
   const autoCompleteRef = useRef<google.maps.places.Autocomplete>();
   const inputRef = useRef(null);
@@ -26,7 +27,7 @@ const InputBar = ({ placeInput, setPlaceInput }: Props) => {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: GOOGLE_MAPS_API_KEY,
     libraries,
-    language: lang,
+    language: lang as string,
   });
 
   useEffect(() => {

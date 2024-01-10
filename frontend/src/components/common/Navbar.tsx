@@ -1,10 +1,15 @@
 import HomeIcon from '@mui/icons-material/Home';
 import { AppBar, Box, IconButton, Toolbar, Typography } from '@mui/material';
+import Link from 'next/link';
+import { Suspense } from 'react';
 
 import LanguageMenu from '@/components/common/LanguageMenu';
+import { getCurrentLocale } from '@/locales/server';
 
 const Navbar = async () => {
   // const session = await getSession();
+  const currentLocale = getCurrentLocale();
+  console.log(currentLocale);
 
   return (
     <AppBar
@@ -14,10 +19,12 @@ const Navbar = async () => {
     >
       <Toolbar>
         <Box sx={{ display: 'flex', flexDirection: 'row', flexGrow: 1 }}>
-          <IconButton href="/" size="large" edge="start" color="primary" aria-label="menu">
-            <HomeIcon />
-          </IconButton>
-          <a href="/" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+          <Link href="/">
+            <IconButton size="large" edge="start" color="primary" aria-label="menu">
+              <HomeIcon />
+            </IconButton>
+          </Link>
+          <Link href="/" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
             <Typography variant="h6" color="primary">
               Smart
             </Typography>
@@ -35,10 +42,12 @@ const Navbar = async () => {
             >
               旅行
             </Typography>
-          </a>
+          </Link>
         </Box>
 
-        <LanguageMenu />
+        <Suspense>
+          <LanguageMenu />
+        </Suspense>
         {/* {!session ? (
             <a href="/api/auth/login">
               <Button color="primary">Login</Button>

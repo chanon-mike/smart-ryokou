@@ -1,23 +1,28 @@
 import PlaceIcon from '@mui/icons-material/Place';
 import { Box, Card, CardMedia, Skeleton, Typography } from '@mui/material';
-import createTranslation from 'next-translate/useTranslation';
 import { Suspense } from 'react';
 
+import { I18nProvider } from '@/components/common/I18nProvider';
 import FeaturedCardImage from '@/components/recommendation/prompt/featured/FeaturedCardImage';
+import { getCurrentLocale, getScopedI18n } from '@/locales/server';
+import type { FeaturedLocation } from '@/types/featured';
 
 type FeaturedCardProps = {
-  location: string;
+  location: FeaturedLocation;
 };
 
-const FeaturedCard = ({ location }: FeaturedCardProps) => {
-  const { t } = createTranslation('home');
+const FeaturedCard = async ({ location }: FeaturedCardProps) => {
+  const t = await getScopedI18n('home.featured');
+  const currentLocale = getCurrentLocale();
 
   return (
     <Suspense fallback={<Skeleton />}>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
         <Card variant="elevation" sx={{ width: 200, height: 200, cursor: 'pointer' }}>
           <CardMedia>
-            <FeaturedCardImage location={location} />
+            <I18nProvider locale={currentLocale}>
+              <FeaturedCardImage location={location} />
+            </I18nProvider>
           </CardMedia>
         </Card>
         <Box
@@ -30,7 +35,7 @@ const FeaturedCard = ({ location }: FeaturedCardProps) => {
           }}
         >
           <PlaceIcon color="secondary" fontSize="small" />
-          <Typography variant="body2">{t(`featured.${location}`)}</Typography>
+          <Typography variant="body2">{t(`${location}`)}</Typography>
         </Box>
       </Box>
     </Suspense>

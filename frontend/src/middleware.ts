@@ -1,11 +1,15 @@
-import type { NextRequest } from 'next/server';
-import { NextResponse } from 'next/server';
+import { type NextRequest } from 'next/server';
+import { createI18nMiddleware } from 'next-international/middleware';
 
-import i18n from '../i18n';
+const I18nMiddleware = createI18nMiddleware({
+  locales: ['en', 'ja'],
+  defaultLocale: 'ja',
+});
 
 export function middleware(request: NextRequest) {
-  const locale = request.nextUrl.locale || i18n.defaultLocale;
-  request.nextUrl.searchParams.set('lang', locale);
-  request.nextUrl.href = request.nextUrl.href.replace(`/${locale}`, '');
-  return NextResponse.rewrite(request.nextUrl);
+  return I18nMiddleware(request);
 }
+
+export const config = {
+  matcher: ['/((?!api|static|.*\\..*|_next|favicon.ico|robots.txt).*)'],
+};

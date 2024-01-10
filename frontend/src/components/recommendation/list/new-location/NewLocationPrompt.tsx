@@ -1,7 +1,8 @@
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import SendIcon from '@mui/icons-material/Send';
 import { CircularProgress, IconButton, InputAdornment, TextField } from '@mui/material';
-import createTranslation from 'next-translate/useTranslation';
+
+import { useScopedI18n } from '@/locales/client';
 
 interface NewLocationPromptProps {
   isLoading: boolean;
@@ -16,7 +17,7 @@ const NewLocationPrompt = ({
   handleSubmit,
   handleOnChange,
 }: NewLocationPromptProps) => {
-  const { t } = createTranslation('result');
+  const t = useScopedI18n('result');
 
   return (
     <form onSubmit={handleSubmit}>

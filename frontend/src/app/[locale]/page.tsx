@@ -1,14 +1,14 @@
 import { Box, Container, Typography } from '@mui/material';
-import createTranslation from 'next-translate/useTranslation';
 
+import { I18nProvider } from '@/components/common/I18nProvider';
 import Featured from '@/components/recommendation/prompt/featured/Featured';
 import Prompt from '@/components/recommendation/prompt/Prompt';
+import { getCurrentLocale, getScopedI18n } from '@/locales/server';
 
-const Home = () => {
-  const homeT = createTranslation('home');
-  const commonT = createTranslation('common');
-  const ht = homeT.t;
-  const ct = commonT.t;
+const Home = async () => {
+  const ht = await getScopedI18n('home');
+  const ct = await getScopedI18n('common');
+  const currentLocale = getCurrentLocale();
 
   return (
     <Container>
@@ -52,7 +52,9 @@ const Home = () => {
         <Typography variant="subtitle1" color="text.secondary" sx={{ alignSelf: 'center' }}>
           {ht('caption')}
         </Typography>
-        <Prompt />
+        <I18nProvider locale={currentLocale}>
+          <Prompt />
+        </I18nProvider>
         <Featured />
       </Box>
     </Container>

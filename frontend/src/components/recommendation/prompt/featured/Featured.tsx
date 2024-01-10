@@ -1,24 +1,12 @@
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import { Box, Typography } from '@mui/material';
-import createTranslation from 'next-translate/useTranslation';
 
 import FeaturedCard from '@/components/recommendation/prompt/featured/FeaturedCard';
+import { getScopedI18n } from '@/locales/server';
+import { featuredLocations } from '@/types/featured';
 
-const featuredLocations = [
-  'tokyo',
-  'kyoto',
-  'osaka',
-  'hokkaido',
-  'okinawa',
-  'nara',
-  'nagoya',
-  'kanazawa',
-  'yokohama',
-  'nikko',
-];
-
-const Featured = () => {
-  const { t } = createTranslation('home');
+const Featured = async () => {
+  const t = await getScopedI18n('home');
 
   return (
     <>

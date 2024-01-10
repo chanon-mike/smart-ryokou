@@ -2,17 +2,23 @@
 
 import { Skeleton } from '@mui/material';
 import Image from 'next/image';
-import createTranslation from 'next-translate/useTranslation';
 import { parseAsString, useQueryState } from 'next-usequerystate';
 import { useState } from 'react';
 
-const FeaturedCardImage = ({ location }: { location: string }) => {
-  const { t } = createTranslation('home');
+import { useScopedI18n } from '@/locales/client';
+import type { FeaturedLocation } from '@/types/featured';
+
+type FeaturedCardImageProps = {
+  location: FeaturedLocation;
+};
+
+const FeaturedCardImage = ({ location }: FeaturedCardImageProps) => {
+  const t = useScopedI18n('home.featured-place');
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [, setPlaceInput] = useQueryState('place', parseAsString.withDefault(''));
 
   const handleImageClick = () => {
-    setPlaceInput(t(`featured.place.${location}`));
+    setPlaceInput(t(`${location}`));
   };
 
   return (

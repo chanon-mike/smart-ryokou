@@ -1,5 +1,4 @@
 import { Box, Dialog, DialogContent, DialogTitle } from '@mui/material';
-import createTranslation from 'next-translate/useTranslation';
 import type { ChangeEvent, Dispatch, FormEvent, SetStateAction } from 'react';
 import { useContext, useState } from 'react';
 
@@ -14,6 +13,7 @@ import NewLocationExampleChip from '@/components/recommendation/list/new-locatio
 import NewLocationPrompt from '@/components/recommendation/list/new-location/NewLocationPrompt';
 import { RecommendationContext } from '@/components/recommendation/RecommendationContext';
 import { saveNewSessionData } from '@/libs/helper';
+import { useScopedI18n } from '@/locales/client';
 import type Session from '@/service/database/session/model';
 import type { Location } from '@/types/recommendation';
 
@@ -36,7 +36,7 @@ const NewLocationInput = ({
   const { session, setSession } = useContext(RecommendationContext);
   const [prompt, setPrompt] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { t } = createTranslation('result');
+  const t = useScopedI18n('result');
 
   const newLocationExamplePromptList = [
     { place: t('new-location.park'), prompt: t('new-location.park-prompt') },

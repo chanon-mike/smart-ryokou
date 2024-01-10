@@ -9,7 +9,6 @@ import {
   DialogTitle,
 } from '@mui/material';
 import { useRouter } from 'next/navigation';
-import createTranslation from 'next-translate/useTranslation';
 import type { FormEvent } from 'react';
 import { type Dispatch, type SetStateAction } from 'react';
 
@@ -26,6 +25,7 @@ import PaceForm from '@/components/recommendation/prompt/form/PaceForm';
 import TripTypeForm from '@/components/recommendation/prompt/form/TripTypeForm';
 import { usePreferences } from '@/components/recommendation/prompt/usePreferences';
 import { generateObjectId } from '@/libs/helper';
+import { useScopedI18n } from '@/locales/client';
 
 type PreferencesModalProps = {
   placeInput: string;
@@ -61,10 +61,8 @@ const PreferencesModal = ({
 
   const router = useRouter();
 
-  const homeT = createTranslation('home');
-  const commonT = createTranslation('common');
-  const ht = homeT.t;
-  const ct = commonT.t;
+  const ht = useScopedI18n('home');
+  const ct = useScopedI18n('common');
 
   const formatDate = (date: moment.Moment | null) => {
     if (!date) {

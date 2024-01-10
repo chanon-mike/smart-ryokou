@@ -6,7 +6,6 @@ import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import MapIcon from '@mui/icons-material/Map';
 import { Box, Button, Dialog, DialogActions, DialogTitle, Stack, Typography } from '@mui/material';
 import _ from 'lodash';
-import createTranslation from 'next-translate/useTranslation';
 import { useContext, useState } from 'react';
 
 import DroppableDateList from '@/components/recommendation/list/DroppableDateList';
@@ -18,6 +17,7 @@ import { useDnd } from '@/components/recommendation/list/useDnd';
 import RouteDirectionArrowToggleButton from '@/components/recommendation/map/RouteDirectionArrowToggleButton';
 import { RecommendationContext } from '@/components/recommendation/RecommendationContext';
 import { saveNewSessionData } from '@/libs/helper';
+import { useScopedI18n } from '@/locales/client';
 
 const RecommendationContainer = () => {
   const { session, setSession } = useContext(RecommendationContext);
@@ -43,7 +43,7 @@ const RecommendationContainer = () => {
     setActiveContainerIndex,
   });
 
-  const { t } = createTranslation('result');
+  const t = useScopedI18n('result');
 
   const closeConfirmationModal = () => {
     setDeleteModalOpen(false);
