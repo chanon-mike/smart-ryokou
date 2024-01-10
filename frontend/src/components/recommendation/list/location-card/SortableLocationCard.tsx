@@ -1,10 +1,9 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Delete } from '@mui/icons-material';
-import DiningIcon from '@mui/icons-material/Dining';
 import { Card, CardContent, CardMedia, Grid, styled, Typography } from '@mui/material';
 
-import { SecondaryColorHoverIconButton } from '@/components/common/mui/SecondaryColorHoverIconButton';
+import DeleteLocationButton from '@/components/recommendation/list/location-card/DeleteLocationButton';
+import FindRestaurantButton from '@/components/recommendation/list/location-card/FindRestaurantButton';
 import type { Location } from '@/types/recommendation';
 
 const HoverableCard = styled(Card)(({ theme }) => ({
@@ -94,22 +93,13 @@ const SortableLocationCard = ({
               {/* <SecondaryColorHoverIconButton aria-label="Edit">
                 <Edit />
               </SecondaryColorHoverIconButton> */}
-              <SecondaryColorHoverIconButton
-                aria-label="Find Restaurant"
-                onMouseDown={() => {
-                  if (onFindRestaurant) {
-                    return onFindRestaurant(recIndex ?? 0, index ?? 0, location);
-                  }
-                }}
-              >
-                <DiningIcon />
-              </SecondaryColorHoverIconButton>
-              <SecondaryColorHoverIconButton
-                aria-label="Delete"
-                onMouseDown={() => onConfirmDelete(location.id)}
-              >
-                <Delete />
-              </SecondaryColorHoverIconButton>
+              <FindRestaurantButton
+                onFindRestaurant={onFindRestaurant}
+                recIndex={recIndex ?? 0}
+                dateIndex={index ?? 0}
+                location={location}
+              />
+              <DeleteLocationButton onConfirmDelete={onConfirmDelete} locationId={location.id} />
             </Grid>
           </Grid>
         </HoverableCard>

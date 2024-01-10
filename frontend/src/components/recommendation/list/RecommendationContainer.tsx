@@ -4,27 +4,28 @@ import type { UniqueIdentifier } from '@dnd-kit/core';
 import { closestCorners, DndContext, DragOverlay } from '@dnd-kit/core';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import MapIcon from '@mui/icons-material/Map';
-import { Box, Button, Dialog, DialogActions, DialogTitle, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import _ from 'lodash';
 import { useContext, useState } from 'react';
 
 import DroppableDateList from '@/components/recommendation/list/DroppableDateList';
 import FindRestaurantDialog from '@/components/recommendation/list/find-restaurant/FindRestaurantDialog';
 import { useFindRestaurant } from '@/components/recommendation/list/find-restaurant/useFindRestaurant';
+import SortableLocationCard from '@/components/recommendation/list/location-card/SortableLocationCard';
 import NewLocationButton from '@/components/recommendation/list/new-location/NewLocationButton';
-import SortableLocationCard from '@/components/recommendation/list/SortableLocationCard';
 import { useDnd } from '@/components/recommendation/list/useDnd';
 import RouteDirectionArrowToggleButton from '@/components/recommendation/map/RouteDirectionArrowToggleButton';
 import { RecommendationContext } from '@/components/recommendation/RecommendationContext';
 import { saveNewSessionData } from '@/libs/helper';
-import { useScopedI18n } from '@/locales/client';
+
+import DeleteLocationDialog from './location-card/DeleteLocationDialog';
 
 const RecommendationContainer = () => {
   const { session, setSession } = useContext(RecommendationContext);
   const [activeContainerIndex, setActiveContainerIndex] = useState<number | null>(null);
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [locationIdToDelete, setLocationIdToDelete] = useState('');
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   const {
     findRestaurantOpen,
@@ -34,7 +35,6 @@ const RecommendationContainer = () => {
     handleCloseDialog,
     handleSelectRestaurant,
   } = useFindRestaurant({ session, setSession });
-
   const { sensors, handleDragStart, handleDragOver, handleDragCancel, handleDragEnd } = useDnd({
     session,
     setSession,
@@ -43,15 +43,9 @@ const RecommendationContainer = () => {
     setActiveContainerIndex,
   });
 
-  const t = useScopedI18n('result');
-
-  const closeConfirmationModal = () => {
-    setDeleteModalOpen(false);
-  };
-
   const handleConfirmDeleteCard = (locationId: string) => {
     setLocationIdToDelete(locationId);
-    setDeleteModalOpen(true);
+    setDeleteDialogOpen(true);
   };
 
   const handleDelete = (locationId: string) => {
@@ -64,9 +58,9 @@ const RecommendationContainer = () => {
       group.locations = updatedLocations;
     }
     updatedSession.recommendations = updatedRecommendations;
-    closeConfirmationModal();
-    setSession(updatedSession);
     saveNewSessionData(updatedSession);
+    setSession(updatedSession);
+    setDeleteDialogOpen(false);
   };
 
   return (
@@ -112,22 +106,12 @@ const RecommendationContainer = () => {
         </Box>
       </DndContext>
 
-      {/* Delete confirmation dialog */}
-      <Dialog
-        open={deleteModalOpen}
-        onClose={() => setDeleteModalOpen(false)}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{t('deleteCardModal.title')}</DialogTitle>
-        <DialogActions>
-          <Button onMouseDown={closeConfirmationModal}>{t('deleteCardModal.cancel')}</Button>
-          <Button onMouseDown={() => handleDelete(locationIdToDelete)} autoFocus>
-            {t('deleteCardModal.ok')}
-          </Button>
-        </DialogActions>
-      </Dialog>
-
+      <DeleteLocationDialog
+        deleteDialogOpen={deleteDialogOpen}
+        setDeleteDialogOpen={setDeleteDialogOpen}
+        locationId={locationIdToDelete}
+        handleDelete={handleDelete}
+      />
       <FindRestaurantDialog
         findRestaurantOpen={findRestaurantOpen}
         restaurants={restaurants}

@@ -96,10 +96,6 @@ export default {
       placeholder: 'Try AI: 博物館を探して',
     },
     'open-in-google-maps': 'Google Mapsで開く',
-    'get-directions': '行き先を調べる',
-    'get-walk-directions': '徒歩で行き先を調べる',
-    'get-drive-directions': '車で行き先を調べる',
-    'get-transit-directions': '公共交通機関で行き先を調べる',
     deleteCardModal: {
       title: 'この場所を削除しますか？',
       ok: 'はい',
@@ -118,7 +114,16 @@ export default {
       fun: '遊ぶところ',
       'fun-prompt': '遊ぶところ探して',
     },
-    'total-duration': '移動時間',
     'display-routes': 'ルート表示',
+    'copy-to-clipboard': 'Copied URL to clipboard',
+    tooltip: {
+      restaurant: 'レストラン',
+      delete: '削除',
+      zoomout: 'ズームアウト',
+      'search-destination': '行き先を調べる',
+      'total-duration': '移動時間',
+      'copy-url': 'URLをコピー',
+      'new-location-button': '新しい観光地を追加',
+    },
   },
 } as const;

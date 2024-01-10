@@ -2,7 +2,7 @@
 
 import { rectSortingStrategy, SortableContext } from '@dnd-kit/sortable';
 import PinDropIcon from '@mui/icons-material/PinDrop';
-import { Box, Paper, Skeleton, Typography } from '@mui/material';
+import { Box, Paper, Skeleton, Tooltip, Typography } from '@mui/material';
 import type { FC } from 'react';
 import { useContext } from 'react';
 
@@ -10,8 +10,9 @@ import { SecondaryColorHoverIconButton } from '@/components/common/mui/Secondary
 import { ActiveLocationContext } from '@/components/recommendation/ActiveLocationContext';
 import DistanceMatrixStep from '@/components/recommendation/list/distance-matrix/DistanceMatrixStep';
 import TotalDuration from '@/components/recommendation/list/distance-matrix/TotalDuration';
-import SortableLocationCard from '@/components/recommendation/list/SortableLocationCard';
+import SortableLocationCard from '@/components/recommendation/list/location-card/SortableLocationCard';
 import { useDistanceMatrix } from '@/components/recommendation/list/useDistanceMatrix';
+import { useScopedI18n } from '@/locales/client';
 import type { Location, Recommendation } from '@/types/recommendation';
 
 interface DroppableDateListProps {
@@ -44,7 +45,7 @@ const DroppableDateList: FC<DroppableDateListProps> = ({
   };
 
   // Zoom and set center for each date plan
-  const handleSelectDate = () => {
+  const handleSelectZoomoutButton = () => {
     // Get average lat lng of date locations
     const dateLocations = recommendation.locations;
     const averageLatLng = dateLocations.reduce(
@@ -75,9 +76,7 @@ const DroppableDateList: FC<DroppableDateListProps> = ({
         variant="outlined"
       >
         <Typography variant="subtitle1">{recommendation.date}</Typography>
-        <SecondaryColorHoverIconButton onClick={handleSelectDate} sx={{ alignItems: 'center' }}>
-          <PinDropIcon />
-        </SecondaryColorHoverIconButton>
+        <ZoomoutButton handleSelectZoomoutButton={handleSelectZoomoutButton} />
         <TotalDuration
           isLoadingDistanceMatrix={isLoadingDistanceMatrix}
           distanceMatrix={distanceMatrix}
@@ -132,3 +131,22 @@ const DroppableDateList: FC<DroppableDateListProps> = ({
 };
 
 export default DroppableDateList;
+
+type ZoomoutButtonProps = {
+  handleSelectZoomoutButton: () => void;
+};
+
+const ZoomoutButton = ({ handleSelectZoomoutButton }: ZoomoutButtonProps) => {
+  const t = useScopedI18n('result.tooltip');
+
+  return (
+    <SecondaryColorHoverIconButton
+      onClick={handleSelectZoomoutButton}
+      sx={{ alignItems: 'center' }}
+    >
+      <Tooltip disableFocusListener disableTouchListener title={t('zoomout')} placement="top">
+        <PinDropIcon />
+      </Tooltip>
+    </SecondaryColorHoverIconButton>
+  );
+};

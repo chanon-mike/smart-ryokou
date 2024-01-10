@@ -32,7 +32,16 @@ const FindRestaurantDialog = ({
           </Box>
         ) : (
           // Actual content with the list of restaurants
-          <Box display="flex" justifyContent="center" my={2} gap={2}>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: { sm: 'row', xs: 'column' },
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginY: 2,
+              gap: 2,
+            }}
+          >
             {restaurants.map((restaurant, index) => (
               <FindRestaurantCard
                 key={`${restaurant.name}-${index}`}
