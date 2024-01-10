@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Grid, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useContext } from 'react';
 
 import { ActiveLocationProvider } from '@/components/recommendation/ActiveLocationContext';
@@ -26,29 +26,24 @@ const RecommendationResult = () => {
     }
 
     return (
-      <>
-        <RecommendationContainer />
-        <Map />
-      </>
+      <Grid container>
+        <Grid item xs={4}>
+          <RecommendationContainer />
+        </Grid>
+        <Grid item xs={8}>
+          <Map />
+        </Grid>
+      </Grid>
     );
   };
 
   return (
-    <Box sx={{ marginTop: 8 }}>
+    <>
       <SessionHeader />
       <ActiveLocationProvider>
-        <DisplayRoutesProvider>
-          <Box
-            sx={{
-              display: 'grid',
-              gridTemplateColumns: { sm: '4fr 8fr', xs: '1fr' },
-            }}
-          >
-            {renderRecommendationsWithMap()}
-          </Box>
-        </DisplayRoutesProvider>
+        <DisplayRoutesProvider>{renderRecommendationsWithMap()}</DisplayRoutesProvider>
       </ActiveLocationProvider>
-    </Box>
+    </>
   );
 };
 

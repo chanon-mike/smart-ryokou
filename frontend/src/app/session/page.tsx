@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, CircularProgress, Container } from '@mui/material';
+import { CircularProgress, Container } from '@mui/material';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -58,12 +58,10 @@ const SessionResult = () => {
     }
 
     return (
-      <Container>
-        <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center">
-          <RecommendationProvider ses={data}>
-            <RecommendationResult />
-          </RecommendationProvider>
-        </Box>
+      <Container sx={{ marginTop: 8 }}>
+        <RecommendationProvider ses={data}>
+          <RecommendationResult />
+        </RecommendationProvider>
       </Container>
     );
   };
