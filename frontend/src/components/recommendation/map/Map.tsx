@@ -8,7 +8,7 @@ import { GoogleMap, MarkerF, Polyline, useJsApiLoader } from '@react-google-maps
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { ActiveLocationContext } from '../ActiveLocationContext';
 import { RecommendationContext } from '../RecommendationContext';
-import { Box, Button, FormControlLabel, Switch, useMediaQuery, useTheme } from '@mui/material';
+import { Box, FormControlLabel, Switch, useMediaQuery, useTheme } from '@mui/material';
 
 const fixedColors = [
   'red',
@@ -125,7 +125,15 @@ const Map = () => {
         </GoogleMap>
       )}
       {activeLocation && <LocationDetail activeLocation={activeLocation} />}
-      <Box sx={{ position: 'absolute', top: '10px', left: '10px', zIndex: 1000 }}>
+      <Box
+        sx={{
+          position: 'absolute',
+          top: '10px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 1000,
+        }}
+      >
         <FormControlLabel
           control={
             <Switch
@@ -134,7 +142,7 @@ const Map = () => {
               color="primary"
             />
           }
-          label="Display Directions"
+          label="Display Polylines"
         />
       </Box>
     </Box>
