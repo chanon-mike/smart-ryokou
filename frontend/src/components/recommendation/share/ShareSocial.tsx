@@ -14,17 +14,17 @@ const ShareSocial = () => {
   const currentUrl = window.location.href;
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 0.5 }}>
       <CopyToClipboard />
-      <Box sx={{ pt: 0.75 }}>
+      <Box sx={{ pt: 0.75, display: 'flex', gap: 0.75 }}>
         <FacebookShareButton url={currentUrl}>
-          <FacebookIcon size={24} round />
+          <FacebookIcon size={32} round />
         </FacebookShareButton>
         <TwitterShareButton url={currentUrl}>
-          <XIcon size={24} round />
+          <XIcon size={32} round />
         </TwitterShareButton>
         <LineShareButton url={currentUrl}>
-          <LineIcon size={24} round />
+          <LineIcon size={32} round />
         </LineShareButton>
       </Box>
     </Box>
