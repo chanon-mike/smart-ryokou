@@ -5,10 +5,10 @@ import { GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
 import { mapStyles } from '@/libs/mapStyles';
 import type { Location } from '@/types/recommendation';
 import { GoogleMap, MarkerF, Polyline, useJsApiLoader } from '@react-google-maps/api';
-import { useContext, useEffect, useMemo } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { ActiveLocationContext } from '../ActiveLocationContext';
 import { RecommendationContext } from '../RecommendationContext';
-import { Box, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Button, FormControlLabel, Switch, useMediaQuery, useTheme } from '@mui/material';
 
 const fixedColors = [
   'red',
@@ -32,6 +32,8 @@ const Map = () => {
     activeLocationContext;
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const [displayPolylines, setDisplayPolylines] = useState(true);
 
   const allLocations = useMemo(
     () =>
@@ -88,29 +90,30 @@ const Map = () => {
             disableDefaultUI: isMobile,
           }}
         >
-          {paths.map(({ path, color, key }) => (
-            <Polyline
-              key={key}
-              path={path}
-              options={{
-                strokeColor: color,
-                strokeOpacity: 0.8,
-                strokeWeight: 2,
-                icons: [
-                  {
-                    icon: {
-                      path: 'M 0,0 3,9 -3,9 0,0 z', // 0,0 is the tip of the arrow
-                      fillColor: color,
-                      fillOpacity: 1.0,
-                      strokeColor: color,
-                      strokeWeight: 1.5,
+          {displayPolylines &&
+            paths.map(({ path, color, key }) => (
+              <Polyline
+                key={key}
+                path={path}
+                options={{
+                  strokeColor: color,
+                  strokeOpacity: 0.8,
+                  strokeWeight: 2,
+                  icons: [
+                    {
+                      icon: {
+                        path: 'M 0,0 3,9 -3,9 0,0 z', // 0,0 is the tip of the arrow
+                        fillColor: color,
+                        fillOpacity: 1.0,
+                        strokeColor: color,
+                        strokeWeight: 1.5,
+                      },
+                      offset: '100%',
                     },
-                    offset: '100%',
-                  },
-                ],
-              }}
-            />
-          ))}
+                  ],
+                }}
+              />
+            ))}
           {allLocations.map((location) => (
             <MarkerF
               key={`${location.id}-${location.name}-${location.color}}`}
@@ -122,6 +125,18 @@ const Map = () => {
         </GoogleMap>
       )}
       {activeLocation && <LocationDetail activeLocation={activeLocation} />}
+      <Box sx={{ position: 'absolute', top: '10px', left: '10px', zIndex: 1000 }}>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={displayPolylines}
+              onChange={() => setDisplayPolylines(!displayPolylines)}
+              color="primary"
+            />
+          }
+          label="Display Directions"
+        />
+      </Box>
     </Box>
   );
 };
