@@ -1,32 +1,29 @@
-import { Box, FormControlLabel, Switch } from '@mui/material';
+import { FormControlLabel, Switch, Typography } from '@mui/material';
+import createTranslation from 'next-translate/useTranslation';
 import { useContext } from 'react';
 
 import { DisplayRoutesContext } from '@/components/recommendation/DisplayRoutesContext';
 
 const RouteDirectionArrowToggleButton = () => {
+  const { t } = createTranslation('result');
   const { displayRoutes, setDisplayRoutes } = useContext(DisplayRoutesContext);
 
   return (
-    <Box
-      sx={{
-        position: 'absolute',
-        top: '10px',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        zIndex: 1000,
-      }}
-    >
-      <FormControlLabel
-        control={
-          <Switch
-            checked={displayRoutes}
-            onChange={() => setDisplayRoutes(!displayRoutes)}
-            color="primary"
-          />
-        }
-        label="Directions"
-      />
-    </Box>
+    <FormControlLabel
+      control={
+        <Switch
+          checked={displayRoutes}
+          onChange={() => setDisplayRoutes(!displayRoutes)}
+          color="primary"
+          size="small"
+        />
+      }
+      label={
+        <Typography variant="subtitle2" color="textSecondary" sx={{ userSelect: 'none' }} noWrap>
+          {t('display-routes')}
+        </Typography>
+      }
+    />
   );
 };
 

@@ -12,7 +12,6 @@ import { RecommendationContext } from '@/components/recommendation/Recommendatio
 import ShareSocial from './share/ShareSocial';
 
 const RecommendationResult = () => {
-  const { session } = useContext(RecommendationContext);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -36,23 +35,7 @@ const RecommendationResult = () => {
 
   return (
     <Box sx={{ marginTop: 8 }}>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: { sm: 'row', xs: 'column' },
-          justifyContent: 'space-between',
-          marginBottom: 1.5,
-        }}
-      >
-        <Typography
-          variant="h3"
-          component="h3"
-          sx={{ fontSize: { sm: '3rem', xs: '2.25rem' }, marginBottom: { sm: 0, xs: 1.5 } }}
-        >
-          {session.tripTitle}
-        </Typography>
-        <ShareSocial />
-      </Box>
+      <SessionHeader />
       <ActiveLocationProvider>
         <DisplayRoutesProvider>
           <Box
@@ -70,3 +53,27 @@ const RecommendationResult = () => {
 };
 
 export default RecommendationResult;
+
+const SessionHeader = () => {
+  const { session } = useContext(RecommendationContext);
+
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: { sm: 'row', xs: 'column' },
+        justifyContent: 'space-between',
+        marginBottom: 1.5,
+      }}
+    >
+      <Typography
+        variant="h3"
+        component="h3"
+        sx={{ fontSize: { sm: '3rem', xs: '2.25rem' }, marginBottom: { sm: 0, xs: 1.5 } }}
+      >
+        {session.tripTitle}
+      </Typography>
+      <ShareSocial />
+    </Box>
+  );
+};

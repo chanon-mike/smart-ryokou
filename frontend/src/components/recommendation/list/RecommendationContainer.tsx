@@ -3,7 +3,8 @@
 import type { UniqueIdentifier } from '@dnd-kit/core';
 import { closestCorners, DndContext, DragOverlay } from '@dnd-kit/core';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
-import { Box, Button, Dialog, DialogActions, DialogTitle } from '@mui/material';
+import MapIcon from '@mui/icons-material/Map';
+import { Box, Button, Dialog, DialogActions, DialogTitle, Stack, Typography } from '@mui/material';
 import _ from 'lodash';
 import createTranslation from 'next-translate/useTranslation';
 import { useContext, useState } from 'react';
@@ -14,6 +15,7 @@ import { useFindRestaurant } from '@/components/recommendation/list/find-restaur
 import NewLocationButton from '@/components/recommendation/list/new-location/NewLocationButton';
 import SortableLocationCard from '@/components/recommendation/list/SortableLocationCard';
 import { useDnd } from '@/components/recommendation/list/useDnd';
+import RouteDirectionArrowToggleButton from '@/components/recommendation/map/RouteDirectionArrowToggleButton';
 import { RecommendationContext } from '@/components/recommendation/RecommendationContext';
 import { saveNewSessionData } from '@/libs/helper';
 
@@ -78,19 +80,22 @@ const RecommendationContainer = () => {
         collisionDetection={closestCorners}
         modifiers={[restrictToVerticalAxis]}
       >
-        <Box style={{ height: '75vh', overflowY: 'auto', paddingRight: '20px' }}>
-          {session.recommendations.map((r, index) => (
-            <Box key={`${r.date}-${index}`}>
-              <DroppableDateList
-                recIndex={index}
-                recommendation={r}
-                onConfirmDeleteCard={handleConfirmDeleteCard}
-                onFindRestaurant={handleFindRestaurant}
-              />
-              <NewLocationButton dateIndex={index} />
-            </Box>
-          ))}
-          <DragOverlay>
+        <Box sx={{ height: '75vh', overflowY: 'auto' }}>
+          <Box>
+            <SessionSubHeader />
+            {session.recommendations.map((r, index) => (
+              <Box key={`${r.date}-${index}`} sx={{ paddingRight: '20px' }}>
+                <DroppableDateList
+                  recIndex={index}
+                  recommendation={r}
+                  onConfirmDeleteCard={handleConfirmDeleteCard}
+                  onFindRestaurant={handleFindRestaurant}
+                />
+                <NewLocationButton dateIndex={index} />
+              </Box>
+            ))}
+          </Box>
+          <DragOverlay style={{ paddingRight: '20px' }}>
             {activeId !== null && activeContainerIndex !== null ? (
               <SortableLocationCard
                 location={
@@ -135,3 +140,29 @@ const RecommendationContainer = () => {
 };
 
 export default RecommendationContainer;
+
+const SessionSubHeader = () => {
+  const { session } = useContext(RecommendationContext);
+  const tripLocation = session.tripTitle.replace('の旅行プラン', '');
+
+  return (
+    <Stack
+      direction="row"
+      justifyContent="space-between"
+      sx={{ marginBottom: 1, marginTop: { sm: 0, xs: 1 } }}
+    >
+      <Stack
+        direction="row"
+        alignItems="center"
+        spacing={1}
+        sx={{ overflow: 'hidden', textOverflow: 'ellipsis', width: '15rem' }}
+      >
+        <MapIcon color="secondary" />
+        <Typography color="textSecondary" variant="subtitle2" noWrap>
+          {tripLocation}
+        </Typography>
+      </Stack>
+      <RouteDirectionArrowToggleButton />
+    </Stack>
+  );
+};
