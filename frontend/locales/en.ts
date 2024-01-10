@@ -115,6 +115,7 @@ export default {
       'fun-prompt': 'Find me something fun',
     },
     'display-routes': 'Display Routes',
+    'copy-to-clipboard': 'Copied URL to clipboard',
     tooltip: {
       restaurant: 'Restaurant',
       delete: 'Delete',

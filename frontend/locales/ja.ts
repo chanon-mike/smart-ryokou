@@ -115,6 +115,7 @@ export default {
       'fun-prompt': '遊ぶところ探して',
     },
     'display-routes': 'ルート表示',
+    'copy-to-clipboard': 'Copied URL to clipboard',
     tooltip: {
       restaurant: 'レストラン',
       delete: '削除',
