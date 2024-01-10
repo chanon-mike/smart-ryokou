@@ -1,8 +1,6 @@
 import DirectionsIcon from '@mui/icons-material/Directions';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import {
   Box,
-  Button,
   CardMedia,
   Grid,
   IconButton,
@@ -15,13 +13,14 @@ import {
 import { useScopedI18n } from '@/locales/client';
 import type { Location } from '@/types/recommendation';
 
+import OpenInGoogleMapsButton from './OpenInGoogleMapsButton';
+
 interface LocationDetailProps {
   activeLocation: Location;
 }
 
 const LocationDetail = ({ activeLocation }: LocationDetailProps) => {
-  const rt = useScopedI18n('result');
-  const tt = useScopedI18n('result.tooltip');
+  const t = useScopedI18n('result.tooltip');
 
   return (
     <Paper
@@ -73,20 +72,9 @@ const LocationDetail = ({ activeLocation }: LocationDetailProps) => {
       </Grid>
       <Box sx={{ display: 'flex', mt: 1, gap: 1, alignContent: 'center' }}>
         <Box sx={{ width: '33%' }}>
-          <Button
-            variant="contained"
-            fullWidth={true}
-            href={`https://www.google.com/maps/place/?q=place_id:${activeLocation.placeId}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <OpenInNewIcon />
-            <Typography variant="caption" sx={{ ml: 0.5 }} fontSize={10}>
-              {rt('open-in-google-maps')}
-            </Typography>
-          </Button>
+          <OpenInGoogleMapsButton placeId={activeLocation.placeId} />
         </Box>
-        <Tooltip title={tt('search-destination')}>
+        <Tooltip title={t('search-destination')}>
           <IconButton
             aria-label="directions"
             href={`https://www.google.com/maps?saddr=My+Location&daddr=${activeLocation.lat},${activeLocation.lng}&travelmode=walk`}
