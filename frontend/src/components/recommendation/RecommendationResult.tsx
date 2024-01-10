@@ -4,6 +4,7 @@ import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useContext } from 'react';
 
 import { ActiveLocationProvider } from '@/components/recommendation/ActiveLocationContext';
+import { DisplayRoutesProvider } from '@/components/recommendation/DisplayRoutesContext';
 import RecommendationContainer from '@/components/recommendation/list/RecommendationContainer';
 import Map from '@/components/recommendation/map/Map';
 import { RecommendationContext } from '@/components/recommendation/RecommendationContext';
@@ -12,6 +13,24 @@ const RecommendationResult = () => {
   const { session } = useContext(RecommendationContext);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const renderRecommendationsWithMap = () => {
+    if (isMobile) {
+      return (
+        <>
+          <Map />
+          <RecommendationContainer />
+        </>
+      );
+    }
+
+    return (
+      <>
+        <RecommendationContainer />
+        <Map />
+      </>
+    );
+  };
 
   return (
     <Box sx={{ marginTop: 8 }}>
@@ -23,24 +42,16 @@ const RecommendationResult = () => {
         {session.tripTitle}
       </Typography>
       <ActiveLocationProvider>
-        <Box
-          sx={{
-            display: 'grid',
-            gridTemplateColumns: { sm: '4fr 8fr', xs: '1fr' },
-          }}
-        >
-          {isMobile ? (
-            <>
-              <Map />
-              <RecommendationContainer />
-            </>
-          ) : (
-            <>
-              <RecommendationContainer />
-              <Map />
-            </>
-          )}
-        </Box>
+        <DisplayRoutesProvider>
+          <Box
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: { sm: '4fr 8fr', xs: '1fr' },
+            }}
+          >
+            {renderRecommendationsWithMap()}
+          </Box>
+        </DisplayRoutesProvider>
       </ActiveLocationProvider>
     </Box>
   );

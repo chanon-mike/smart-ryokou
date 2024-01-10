@@ -1,8 +1,8 @@
 'use client';
 
-import { Box, FormControlLabel, Switch, useMediaQuery, useTheme } from '@mui/material';
+import { Box, useMediaQuery, useTheme } from '@mui/material';
 import { GoogleMap, MarkerF, Polyline, useJsApiLoader } from '@react-google-maps/api';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 
 import LocationDetail from '@/components/recommendation/map/LocationDetail';
 import { GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
@@ -10,6 +10,7 @@ import { mapStyles } from '@/libs/mapStyles';
 import type { Location } from '@/types/recommendation';
 
 import { ActiveLocationContext } from '../ActiveLocationContext';
+import { DisplayRoutesContext } from '../DisplayRoutesContext';
 import { RecommendationContext } from '../RecommendationContext';
 
 const fixedColors = [
@@ -26,16 +27,13 @@ const fixedColors = [
 ];
 
 const Map = () => {
-  const recommendationContext = useContext(RecommendationContext);
-  const activeLocationContext = useContext(ActiveLocationContext);
-  const { isLoaded } = useJsApiLoader({ googleMapsApiKey: GOOGLE_MAPS_API_KEY });
-  const { session } = recommendationContext;
+  const { session } = useContext(RecommendationContext);
   const { mapCenter, setMapCenter, activeLocation, setActiveLocation, zoom, setZoom } =
-    activeLocationContext;
+    useContext(ActiveLocationContext);
+  const { displayRoutes } = useContext(DisplayRoutesContext);
+  const { isLoaded } = useJsApiLoader({ googleMapsApiKey: GOOGLE_MAPS_API_KEY });
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
-  const [displayPolylines, setDisplayPolylines] = useState(true);
 
   const allLocations = useMemo(
     () =>
@@ -92,7 +90,7 @@ const Map = () => {
             disableDefaultUI: isMobile,
           }}
         >
-          {displayPolylines &&
+          {displayRoutes &&
             paths.map(({ path, color, key }) => (
               <Polyline
                 key={key}
@@ -108,7 +106,7 @@ const Map = () => {
                         fillColor: color,
                         fillOpacity: 1.0,
                         strokeColor: color,
-                        strokeWeight: 1.5,
+                        strokeWeight: 3.0,
                       },
                       offset: '100%',
                     },
@@ -127,26 +125,6 @@ const Map = () => {
         </GoogleMap>
       )}
       {activeLocation && <LocationDetail activeLocation={activeLocation} />}
-      <Box
-        sx={{
-          position: 'absolute',
-          top: '10px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          zIndex: 1000,
-        }}
-      >
-        <FormControlLabel
-          control={
-            <Switch
-              checked={displayPolylines}
-              onChange={() => setDisplayPolylines(!displayPolylines)}
-              color="primary"
-            />
-          }
-          label="Directions"
-        />
-      </Box>
     </Box>
   );
 };
