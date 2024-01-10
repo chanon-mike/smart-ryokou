@@ -27,5 +27,6 @@
     "fun": "Fun",
     "fun-prompt": "Find me something fun"
   },
-  "total-duration": "Travel time"
+  "total-duration": "Travel time",
+  "display-routes": "Display Routes"
 }

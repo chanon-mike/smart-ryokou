@@ -1,9 +1,10 @@
 'use client';
 
-import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Grid, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useContext } from 'react';
 
 import { ActiveLocationProvider } from '@/components/recommendation/ActiveLocationContext';
+import { DisplayRoutesProvider } from '@/components/recommendation/DisplayRoutesContext';
 import RecommendationContainer from '@/components/recommendation/list/RecommendationContainer';
 import Map from '@/components/recommendation/map/Map';
 import { RecommendationContext } from '@/components/recommendation/RecommendationContext';
@@ -11,51 +12,63 @@ import { RecommendationContext } from '@/components/recommendation/Recommendatio
 import ShareSocial from './share/ShareSocial';
 
 const RecommendationResult = () => {
-  const { session } = useContext(RecommendationContext);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
+  const renderRecommendationsWithMap = () => {
+    if (isMobile) {
+      return (
+        <>
+          <Map />
+          <RecommendationContainer />
+        </>
+      );
+    }
+
+    return (
+      <Grid container>
+        <Grid item xs={4}>
+          <RecommendationContainer />
+        </Grid>
+        <Grid item xs={8}>
+          <Map />
+        </Grid>
+      </Grid>
+    );
+  };
+
   return (
-    <Box sx={{ marginTop: 8 }}>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: { sm: 'row', xs: 'column' },
-          justifyContent: 'space-between',
-          marginBottom: 1.5,
-        }}
-      >
-        <Typography
-          variant="h3"
-          component="h3"
-          sx={{ fontSize: { sm: '3rem', xs: '2.25rem' }, marginBottom: { sm: 0, xs: 1.5 } }}
-        >
-          {session.tripTitle}
-        </Typography>
-        <ShareSocial />
-      </Box>
+    <>
+      <SessionHeader />
       <ActiveLocationProvider>
-        <Box
-          sx={{
-            display: 'grid',
-            gridTemplateColumns: { sm: '4fr 8fr', xs: '1fr' },
-          }}
-        >
-          {isMobile ? (
-            <>
-              <Map />
-              <RecommendationContainer />
-            </>
-          ) : (
-            <>
-              <RecommendationContainer />
-              <Map />
-            </>
-          )}
-        </Box>
+        <DisplayRoutesProvider>{renderRecommendationsWithMap()}</DisplayRoutesProvider>
       </ActiveLocationProvider>
-    </Box>
+    </>
   );
 };
 
 export default RecommendationResult;
+
+const SessionHeader = () => {
+  const { session } = useContext(RecommendationContext);
+
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: { sm: 'row', xs: 'column' },
+        justifyContent: 'space-between',
+        marginBottom: 1.5,
+      }}
+    >
+      <Typography
+        variant="h3"
+        component="h3"
+        sx={{ fontSize: { sm: '3rem', xs: '2.25rem' }, marginBottom: { sm: 0, xs: 1.5 } }}
+      >
+        {session.tripTitle}
+      </Typography>
+      <ShareSocial />
+    </Box>
+  );
+};
