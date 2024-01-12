@@ -22,6 +22,7 @@ const OptionalPrompt = ({ handleChangeInputtedOptionalPrompt }: Props) => {
         placeholder={t('optional-prompt-placeholder')}
         id="fullWidth"
         onChange={handleInputChange}
+        autoComplete="off"
       />
     </>
   );
