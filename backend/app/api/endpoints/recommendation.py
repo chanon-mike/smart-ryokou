@@ -8,7 +8,7 @@ from app.schema.recommendation import (
     StructuredRecommendationQuery,
     StructuredRecommendationResponse,
 )
-from app.use_case.recommendation import (
+from app.usecase.recommendation import (
     PromptRecommendationUseCase,
     StructuredRecommendationUseCase,
 )
@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 
 
 @router.post("/structured-format")
-async def generate_recommendation(
+async def generate_recommendations(
     request_body: StructuredRecommendationQuery,
 ) -> StructuredRecommendationResponse:
     recommendation_usecase = StructuredRecommendationUseCase()
@@ -31,17 +31,16 @@ async def generate_recommendation(
     except Exception as e:
         logger.error(f"Error: {e}")
         raise HTTPException(
-            status_code=500,
+            status_code=403,
             detail={
                 "status": "failed",
-                "message": "Service is currently unavailable",
-                "error": str(e),
+                "message": str(e),
             },
         )
 
 
 @router.post("/prompt")
-async def generate_prompt_recommendation(
+async def generate_prompt_recommendations(
     request_body: PromptRecommendationQuery,
 ) -> PromptRecommendationResponse:
     recommendation_usecase = PromptRecommendationUseCase()
@@ -50,10 +49,9 @@ async def generate_prompt_recommendation(
     except Exception as e:
         logger.error(f"Error: {e}")
         raise HTTPException(
-            status_code=500,
+            status_code=403,
             detail={
                 "status": "failed",
-                "message": "Service is currently unavailable",
-                "error": str(e),
+                "message": str(e),
             },
         )
