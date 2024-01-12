@@ -1,11 +1,10 @@
 from datetime import datetime
 from typing import List, Optional
-from app.schema.recommendation import (
-    Interest,
-    PromptRecommendationQuery,
-    StructuredRecommendationQuery,
-)
+
 from openai.types.chat.completion_create_params import Function
+
+from app.schema.recommendation.new_location import RecommendationNewLocationQuery
+from app.schema.recommendation.recommendation import Interest, RecommendationQuery
 
 
 class BasePrompt:
@@ -14,8 +13,8 @@ class BasePrompt:
         self.functions = functions
 
 
-class StructuredRecommendationPrompt(BasePrompt):
-    def __init__(self, query: StructuredRecommendationQuery):
+class RecommendationPrompt(BasePrompt):
+    def __init__(self, query: RecommendationQuery):
         prompt = self._build_prompt(query)
         functions: List[Function] = [
             {
@@ -26,7 +25,7 @@ class StructuredRecommendationPrompt(BasePrompt):
                     "parameters": {
                         "type": "object",
                         "properties": {
-                            "recommendation": {
+                            "recommendations": {
                                 "type": "array",
                                 "items": {
                                     "type": "object",
@@ -36,7 +35,7 @@ class StructuredRecommendationPrompt(BasePrompt):
                                             "pattern": "[1-9]*日",
                                             "description": "例えば：1日、２日",
                                         },
-                                        "activities": {
+                                        "locations": {
                                             "type": "array",
                                             "items": {
                                                 "type": "object",
@@ -54,18 +53,18 @@ class StructuredRecommendationPrompt(BasePrompt):
                                             },
                                         },
                                     },
-                                    "required": ["date", "activities"],
+                                    "required": ["date", "locations"],
                                 },
                             },
                         },
-                        "required": ["recommendation"],
+                        "required": ["recommendations"],
                     },
                 },
             },
         ]
         super().__init__(prompt, functions)
 
-    def _build_prompt(self, query: StructuredRecommendationQuery) -> str:
+    def _build_prompt(self, query: RecommendationQuery) -> str:
         DATE_FORMAT = "%Y-%m-%d"
         date_from = datetime.strptime(query.date_from, DATE_FORMAT)
         date_to = datetime.strptime(query.date_to, DATE_FORMAT)
@@ -77,7 +76,7 @@ class StructuredRecommendationPrompt(BasePrompt):
 
         return prompt
 
-    def _create_prompts(self, query: StructuredRecommendationQuery) -> List[str]:
+    def _create_prompts(self, query: RecommendationQuery) -> List[str]:
         prompts = []
         data_num = 1
         interests = query.interests or [None]
@@ -94,7 +93,7 @@ class StructuredRecommendationPrompt(BasePrompt):
 
     def _create_interest_prompt(
         self,
-        query: StructuredRecommendationQuery,
+        query: RecommendationQuery,
         interest: Optional[Interest],
         data_num: int,
     ) -> str:
@@ -104,8 +103,8 @@ class StructuredRecommendationPrompt(BasePrompt):
             return f"Recommend places to visit in {query.place} and save results as variable data{data_num}"
 
 
-class PromptRecommendationPrompt(BasePrompt):
-    def __init__(self, query: PromptRecommendationQuery):
+class RecommendationNewLocationPrompt(BasePrompt):
+    def __init__(self, query: RecommendationNewLocationQuery):
         prompt = self._build_prompt(query)
         functions: List[Function] = [
             {
@@ -141,7 +140,7 @@ class PromptRecommendationPrompt(BasePrompt):
         ]
         super().__init__(prompt, functions)
 
-    def _build_prompt(self, query: PromptRecommendationQuery) -> str:
+    def _build_prompt(self, query: RecommendationNewLocationQuery) -> str:
         prompt = (
             f"#Instruction\nYou are a travel planner. You suggest plan in Japanese.\n\n"
             f"#Instruction\nSave the name of place {query.trip_title.split('の')[0]} as variable data1.\n\n"

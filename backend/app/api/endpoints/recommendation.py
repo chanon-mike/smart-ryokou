@@ -2,15 +2,17 @@ import logging
 
 from fastapi import APIRouter, HTTPException
 
-from app.schema.recommendation import (
-    PromptRecommendationQuery,
-    PromptRecommendationResponse,
-    StructuredRecommendationQuery,
-    StructuredRecommendationResponse,
+from app.schema.recommendation.new_location import (
+    RecommendationNewLocationQuery,
+    RecommendationNewLocationResponse,
+)
+from app.schema.recommendation.recommendation import (
+    RecommendationQuery,
+    RecommendationResponse,
 )
 from app.usecase.recommendation import (
-    PromptRecommendationUseCase,
-    StructuredRecommendationUseCase,
+    RecommendationNewLocationUseCase,
+    RecommendationUseCase,
 )
 
 router = APIRouter(
@@ -21,15 +23,15 @@ router = APIRouter(
 logger = logging.getLogger(__name__)
 
 
-@router.post("/structured-format")
+@router.post("/")
 async def generate_recommendations(
-    request_body: StructuredRecommendationQuery,
-) -> StructuredRecommendationResponse:
-    recommendation_usecase = StructuredRecommendationUseCase()
+    request_body: RecommendationQuery,
+) -> RecommendationResponse:
+    recommendation_usecase = RecommendationUseCase()
     try:
         return await recommendation_usecase.get_recommendations(request_body)
     except Exception as e:
-        logger.error(f"Error: {e}")
+        logger.error(e)
         raise HTTPException(
             status_code=403,
             detail={
@@ -39,15 +41,15 @@ async def generate_recommendations(
         )
 
 
-@router.post("/prompt")
-async def generate_prompt_recommendations(
-    request_body: PromptRecommendationQuery,
-) -> PromptRecommendationResponse:
-    recommendation_usecase = PromptRecommendationUseCase()
+@router.post("/new")
+async def generate_recommendations_new_locations(
+    request_body: RecommendationNewLocationQuery,
+) -> RecommendationNewLocationResponse:
+    recommendation_usecase = RecommendationNewLocationUseCase()
     try:
         return await recommendation_usecase.get_recommendations(request_body)
     except Exception as e:
-        logger.error(f"Error: {e}")
+        logger.error(e)
         raise HTTPException(
             status_code=403,
             detail={

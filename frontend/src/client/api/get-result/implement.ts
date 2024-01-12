@@ -34,9 +34,7 @@ export const getResult: GetResultInterface = async (
 
   if (cachedResult === null) {
     try {
-      serverResponse = (
-        await axios.post(`${API_ENDPOINT}/api/recommendation/structured-format`, request)
-      ).data;
+      serverResponse = (await axios.post(`${API_ENDPOINT}/api/recommendation/`, request)).data;
 
       cacheClient.setKey(cacheKey, JSON.stringify(serverResponse));
     } catch (error) {
@@ -48,7 +46,7 @@ export const getResult: GetResultInterface = async (
   }
 
   const mappedRecommendations = await Promise.all(
-    serverResponse.recommendation.map(mapRecommendation),
+    serverResponse.recommendations.map(mapRecommendation),
   );
 
   return {
@@ -78,9 +76,9 @@ const generateLocation = async (activity: {
 
 const mapRecommendation = async (recommendation: {
   date: string;
-  activities: { place: string; description: string }[];
+  locations: { place: string; description: string }[];
 }): Promise<Recommendation> => {
-  const locations = await Promise.all(recommendation.activities.map(generateLocation));
+  const locations = await Promise.all(recommendation.locations.map(generateLocation));
 
   return {
     date: recommendation.date,

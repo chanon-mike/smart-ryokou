@@ -1,12 +1,12 @@
 import logging
 from typing import List
+
 import json5
+from openai import AsyncOpenAI
 from openai.resources.chat.completions import ChatCompletion, ChatCompletionMessageParam
 from openai.types.chat.completion_create_params import Function
 
 from app.core.config import settings
-from openai import AsyncOpenAI
-
 
 logger = logging.getLogger(__name__)
 

@@ -1,16 +1,15 @@
 import logging
 from datetime import datetime, timedelta
-from app.repository.openai import OpenAIParser, OpenAIRepository
-from app.repository.prompt import (
-    PromptRecommendationPrompt,
-    StructuredRecommendationPrompt,
-)
 
-from app.schema.recommendation import (
-    PromptRecommendationQuery,
-    PromptRecommendationResponse,
-    StructuredRecommendationQuery,
-    StructuredRecommendationResponse,
+from app.repository.openai import OpenAIParser, OpenAIRepository
+from app.repository.prompt import RecommendationNewLocationPrompt, RecommendationPrompt
+from app.schema.recommendation.new_location import (
+    RecommendationNewLocationQuery,
+    RecommendationNewLocationResponse,
+)
+from app.schema.recommendation.recommendation import (
+    RecommendationQuery,
+    RecommendationResponse,
 )
 
 logger = logging.getLogger(__name__)
@@ -22,14 +21,14 @@ class BaseRecommendationUseCase:
         self.client = OpenAIRepository()
 
 
-class StructuredRecommendationUseCase(BaseRecommendationUseCase):
+class RecommendationUseCase(BaseRecommendationUseCase):
     def __init__(self):
         super().__init__()
 
     async def get_recommendations(
-        self, query: StructuredRecommendationQuery
-    ) -> StructuredRecommendationResponse:
-        structured_recommendation_prompt = StructuredRecommendationPrompt(query)
+        self, query: RecommendationQuery
+    ) -> RecommendationResponse:
+        structured_recommendation_prompt = RecommendationPrompt(query)
         logger.debug(f"Query: {query}")
 
         openai_response = await self.client.get_completions(
@@ -45,7 +44,7 @@ class StructuredRecommendationUseCase(BaseRecommendationUseCase):
             ],
             tools=structured_recommendation_prompt.functions,
         )
-        response: StructuredRecommendationResponse = OpenAIParser.parse_completion(
+        response: RecommendationResponse = OpenAIParser.parse_completion(
             openai_response
         )
         response["title"] = f"{query.place}の旅行プラン"
@@ -56,16 +55,16 @@ class StructuredRecommendationUseCase(BaseRecommendationUseCase):
 
     def _assign_date_to_response(
         self,
-        query: StructuredRecommendationQuery,
-        response: StructuredRecommendationResponse,
-    ) -> StructuredRecommendationResponse:
+        query: RecommendationQuery,
+        response: RecommendationResponse,
+    ) -> RecommendationResponse:
         """
-        GPT returns a list of activities with 'date' properties as `day 1`, `day 2`.
+        GPT returns a list of locations with 'date' properties as `day 1`, `day 2`.
         This function convert to date in format of `yyyy-mm-dd` to each activity based on user input.
         """
         new_response = response.copy()
         current_date = datetime.strptime(query.date_from, "%Y-%m-%d")
-        recommendations = new_response["recommendation"]
+        recommendations = new_response["recommendations"]
 
         for recommendation in recommendations:
             current_date_str = current_date.strftime("%Y年%m月%d日")
@@ -75,14 +74,14 @@ class StructuredRecommendationUseCase(BaseRecommendationUseCase):
         return new_response
 
 
-class PromptRecommendationUseCase(BaseRecommendationUseCase):
+class RecommendationNewLocationUseCase(BaseRecommendationUseCase):
     def __init__(self):
         super().__init__()
 
     async def get_recommendations(
-        self, query: PromptRecommendationQuery
-    ) -> PromptRecommendationResponse:
-        prompt_recommendation_prompt = PromptRecommendationPrompt(query)
+        self, query: RecommendationNewLocationQuery
+    ) -> RecommendationNewLocationResponse:
+        prompt_recommendation_prompt = RecommendationNewLocationPrompt(query)
         logger.debug(f"Query: {query}")
 
         openai_response = await self.client.get_completions(
@@ -99,7 +98,7 @@ class PromptRecommendationUseCase(BaseRecommendationUseCase):
             tools=prompt_recommendation_prompt.functions,
         )
 
-        response: PromptRecommendationResponse = OpenAIParser.parse_completion(
+        response: RecommendationNewLocationResponse = OpenAIParser.parse_completion(
             openai_response
         )
         logger.debug(f"Response: {response}")

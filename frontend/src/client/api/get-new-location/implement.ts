@@ -34,8 +34,7 @@ export const getLocation: GetNewLocationInterface = async (
 
   if (cachedResult === null) {
     try {
-      serverResponse = (await axios.post(`${API_ENDPOINT}/api/recommendation/prompt`, request))
-        .data;
+      serverResponse = (await axios.post(`${API_ENDPOINT}/api/recommendation/new`, request)).data;
 
       cacheClient.setKey(cacheKey, JSON.stringify(serverResponse));
     } catch (error) {

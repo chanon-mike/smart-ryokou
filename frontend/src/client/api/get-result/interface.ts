@@ -10,7 +10,6 @@ export interface GetResultRequest {
   place: string;
   date_from: string;
   date_to: string;
-  // people_num: number;
   trip_type: string | null;
   trip_pace: string | null;
   budget: string | null;
@@ -25,9 +24,9 @@ export interface GetResultResponse {
 
 export interface GetResultServerResponse {
   title: string;
-  recommendation: {
+  recommendations: {
     date: string;
-    activities: {
+    locations: {
       place: string;
       description: string;
     }[];
