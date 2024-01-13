@@ -4,12 +4,9 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 
 import LanguageMenu from '@/components/common/LanguageMenu';
-import { getCurrentLocale } from '@/locales/server';
 
 const Navbar = async () => {
   // const session = await getSession();
-  const currentLocale = getCurrentLocale();
-  console.log(currentLocale);
 
   return (
     <AppBar
