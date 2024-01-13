@@ -53,7 +53,7 @@ functions:
     environment:
       STAGE: ${self:provider.stage}
     layers:
-      - { Ref: PythonRequirementsLambdaLayer }
+      - Ref: PythonRequirementsLambdaLayer
     events:
       - http:
           method: any
