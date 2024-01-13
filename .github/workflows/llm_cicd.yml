@@ -1,0 +1,67 @@
+name: LLM CI/CD
+
+on:
+  push:
+    branches: 
+        - develop
+        - main
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js for serverless framework
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - run: node --version
+      
+      - name: Setup python 3.9
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: Install and configure Poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: 1.6.1
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+
+      - name: Install serverless
+        run: npm run sls:install
+        working-directory: ./llm
+
+      - name: Install serverless plugin
+        run: npm run sls:plugin
+        working-directory: ./llm
+
+      - name: Install dependencies
+        run: poetry install --verbose --no-ansi
+        working-directory: ./llm
+
+      - name: Serverless AWS authentication
+        run: sls config credentials --provider aws --key ${{ secrets.AWS_KEY }} --secret ${{ secrets.AWS_SECRET }}
+          
+      - name: Deploy
+        run: |
+          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            STAGE="main"
+          elif [ "${{ github.ref }}" == "refs/heads/develop" ]; then
+            STAGE="develop"
+          else
+            STAGE="dev"
+          fi
+          sls deploy --stage $STAGE --verbose
+        working-directory: ./llm
+        env:
+          AUTH0_DOMAIN: ${{ secrets.AUTH0_DOMAIN }}
+          AUTH0_AUDIENCE: ${{ secrets.AUTH0_AUDIENCE }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          AWS_KEY: ${{ secrets.AWS_KEY }}
+          AWS_SECRET: ${{ secrets.AWS_SECRET }}
