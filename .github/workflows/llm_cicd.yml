@@ -1,4 +1,4 @@
-name: Backend CI/CD
+name: LLM CI/CD
 
 on:
   push:
@@ -35,15 +35,15 @@ jobs:
 
       - name: Install serverless
         run: npm run sls:install
-        working-directory: ./backend
+        working-directory: ./llm
 
       - name: Install serverless plugin
         run: npm run sls:plugin
-        working-directory: ./backend
+        working-directory: ./llm
 
       - name: Install dependencies
         run: poetry install --verbose --no-ansi
-        working-directory: ./backend
+        working-directory: ./llm
 
       - name: Serverless AWS authentication
         run: sls config credentials --provider aws --key ${{ secrets.AWS_KEY }} --secret ${{ secrets.AWS_SECRET }}
@@ -58,7 +58,7 @@ jobs:
             STAGE="dev"
           fi
           sls deploy --stage $STAGE --verbose
-        working-directory: ./backend
+        working-directory: ./llm
         env:
           AUTH0_DOMAIN: ${{ secrets.AUTH0_DOMAIN }}
           AUTH0_AUDIENCE: ${{ secrets.AUTH0_AUDIENCE }}
