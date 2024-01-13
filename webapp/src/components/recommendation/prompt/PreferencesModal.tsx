@@ -12,7 +12,10 @@ import { useRouter } from 'next/navigation';
 import type { FormEvent } from 'react';
 import { type Dispatch, type SetStateAction } from 'react';
 
-import type { GetResultRequest, GetResultResponse } from '@/client/api/get-result/interface';
+import type {
+  GetRecommendationRequest,
+  GetRecommendationResponse,
+} from '@/client/api/llm/recommendation/interface';
 import type { ApiContext } from '@/client/apiContext';
 import client from '@/client/client';
 import SessionClient from '@/client/service/session/implement';
@@ -76,7 +79,7 @@ const PreferencesModal = ({
     return `${year}-${month}-${day}`;
   };
   // eslint-disable-next-line complexity
-  const buildRequestParams = (): GetResultRequest => {
+  const buildRequestParams = (): GetRecommendationRequest => {
     return {
       place: placeInput,
       date_from: formatDate(fromDate),
@@ -92,9 +95,9 @@ const PreferencesModal = ({
 
   const fetchRecommendationData = async (
     apiContext: ApiContext,
-    requestParams: GetResultRequest,
+    requestParams: GetRecommendationRequest,
   ) => {
-    return await client.getResult(apiContext, requestParams);
+    return await client.getRecommendation(apiContext, requestParams);
   };
 
   const { openSnackbar } = useSnackbar();
@@ -103,7 +106,7 @@ const PreferencesModal = ({
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     setIsLoading(true);
     handleCloseModal();
-    let serverResponse: GetResultResponse;
+    let serverResponse: GetRecommendationResponse;
     try {
       const requestParams = buildRequestParams();
       serverResponse = await fetchRecommendationData(

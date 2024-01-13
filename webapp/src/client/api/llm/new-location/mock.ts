@@ -1,7 +1,7 @@
 import type {
   GetNewLocationRequest,
   GetNewLocationResponse,
-} from '@/client/api/get-new-location/interface';
+} from '@/client/api/llm/new-location/interface';
 import createApiMock from '@/client/helper/createApiMock';
 
 const getNewLocationMockCases: ReadonlyArray<{

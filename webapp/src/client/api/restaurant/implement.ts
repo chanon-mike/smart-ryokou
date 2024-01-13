@@ -1,7 +1,7 @@
 import type {
   GetRestaurantRequest,
   GetRestaurantResponse,
-} from '@/client/api/get-restaurant/interface';
+} from '@/client/api/restaurant/interface';
 import type { ApiContext } from '@/client/apiContext';
 import { mapPlaceRestaurantClient } from '@/client/service/map/place/restaurant/implement';
 

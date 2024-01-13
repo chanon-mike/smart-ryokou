@@ -1,11 +1,11 @@
-import { getDistanceMatrix } from './api/get-distance-matrix/implement';
-import { getLocation } from './api/get-new-location/implement';
-import { getRestaurant } from './api/get-restaurant/implement';
-import { getResult } from './api/get-result/implement';
+import { getDistanceMatrix } from './api/distance-matrix/implement';
+import { getLocation } from './api/llm/new-location/implement';
+import { getRecommendation } from './api/llm/recommendation/implement';
+import { getRestaurant } from './api/restaurant/implement';
 import type { ClientInterface } from './clientInterface';
 
 const client: ClientInterface = {
-  getResult,
+  getRecommendation,
   getLocation,
   getRestaurant,
   getDistanceMatrix,

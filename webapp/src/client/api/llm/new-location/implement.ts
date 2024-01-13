@@ -4,8 +4,8 @@ import type {
   GetNewLocationInterface,
   GetNewLocationRequest,
   GetNewLocationServerResponse,
-} from '@/client/api/get-new-location/interface';
-import getNewLocationMock from '@/client/api/get-new-location/mock';
+} from '@/client/api/llm/new-location/interface';
+import getNewLocationMock from '@/client/api/llm/new-location/mock';
 import type { ApiContext } from '@/client/apiContext';
 import cacheClient from '@/client/service/cache/implement';
 import { mapPlaceClient } from '@/client/service/map/place/implement';

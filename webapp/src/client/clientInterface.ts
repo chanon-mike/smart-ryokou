@@ -1,10 +1,10 @@
-import type { GetDistanceMatrixInterface } from './api/get-distance-matrix/interface';
-import type { GetNewLocationInterface } from './api/get-new-location/interface';
-import type { GetRestaurantInterface } from './api/get-restaurant/interface';
-import type { GetResultInterface } from './api/get-result/interface';
+import type { GetDistanceMatrixInterface } from './api/distance-matrix/interface';
+import type { GetNewLocationInterface } from './api/llm/new-location/interface';
+import type { GetRecommendationInterface } from './api/llm/recommendation/interface';
+import type { GetRestaurantInterface } from './api/restaurant/interface';
 
 export interface ClientInterface {
-  getResult: GetResultInterface;
+  getRecommendation: GetRecommendationInterface;
   getLocation: GetNewLocationInterface;
   getRestaurant: GetRestaurantInterface;
   getDistanceMatrix: GetDistanceMatrixInterface;

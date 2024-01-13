@@ -1,6 +1,6 @@
 'use client';
 
-import './Autocomplete.css';
+import './autocomplete.css';
 
 import SearchIcon from '@mui/icons-material/Search';
 import { InputAdornment, TextField } from '@mui/material';

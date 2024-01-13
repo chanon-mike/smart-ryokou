@@ -1,11 +1,11 @@
 import axios from 'axios';
 
 import type {
-  GetResultInterface,
-  GetResultRequest,
-  GetResultServerResponse,
-} from '@/client/api/get-result/interface';
-import getResultMock from '@/client/api/get-result/mock';
+  GetRecommendationInterface,
+  GetRecommendationRequest,
+  GetRecommendationServerResponse,
+} from '@/client/api/llm/recommendation/interface';
+import getRecommendationMock from '@/client/api/llm/recommendation/mock';
 import type { ApiContext } from '@/client/apiContext';
 import cacheClient from '@/client/service/cache/implement';
 import { mapPlaceClient } from '@/client/service/map/place/implement';
@@ -14,19 +14,19 @@ import { generateObjectId } from '@/libs/helper';
 import type { Location, Recommendation } from '@/types/recommendation';
 
 // eslint-disable-next-line complexity
-export const getResult: GetResultInterface = async (
+export const getRecommendation: GetRecommendationInterface = async (
   context: ApiContext,
-  request: GetResultRequest,
+  request: GetRecommendationRequest,
 ) => {
   if (context.requireAuth && !context.isAuth) {
     throw new Error('User unauthorized');
   }
 
   if (context.useMock) {
-    return getResultMock(request);
+    return getRecommendationMock(request);
   }
 
-  let serverResponse: GetResultServerResponse;
+  let serverResponse: GetRecommendationServerResponse;
 
   // TODO: hash instead stringify
   const cacheKey = JSON.stringify(request);

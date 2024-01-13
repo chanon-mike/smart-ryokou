@@ -5,7 +5,7 @@ import { useContext, useState } from 'react';
 import type {
   GetNewLocationRequest,
   GetNewLocationResponse,
-} from '@/client/api/get-new-location/interface';
+} from '@/client/api/llm/new-location/interface';
 import client from '@/client/client';
 import { useSnackbar } from '@/components/common/snackbar/SnackbarContext';
 import NewLocationCard from '@/components/recommendation/list/new-location/NewLocationCard';

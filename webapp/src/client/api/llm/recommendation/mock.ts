@@ -1,12 +1,15 @@
-import type { GetResultRequest, GetResultResponse } from '@/client/api/get-result/interface';
+import type {
+  GetRecommendationRequest,
+  GetRecommendationResponse,
+} from '@/client/api/llm/recommendation/interface';
 import createApiMock from '@/client/helper/createApiMock';
 
-const getResultMockCases: ReadonlyArray<{
-  request: GetResultRequest;
-  response: GetResultResponse;
+const getRecommendationMockCases: ReadonlyArray<{
+  request: GetRecommendationRequest;
+  response: GetRecommendationResponse;
 }> = [
   {
-    request: {} as GetResultRequest,
+    request: {} as GetRecommendationRequest,
     response: {
       recommendations: [
         {
@@ -73,13 +76,13 @@ const getResultMockCases: ReadonlyArray<{
           ],
         },
       ],
-    } as GetResultResponse,
+    } as GetRecommendationResponse,
   },
 ];
 
-const getResultMock = createApiMock<GetResultRequest, GetResultResponse>(
-  getResultMockCases,
-  getResultMockCases[0].response,
+const getRecommendationMock = createApiMock<GetRecommendationRequest, GetRecommendationResponse>(
+  getRecommendationMockCases,
+  getRecommendationMockCases[0].response,
 );
 
-export default getResultMock;
+export default getRecommendationMock;

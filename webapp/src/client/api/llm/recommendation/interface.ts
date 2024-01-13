@@ -1,12 +1,12 @@
 import type { ApiContext } from '@/client/apiContext';
 import type { Recommendation } from '@/types/recommendation';
 
-export type GetResultInterface = (
+export type GetRecommendationInterface = (
   context: ApiContext,
-  request: GetResultRequest,
-) => Promise<GetResultResponse>;
+  request: GetRecommendationRequest,
+) => Promise<GetRecommendationResponse>;
 
-export interface GetResultRequest {
+export interface GetRecommendationRequest {
   place: string;
   date_from: string;
   date_to: string;
@@ -17,12 +17,12 @@ export interface GetResultRequest {
   optional_prompt: string | null;
 }
 
-export interface GetResultResponse {
+export interface GetRecommendationResponse {
   title: string;
   recommendations: Recommendation[];
 }
 
-export interface GetResultServerResponse {
+export interface GetRecommendationServerResponse {
   title: string;
   recommendations: {
     date: string;
