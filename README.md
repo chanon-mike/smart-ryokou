@@ -1,10 +1,14 @@
 # Smart Ryokou（Smart旅行）
 
-Getting your trip advised by AI
+Getting your trip advised by AI by input place, time, budget, interests, etc. information and AI will generated a plan for you. You can customize your generated plan easily by adding new location or restaurant, drag and drop each travel location to fit your needs.
+
+<img width="1440" alt="homepage" src="https://github.com/chanon-mike/smart-ryokou/assets/27944646/7d821397-56fd-4c00-85b3-7c016d270dab">
+<img width="1440" alt="recommendation" src="https://github.com/chanon-mike/smart-ryokou/assets/27944646/175b0585-4ee8-43e4-848c-e47dd3499cbf">
+
 
 ## Getting Started
 
-Always checkout from and merge to develop branch
+Always checkout from and merge to develop branch (main branch is release branch)
 
 ### Installation
 
