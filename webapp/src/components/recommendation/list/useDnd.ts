@@ -4,7 +4,7 @@ import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import type { Dispatch, SetStateAction } from 'react';
 
 import { saveNewSessionData } from '@/libs/helper';
-import type Session from '@/service/database/session/model';
+import type Session from '@/server/service/database/session/model';
 
 type Props = {
   setActiveId: Dispatch<SetStateAction<UniqueIdentifier | null>>;

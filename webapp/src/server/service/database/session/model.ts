@@ -1,4 +1,4 @@
-import type BaseModel from '@/service/database/base/model';
+import type BaseModel from '@/server/service/database/base/model';
 import type { Recommendation } from '@/types/recommendation';
 
 interface Session extends BaseModel {

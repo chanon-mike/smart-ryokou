@@ -1,7 +1,7 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-import sessionRepositoryPromise from '@/service/database/session/repository';
+import sessionRepositoryPromise from '@/server/service/database/session/repository';
 
 export async function GET(req: NextRequest) {
   const id = req.nextUrl.searchParams.get('id');

@@ -2,8 +2,8 @@ import axios from 'axios';
 
 import cacheClient from '@/client/service/cache/implement';
 import { generateObjectId } from '@/libs/helper';
-import cacheService from '@/service/cache/service';
-import mapPlaceService from '@/service/map/place/service';
+import cacheService from '@/server/service/cache/service';
+import mapPlaceService from '@/server/service/map/place/service';
 import type { Location } from '@/types/recommendation';
 
 class MapPlaceRestaurantService implements MapPlaceRestaurantService {

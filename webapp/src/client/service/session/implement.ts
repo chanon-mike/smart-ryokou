@@ -1,5 +1,5 @@
-import type DataAccessor from '@/service/database/base/interface';
-import type Session from '@/service/database/session/model';
+import type DataAccessor from '@/server/service/database/base/interface';
+import type Session from '@/server/service/database/session/model';
 
 class SessionClient implements DataAccessor<Session> {
   async find(id: string): Promise<Session | null> {

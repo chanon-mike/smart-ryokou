@@ -2,7 +2,7 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 import { GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
-import mapPlaceService from '@/service/map/place/service';
+import mapPlaceService from '@/server/service/map/place/service';
 import type { PlaceDetails } from '@/types/place-details';
 
 export async function POST(req: NextRequest) {

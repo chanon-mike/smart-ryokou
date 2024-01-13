@@ -1,6 +1,6 @@
 import type { NextRequest } from 'next/server';
 
-import cacheService from '@/service/cache/service';
+import cacheService from '@/server/service/cache/service';
 
 export async function GET(req: NextRequest) {
   const key = req.nextUrl.searchParams.get('key');

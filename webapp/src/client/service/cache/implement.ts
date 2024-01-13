@@ -1,4 +1,4 @@
-import type CacheServiceInterface from '@/service/cache/interface';
+import type CacheServiceInterface from '@/server/service/cache/interface';
 
 // TODO: Make wrapper for fetch try catch
 const cacheClient: CacheServiceInterface = {

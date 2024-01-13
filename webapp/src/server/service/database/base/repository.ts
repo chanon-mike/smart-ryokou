@@ -1,11 +1,11 @@
 import type { Collection } from 'mongodb';
 import { ObjectId } from 'mongodb';
 
-import clientPromise from '@/service/database/base/client';
-import databaseConfigs from '@/service/database/base/config';
-import { convertToModel, convertToOID } from '@/service/database/base/helper';
-import type DataAccessor from '@/service/database/base/interface';
-import type BaseModel from '@/service/database/base/model';
+import clientPromise from '@/server/service/database/base/client';
+import databaseConfigs from '@/server/service/database/base/config';
+import { convertToModel, convertToOID } from '@/server/service/database/base/helper';
+import type DataAccessor from '@/server/service/database/base/interface';
+import type BaseModel from '@/server/service/database/base/model';
 
 class BaseRepository<T extends BaseModel> implements DataAccessor<T> {
   private collection: Collection;

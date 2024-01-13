@@ -1,7 +1,7 @@
 import type { Document, WithId } from 'mongodb';
 import { ObjectId } from 'mongodb';
 
-import type BaseModel from '@/service/database/base/model';
+import type BaseModel from '@/server/service/database/base/model';
 
 const convertToOID = (item: BaseModel) => {
   return { ...item, _id: new ObjectId(item._id) };

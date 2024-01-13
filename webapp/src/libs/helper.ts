@@ -1,7 +1,7 @@
 import { randomBytes } from 'crypto';
 
 import SessionClient from '@/client/service/session/implement';
-import type Session from '@/service/database/session/model';
+import type Session from '@/server/service/database/session/model';
 
 /**
  * Generates a unique ObjectId.

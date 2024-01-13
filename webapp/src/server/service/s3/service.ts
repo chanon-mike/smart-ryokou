@@ -1,7 +1,7 @@
 import { GetObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 
 import { AWS_BUCKET_NAME, AWS_REGION } from '@/libs/envValues';
-import type S3ServiceInterface from '@/service/s3/interface';
+import type S3ServiceInterface from '@/server/service/s3/interface';
 
 const client: S3Client = new S3Client({
   region: AWS_REGION,

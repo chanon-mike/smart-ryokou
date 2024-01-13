@@ -1,7 +1,7 @@
 import type { Dispatch, ReactNode, SetStateAction } from 'react';
 import { createContext, useState } from 'react';
 
-import type Session from '@/service/database/session/model';
+import type Session from '@/server/service/database/session/model';
 
 interface RecommendationProps {
   session: Session;

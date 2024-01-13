@@ -2,7 +2,7 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 import { GOOGLE_MAPS_API_KEY } from '@/libs/envValues';
-import mapRouteService from '@/service/map/route/service';
+import mapRouteService from '@/server/service/map/route/service';
 import type { DistanceMatrix } from '@/types/distance';
 
 const defaultDistanceMatrix: DistanceMatrix = {

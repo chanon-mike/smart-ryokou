@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import client from '@/client/client';
 import { saveNewSessionData } from '@/libs/helper';
-import type Session from '@/service/database/session/model';
+import type Session from '@/server/service/database/session/model';
 import type { Location } from '@/types/recommendation';
 
 type Props = {

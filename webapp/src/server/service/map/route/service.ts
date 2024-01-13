@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-import cacheService from '@/service/cache/service';
-import type { MapRouteServiceInterface } from '@/service/map/route/interface';
+import cacheService from '@/server/service/cache/service';
+import type { MapRouteServiceInterface } from '@/server/service/map/route/interface';
 import type { DistanceMatrix } from '@/types/distance';
 
 class MapRouteService implements MapRouteServiceInterface {

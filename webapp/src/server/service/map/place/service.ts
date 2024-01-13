@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-import cacheService from '@/service/cache/service';
-import type { MapPlaceServiceInterface } from '@/service/map/place/interface';
-import s3Service from '@/service/s3/service';
+import cacheService from '@/server/service/cache/service';
+import type { MapPlaceServiceInterface } from '@/server/service/map/place/interface';
+import s3Service from '@/server/service/s3/service';
 import type { PlaceDetails } from '@/types/place-details';
 
 class MapPlaceService implements MapPlaceServiceInterface {

@@ -14,7 +14,7 @@ import NewLocationPrompt from '@/components/recommendation/list/new-location/New
 import { RecommendationContext } from '@/components/recommendation/RecommendationContext';
 import { saveNewSessionData } from '@/libs/helper';
 import { useScopedI18n } from '@/locales/client';
-import type Session from '@/service/database/session/model';
+import type Session from '@/server/service/database/session/model';
 import type { Location } from '@/types/recommendation';
 
 interface NewLocationInputProps {
