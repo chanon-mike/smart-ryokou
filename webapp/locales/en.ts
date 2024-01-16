@@ -102,6 +102,7 @@ export default {
       cancel: 'Cancel',
     },
     'restaurant-title': 'Restaurant results',
+    'no-restaurant-found': 'No restaurant found',
     'new-location': {
       park: 'Park',
       'park-prompt': 'Find me a park',
