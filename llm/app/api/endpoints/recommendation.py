@@ -28,8 +28,11 @@ async def generate_recommendations(
     request_body: RecommendationQuery,
 ) -> RecommendationResponse:
     recommendation_usecase = RecommendationUseCase()
+    logger.info(f"Recommendation Query: {request_body}")
     try:
-        return await recommendation_usecase.get_recommendations(request_body)
+        response = await recommendation_usecase.get_recommendations(request_body)
+        logger.info(f"Response: {response}")
+        return response
     except Exception as e:
         logger.error(e)
         raise HTTPException(
@@ -46,8 +49,11 @@ async def generate_recommendations_new_locations(
     request_body: RecommendationNewLocationQuery,
 ) -> RecommendationNewLocationResponse:
     recommendation_usecase = RecommendationNewLocationUseCase()
+    logger.info(f"New Location Query: {request_body}")
     try:
-        return await recommendation_usecase.get_recommendations(request_body)
+        response = await recommendation_usecase.get_recommendations(request_body)
+        logger.info(f"Response: {response}")
+        return response
     except Exception as e:
         logger.error(e)
         raise HTTPException(

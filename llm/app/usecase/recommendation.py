@@ -29,8 +29,6 @@ class RecommendationUseCase(BaseRecommendationUseCase):
         self, query: RecommendationQuery
     ) -> RecommendationResponse:
         structured_recommendation_prompt = RecommendationPrompt(query)
-        logger.debug(f"Query: {query}")
-
         openai_response = await self.client.get_completions(
             messages=[
                 {
@@ -50,7 +48,6 @@ class RecommendationUseCase(BaseRecommendationUseCase):
         response["title"] = f"{query.place}の旅行プラン"
         response = self._assign_date_to_response(query, response)
 
-        logger.debug(f"Response: {response}")
         return response
 
     def _assign_date_to_response(
@@ -82,7 +79,6 @@ class RecommendationNewLocationUseCase(BaseRecommendationUseCase):
         self, query: RecommendationNewLocationQuery
     ) -> RecommendationNewLocationResponse:
         prompt_recommendation_prompt = RecommendationNewLocationPrompt(query)
-        logger.debug(f"Query: {query}")
 
         openai_response = await self.client.get_completions(
             messages=[
@@ -101,5 +97,4 @@ class RecommendationNewLocationUseCase(BaseRecommendationUseCase):
         response: RecommendationNewLocationResponse = OpenAIParser.parse_completion(
             openai_response
         )
-        logger.debug(f"Response: {response}")
         return response
