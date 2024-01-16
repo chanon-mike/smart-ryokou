@@ -102,6 +102,7 @@ export default {
       cancel: 'キャンセル',
     },
     'restaurant-title': 'レストランの結果',
+    'no-restaurant-found': 'レストランが見つかりませんでした',
     'new-location': {
       park: '公園',
       'park-prompt': '公園探して',

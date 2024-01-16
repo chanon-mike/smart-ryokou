@@ -6,11 +6,12 @@ import { useScopedI18n } from '@/locales/client';
 
 interface OpenInGoogleMapsButtonProps extends ButtonProps {
   placeId: string;
+  text?: string;
 }
 
 const OpenInGoogleMapsButton = (props: OpenInGoogleMapsButtonProps) => {
   const t = useScopedI18n('result');
-  const { placeId, ...rest } = props;
+  const { placeId, text, ...rest } = props;
 
   return (
     <Button
@@ -22,9 +23,9 @@ const OpenInGoogleMapsButton = (props: OpenInGoogleMapsButtonProps) => {
       rel="noopener noreferrer"
       {...rest}
     >
-      <OpenInNewIcon />
+      <OpenInNewIcon fontSize="small" />
       <Typography variant="caption" sx={{ ml: 0.5 }} fontSize={8.5} noWrap>
-        {t('open-in-google-maps')}
+        {text ? text : t('open-in-google-maps')}
       </Typography>
     </Button>
   );

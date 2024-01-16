@@ -97,6 +97,7 @@ const NewLocationInput = ({
       return { ...session, recommendations: newRecommendations };
     });
     saveNewSessionData(session);
+    handleClose();
   };
 
   return (

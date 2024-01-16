@@ -1,4 +1,11 @@
-import { Box, CircularProgress, Dialog, DialogContent, DialogTitle } from '@mui/material';
+import {
+  Box,
+  CircularProgress,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Typography,
+} from '@mui/material';
 
 import FindRestaurantCard from '@/components/recommendation/list/find-restaurant/FindRestaurantCard';
 import { useScopedI18n } from '@/locales/client';
@@ -42,6 +49,11 @@ const FindRestaurantDialog = ({
               gap: 2,
             }}
           >
+            {restaurants.length === 0 && (
+              <Typography variant="body1" color="text.secondary">
+                {t('no-restaurant-found')}
+              </Typography>
+            )}
             {restaurants.map((restaurant, index) => (
               <FindRestaurantCard
                 key={`${restaurant.name}-${index}`}
