@@ -9,7 +9,7 @@ import NewLocationCard from '@/components/recommendation/list/new-location/NewLo
 import NewLocationExampleChip from '@/components/recommendation/list/new-location/NewLocationExampleChip';
 import NewLocationPrompt from '@/components/recommendation/list/new-location/NewLocationPrompt';
 import { RecommendationContext } from '@/components/recommendation/RecommendationContext';
-import { saveNewSessionData } from '@/libs/helper';
+import { openSnackbarFetchError, saveNewSessionData } from '@/libs/helper';
 import { useScopedI18n } from '@/locales/client';
 import type Session from '@/server/service/database/session/model';
 import type { Location } from '@/types/recommendation';
@@ -71,9 +71,7 @@ const NewLocationInput = ({
         return res;
       })
       .catch((error) => {
-        if (error.response) {
-          openSnackbar(error.response.data.detail.message, 'error');
-        }
+        openSnackbarFetchError(openSnackbar, error);
         setIsLoading(false);
         return {
           locations: [],

@@ -1,6 +1,8 @@
+import { AxiosError } from 'axios';
 import { randomBytes } from 'crypto';
 
 import SessionClient from '@/client/service/session/implement';
+import type { SnackbarContextType } from '@/components/common/snackbar/SnackbarContext';
 import type Session from '@/server/service/database/session/model';
 
 /**
@@ -34,4 +36,24 @@ export const generateObjectId = () => {
 export const saveNewSessionData = (session: Session) => {
   const client = new SessionClient();
   client.update(session);
+};
+
+/**
+ * Opens a snackbar with the error message.
+ * @param openSnackbar The openSnackbar function from useSnackbar.
+ * @param error The error object.
+ */
+export const openSnackbarFetchError = (
+  openSnackbar: SnackbarContextType['openSnackbar'],
+  error: AxiosError | Error,
+) => {
+  if (error instanceof AxiosError && error.response) {
+    openSnackbar(error.response.data.detail.message, 'error');
+    return;
+  }
+
+  if (error instanceof Error) {
+    openSnackbar(error.message, 'error');
+    return;
+  }
 };

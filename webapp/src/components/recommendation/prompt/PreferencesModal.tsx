@@ -23,7 +23,7 @@ import OptionalPrompt from '@/components/recommendation/prompt/form/OptionalProm
 import PaceForm from '@/components/recommendation/prompt/form/PaceForm';
 import TripTypeForm from '@/components/recommendation/prompt/form/TripTypeForm';
 import { usePreferences } from '@/components/recommendation/prompt/usePreferences';
-import { generateObjectId } from '@/libs/helper';
+import { generateObjectId, openSnackbarFetchError } from '@/libs/helper';
 import { useScopedI18n } from '@/locales/client';
 
 type PreferencesModalProps = {
@@ -99,9 +99,7 @@ const PreferencesModal = ({
       .getRecommendation({ useMock: false, requireAuth: false }, buildRequestParams())
       .then((res) => res)
       .catch((error) => {
-        if (error.response) {
-          openSnackbar(error.response.data.detail.message, 'error');
-        }
+        openSnackbarFetchError(openSnackbar, error);
         setIsLoading(false);
       });
 

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import client from '@/client/client';
 import { useSnackbar } from '@/components/common/snackbar/SnackbarContext';
+import { openSnackbarFetchError } from '@/libs/helper';
 import type { DistanceMatrix } from '@/types/distance';
 import type { Recommendation } from '@/types/recommendation';
 
@@ -37,9 +38,7 @@ export const useDistanceMatrix = (recommendation: Recommendation) => {
       Promise.all(distanceMatrixPromises)
         .then((responses) => setDistanceMatrix(responses))
         .catch((error) => {
-          if (error.response) {
-            openSnackbar(error.response.data.detail.message, 'error');
-          }
+          openSnackbarFetchError(openSnackbar, error);
         })
         .finally(() => setIsLoadingDistanceMatrix(false));
     };
