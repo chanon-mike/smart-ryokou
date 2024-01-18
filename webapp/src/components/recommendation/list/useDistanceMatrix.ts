@@ -24,10 +24,7 @@ export const useDistanceMatrix = (recommendation: Recommendation) => {
         }
 
         const promise = client.getDistanceMatrix(
-          {
-            useMock: false,
-            requireAuth: false,
-          },
+          { useMock: false, requireAuth: false },
           {
             originPlaceId: recommendation.locations[i].placeId,
             destinationPlaceId: recommendation.locations[i + 1].placeId,
@@ -40,9 +37,8 @@ export const useDistanceMatrix = (recommendation: Recommendation) => {
       Promise.all(distanceMatrixPromises)
         .then((responses) => setDistanceMatrix(responses))
         .catch((error) => {
-          console.error('Error fetching distance matrix:', error);
-          if (error instanceof Error) {
-            openSnackbar(error.message, 'error');
+          if (error.response) {
+            openSnackbar(error.response.data.detail.message, 'error');
           }
         })
         .finally(() => setIsLoadingDistanceMatrix(false));

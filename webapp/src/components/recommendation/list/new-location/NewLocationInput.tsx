@@ -2,10 +2,7 @@ import { Box, Dialog, DialogContent, DialogTitle } from '@mui/material';
 import type { ChangeEvent, Dispatch, FormEvent, SetStateAction } from 'react';
 import { useContext, useState } from 'react';
 
-import type {
-  GetNewLocationRequest,
-  GetNewLocationResponse,
-} from '@/client/api/llm/new-location/interface';
+import type { GetNewLocationResponse } from '@/client/api/llm/new-location/interface';
 import client from '@/client/client';
 import { useSnackbar } from '@/components/common/snackbar/SnackbarContext';
 import NewLocationCard from '@/components/recommendation/list/new-location/NewLocationCard';
@@ -54,35 +51,34 @@ const NewLocationInput = ({
     e.preventDefault();
     setIsLoading(true);
 
-    const buildRequestParams = (): GetNewLocationRequest => {
-      const newSuggestedPlaces = session.recommendations.flatMap((recommendation) =>
-        recommendation.locations.map((location) => location.name),
-      );
-      return {
-        trip_title: session.tripTitle,
-        user_prompt: prompt,
-        suggested_places: newSuggestedPlaces,
-      };
-    };
+    const newSuggestedPlaces = session.recommendations.flatMap((recommendation) =>
+      recommendation.locations.map((location) => location.name),
+    );
 
-    let serverResponse: GetNewLocationResponse;
-    try {
-      const requestParams = buildRequestParams();
-      serverResponse = await client.getLocation(
+    await client
+      .getLocation(
         { useMock: false, requireAuth: false },
-        requestParams,
-      );
-    } catch (error) {
-      if (error instanceof Error) {
-        openSnackbar(error.message, 'error');
-      }
-      setIsLoading(false);
-      return;
-    } finally {
-      setIsLoading(false);
-      setPrompt('');
-    }
-    setNewLocations(serverResponse.locations);
+        {
+          trip_title: session.tripTitle,
+          user_prompt: prompt,
+          suggested_places: newSuggestedPlaces,
+        },
+      )
+      .then((res) => {
+        setIsLoading(false);
+        setPrompt('');
+        setNewLocations(res.locations);
+        return res;
+      })
+      .catch((error) => {
+        if (error.response) {
+          openSnackbar(error.response.data.detail.message, 'error');
+        }
+        setIsLoading(false);
+        return {
+          locations: [],
+        } as GetNewLocationResponse;
+      });
   };
 
   const handleAddLocation = (location: Location) => {

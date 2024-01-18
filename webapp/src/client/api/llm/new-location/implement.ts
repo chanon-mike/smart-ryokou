@@ -33,14 +33,16 @@ export const getLocation: GetNewLocationInterface = async (
   const cachedResult = await cacheClient.getKey(cacheKey);
 
   if (cachedResult === null) {
-    try {
-      serverResponse = (await axios.post(`${API_ENDPOINT}/api/recommendation/new`, request)).data;
-
-      cacheClient.setKey(cacheKey, JSON.stringify(serverResponse));
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
+    serverResponse = await axios
+      .post(`${API_ENDPOINT}/api/recommendation/new`, request)
+      .then((response) => {
+        cacheClient.setKey(cacheKey, JSON.stringify(serverResponse));
+        return response.data;
+      })
+      .catch((error) => {
+        console.error(error);
+        throw error;
+      });
   } else {
     serverResponse = JSON.parse(cachedResult);
   }
