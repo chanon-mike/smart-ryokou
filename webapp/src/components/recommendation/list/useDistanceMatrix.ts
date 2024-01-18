@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import client from '@/client/client';
 import { useSnackbar } from '@/components/common/snackbar/SnackbarContext';
+import { openSnackbarFetchError } from '@/libs/helper';
 import type { DistanceMatrix } from '@/types/distance';
 import type { Recommendation } from '@/types/recommendation';
 
@@ -24,10 +25,7 @@ export const useDistanceMatrix = (recommendation: Recommendation) => {
         }
 
         const promise = client.getDistanceMatrix(
-          {
-            useMock: false,
-            requireAuth: false,
-          },
+          { useMock: false, requireAuth: false },
           {
             originPlaceId: recommendation.locations[i].placeId,
             destinationPlaceId: recommendation.locations[i + 1].placeId,
@@ -40,10 +38,7 @@ export const useDistanceMatrix = (recommendation: Recommendation) => {
       Promise.all(distanceMatrixPromises)
         .then((responses) => setDistanceMatrix(responses))
         .catch((error) => {
-          console.error('Error fetching distance matrix:', error);
-          if (error instanceof Error) {
-            openSnackbar(error.message, 'error');
-          }
+          openSnackbarFetchError(openSnackbar, error);
         })
         .finally(() => setIsLoadingDistanceMatrix(false));
     };
