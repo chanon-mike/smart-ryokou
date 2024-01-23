@@ -117,14 +117,16 @@ const PreferencesModal = ({
         recommendations: serverResponse.recommendations,
       })
       .then((res) => {
-        setIsLoading(false);
         return res;
       });
 
-    if (sessionId) {
-      e.preventDefault();
-      router.push(`session?id=${sessionId}`);
+    if (!sessionId) {
+      setIsLoading(false);
+      return;
     }
+
+    e.preventDefault();
+    router.push(`session?id=${sessionId}`);
   };
 
   return (
