@@ -23,7 +23,7 @@ class OpenAIRepository:
 
     async def get_completions(
         self,
-        model: str = "gpt-3.5-turbo",
+        model: str = "gpt-3.5-turbo-1106",
         messages: List[ChatCompletionMessageParam] = None,
         tools: List[Function] = None,
         temperature: float = 0.5,

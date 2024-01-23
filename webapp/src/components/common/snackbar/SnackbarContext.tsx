@@ -6,7 +6,7 @@ import React, { createContext, useContext, useState } from 'react';
 
 type Severity = 'info' | 'warning' | 'error' | undefined;
 
-interface SnackbarContextType {
+export interface SnackbarContextType {
   openSnackbar: (message: string, severity?: Severity) => void;
   closeSnackbar: () => void;
 }

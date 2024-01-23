@@ -12,11 +12,7 @@ import { useRouter } from 'next/navigation';
 import type { FormEvent } from 'react';
 import { type Dispatch, type SetStateAction } from 'react';
 
-import type {
-  GetRecommendationRequest,
-  GetRecommendationResponse,
-} from '@/client/api/llm/recommendation/interface';
-import type { ApiContext } from '@/client/apiContext';
+import type { GetRecommendationRequest } from '@/client/api/llm/recommendation/interface';
 import client from '@/client/client';
 import SessionClient from '@/client/service/session/implement';
 import { useSnackbar } from '@/components/common/snackbar/SnackbarContext';
@@ -27,7 +23,7 @@ import OptionalPrompt from '@/components/recommendation/prompt/form/OptionalProm
 import PaceForm from '@/components/recommendation/prompt/form/PaceForm';
 import TripTypeForm from '@/components/recommendation/prompt/form/TripTypeForm';
 import { usePreferences } from '@/components/recommendation/prompt/usePreferences';
-import { generateObjectId } from '@/libs/helper';
+import { generateObjectId, openSnackbarFetchError } from '@/libs/helper';
 import { useScopedI18n } from '@/locales/client';
 
 type PreferencesModalProps = {
@@ -84,7 +80,6 @@ const PreferencesModal = ({
       place: placeInput,
       date_from: formatDate(fromDate),
       date_to: formatDate(toDate),
-      // people_num: peopleNumber,
       budget: selectedBudget.length ? selectedBudget : null,
       trip_pace: selectedPace.length ? selectedPace : null,
       interests: selectedInterests.length ? selectedInterests : null,
@@ -93,49 +88,42 @@ const PreferencesModal = ({
     };
   };
 
-  const fetchRecommendationData = async (
-    apiContext: ApiContext,
-    requestParams: GetRecommendationRequest,
-  ) => {
-    return await client.getRecommendation(apiContext, requestParams);
-  };
-
   const { openSnackbar } = useSnackbar();
 
   // Handle fetching recommendation data from server when user submit button
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     setIsLoading(true);
     handleCloseModal();
-    let serverResponse: GetRecommendationResponse;
-    try {
-      const requestParams = buildRequestParams();
-      serverResponse = await fetchRecommendationData(
-        { useMock: false, requireAuth: false },
-        requestParams,
-      );
-    } catch (error) {
-      if (error instanceof Error) {
-        openSnackbar(error.message, 'error');
-      }
-      setIsLoading(false);
+
+    const serverResponse = await client
+      .getRecommendation({ useMock: false, requireAuth: false }, buildRequestParams())
+      .then((res) => res)
+      .catch((error) => {
+        openSnackbarFetchError(openSnackbar, error);
+        setIsLoading(false);
+      });
+
+    if (!serverResponse) {
       return;
     }
 
     const sessionClient = new SessionClient();
-
-    const sessionId = await sessionClient.insert({
-      _id: generateObjectId(),
-      isDeleted: false,
-      userId: 'test',
-      tripTitle: serverResponse.title,
-      recommendations: serverResponse.recommendations,
-    });
+    const sessionId = await sessionClient
+      .insert({
+        _id: generateObjectId(),
+        isDeleted: false,
+        userId: 'test',
+        tripTitle: serverResponse.title,
+        recommendations: serverResponse.recommendations,
+      })
+      .then((res) => {
+        setIsLoading(false);
+        return res;
+      });
 
     if (sessionId) {
       e.preventDefault();
-      router.replace(`session?id=${sessionId}`);
-    } else {
-      setIsLoading(false);
+      router.push(`session?id=${sessionId}`);
     }
   };
 
