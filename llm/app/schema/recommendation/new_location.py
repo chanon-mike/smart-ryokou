@@ -10,4 +10,5 @@ class RecommendationNewLocationQuery(BaseModel):
 
 
 class RecommendationNewLocationResponse(BaseModel):
+    place: str
     recommendations: list[Location]

@@ -99,5 +99,6 @@ class DateRecommendation(BaseModel):
 
 
 class RecommendationResponse(BaseModel):
+    place: str
     title: str
     recommendations: list[DateRecommendation]

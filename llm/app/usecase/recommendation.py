@@ -46,6 +46,7 @@ class RecommendationUseCase(BaseRecommendationUseCase):
             openai_response
         )
         response["title"] = f"{query.place}の旅行プラン"
+        response["place"] = query.place
         response = self._assign_date_to_response(query, response)
 
         return response

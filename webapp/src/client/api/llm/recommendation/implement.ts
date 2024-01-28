@@ -50,6 +50,7 @@ export const getRecommendation: GetRecommendationInterface = async (
   );
 
   return {
+    place: serverResponse.place,
     title: serverResponse.title,
     recommendations: mappedRecommendations,
   };
